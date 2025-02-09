@@ -3,14 +3,11 @@
 
 # $HOME/.profile: Common environment variables
 
-## Version controlled scripts
-[ -d "$HOME/System/bin" ] && PATH="$HOME/System/bin:$PATH"
-
 ## Default programs
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t -a \"\""
-export TERMINAL=st
-export TERMINAL_PROG=st
+#export TERMINAL=st
+#export TERMINAL_PROG=st
 export BROWSER=brave
 
 ## XDG paths
@@ -33,7 +30,10 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export MOZ_USE_XINPUT2="1"
 
-## Eacs
+## Version controlled scripts
+[ -d "$HOME/System/bin" ] && PATH="$HOME/System/bin:$PATH"
+
+## Emacs
 [ -d "$XDG_CONFIG_HOME/emacs/bin" ] && PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
 
 ## Golang
@@ -43,5 +43,11 @@ export GOPATH="$XDG_DATA_HOME/go"
 ## Rust
 export CARGO_HOME="$HOME/.cargo"
 [ -d "$CARGO_HOME/bin" ] && PATH="$CARGO_HOME/bin:$PATH"
+
+## Kubectl krew
+export KREW_ROOT="$XDG_DATA_HOME/krew"
+[ -d "$KREW_ROOT/bin" ] && PATH="$KREW_ROOT/bin:$PATH"
+
+export PATH
 
 # profile ends here

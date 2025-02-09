@@ -1,0 +1,42 @@
+# -*- mode: sh -*-
+# shellcheck disable=SC2155
+
+## Default programs
+
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -t -a \"\""
+export BROWSER=brave
+
+## XDG paths
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+## Program settings
+
+export MANPATH="$HOME/.local/share/man:$MANPATH"
+export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig"
+export GOPATH="$XDG_DATA_HOME/go"
+export CARGO_HOME="$HOME/.cargo"
+export KREW_ROOT="$XDG_DATA_HOME/krew"
+export LESS=-R
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+
+## Path
+
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/System/bin" ] && PATH="$HOME/System/bin:$PATH"
+[ -d "$XDG_CONFIG_HOME/emacs/bin" ] && PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
+[ -d "$GOPATH/bin" ] && PATH="$GOPATH/bin:$PATH"
+[ -d "$CARGO_HOME/bin" ] && PATH="$CARGO_HOME/bin:$PATH"
+[ -d "$KREW_ROOT/bin" ] && PATH="$KREW_ROOT/bin:$PATH"
+
+export PATH

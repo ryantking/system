@@ -1,0 +1,16 @@
+# -*- mode: conf -*-
+
+[desktop]
+justinian
+tajan
+
+[homelab]
+augustus
+caesar
+
+[homelab:vars]
+ansible_user=root
+
+[work]
+justinian
+tajan

@@ -1,0 +1,34 @@
+---
+- name: Import the upgrade paybook
+  ansible.builtin.import_playbook: upgrade.yml
+
+- name: Import the reboot paybook
+  ansible.builtin.import_playbook: reboot.yml
+
+- name: Import the APT playbook
+  ansible.builtin.import_playbook: services/apt.yml
+
+- name: Import the user playbook
+  ansible.builtin.import_playbook: services/user.yml
+
+- name: Import the SSH playbook
+  ansible.builtin.import_playbook: services/ssh.yml
+
+- name: Import the GPG playbook
+  ansible.builtin.import_playbook: services/gpg.yml
+
+- name: Import the pass playbook
+  ansible.builtin.import_playbook: services/pass.yml
+
+- name: Import the snap playbook
+  ansible.builtin.import_playbook: services/snap.yml
+
+# TODO: Dotfiles
+
+# TODO: Install script packages: nix, tailscale, devbox, flux
+
+# TODO: Fonts
+
+# TODO: keyd
+
+# TODO: Workspaces

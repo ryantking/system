@@ -1,0 +1,67 @@
+[user]
+  email = "ryan@carelesslisper.xyz"
+  name = "Ryan"
+  username = "ryantking"
+  signingKey = "~/.ssh/id_ed25519"
+
+[init]
+  defaultBranch = "master"
+
+[core]
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[commit]
+  gpgSign = true
+
+[gpg]
+  format = ssh
+
+[pull]
+  rebase = false
+
+[tag]
+  sort = "version:refname"
+
+[github]
+  user = "ryantking"
+
+[diff]
+  tool = vimdiff
+
+[difftool]
+  prompt = false
+
+[trim]
+  bases = master,main
+  protected = *production
+
+[color]
+  ui = auto
+
+[color "branch"]
+  current = yellow bold
+  local = green bold
+  remote = cyan bold
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+
+[color "status"]
+  added = green bold
+  changed = yellow bold
+  untracked = red bold
+
+[url "git@github.com:ryantking"]
+  insteadOf = https://github.com/ryantking
+
+[url "git@git.carelesslisper.xyz"]
+  insteadOf = https://git.carelesslisper.xyz
+
+[include]
+  path = aliases
+  path = delta
+  path = workspaces

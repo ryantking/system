@@ -1,0 +1,19 @@
+---
+- name: "Install pass packages"
+  ansible.builtin.package:
+    name: "{{ pass_packages }}"
+    state: present
+
+- name: "Ensure pass repository is set"
+  ansible.builtin.assert:
+    that:
+      - pass_store_repo is defined
+    fail_msg: "pass_store_repo is not defined"
+
+- name: "Clone pass store"
+  ansible.builtin.git:
+    repo: "{{ pass_store_repo }}"
+    dest: "{{ pass_store_path }}"
+    version: "master"
+    force: true
+    update: true

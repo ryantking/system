@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """pass-dmenu is an ergonomic UI for Password Store.
 
 This module is *not* part of the compatibility guarantee--see VERSIONING
 for details.
 """
+
 # Copyright 2020 Branen Salmon
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,8 +20,8 @@ for details.
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-__copyright__ = 'Copyright 2020 Branen Salmon'
-__license__ = 'GPL-3+'
+__copyright__ = "Copyright 2020 Branen Salmon"
+__license__ = "GPL-3+"
 
 
 import json
@@ -29,24 +31,28 @@ import re
 import signal
 import subprocess
 import sys
-import time
 import typing
-from subprocess import check_call, check_output, CalledProcessError, Popen, \
-        DEVNULL, PIPE, STDOUT
+from subprocess import (
+    DEVNULL,
+    PIPE,
+    STDOUT,
+    CalledProcessError,
+    Popen,
+    check_output,
+)
 from tempfile import NamedTemporaryFile
 from typing import Callable, Dict, List, NewType, Optional, Tuple, Union
 
-
-PathStr = NewType('PathStr', str)
-PasswordName = NewType('PasswordName', str)
-PasswordNameRegex = NewType('PasswordNameRegex', str)
-PasswordNameRegexTemplate = NewType('PasswordNameRegexTemplate', str)
+PathStr = NewType("PathStr", str)
+PasswordName = NewType("PasswordName", str)
+PasswordNameRegex = NewType("PasswordNameRegex", str)
+PasswordNameRegexTemplate = NewType("PasswordNameRegexTemplate", str)
 # Rule objects must have exactly one element each.
 Rule = NewType(
-        'Rule',
-        Dict[PasswordNameRegex, List[PasswordNameRegexTemplate]],
-        )
-RuleSet = NewType('RuleSet', List[Rule])
+    "Rule",
+    Dict[PasswordNameRegex, List[PasswordNameRegexTemplate]],
+)
+RuleSet = NewType("RuleSet", List[Rule])
 Picker = Callable[[PasswordName], Optional[typing.Match[str]]]
 
 
@@ -58,128 +64,134 @@ def int_from_env(key: str, base: int, default: int) -> int:
         return int(val, base)
     except ValueError:
         raise SystemExit(
-                'ERROR: ${} contains an invalid {} number: {!r}'.format(
-                    key,
-                    {8: 'octal', 10: 'decimal', 16: 'hexadecimal'}[base],
-                    val,
-                    ),
-                )
+            "ERROR: ${} contains an invalid {} number: {!r}".format(
+                key,
+                {8: "octal", 10: "decimal", 16: "hexadecimal"}[base],
+                val,
+            ),
+        )
 
 
-store_path: PathStr = PathStr(os.getenv(
-        'PASSWORD_STORE_DIR',
-        os.path.expanduser('~/.password-store'),
-        ))
-cache_path: PathStr = PathStr(os.path.join(store_path, '.pass-dmenu.cache'))
-rules_path: PathStr = PathStr(os.path.join(store_path, '.pass-dmenu.rules'))
-dmenu_path: PathStr = PathStr(os.getenv('PASSWORD_STORE_DMENU', 'dmenu'))
-x_selection: str = os.getenv('PASSWORD_STORE_X_SELECTION', 'clipboard')
-clip_time: int = int_from_env('PASSWORD_STORE_CLIP_TIME', 10, 45)
-umask: int = int_from_env('PASSWORD_STORE_UMASK', 8, 0o77)
+store_path: PathStr = PathStr(
+    os.getenv(
+        "PASSWORD_STORE_DIR",
+        os.path.expanduser("~/.password-store"),
+    )
+)
+cache_path: PathStr = PathStr(os.path.join(store_path, ".pass-dmenu.cache"))
+rules_path: PathStr = PathStr(os.path.join(store_path, ".pass-dmenu.rules"))
+dmenu_path: PathStr = PathStr(os.getenv("PASSWORD_STORE_DMENU", "dmenu"))
+x_selection: str = os.getenv("PASSWORD_STORE_X_SELECTION", "clipboard")
+clip_time: int = int_from_env("PASSWORD_STORE_CLIP_TIME", 10, 45)
+umask: int = int_from_env("PASSWORD_STORE_UMASK", 8, 0o77)
 
 
 def short_repr(obj, maxlen=20):
     ret = repr(obj)
     if len(ret) > maxlen:
-        return '{}...'.format(ret[:maxlen - 3])
+        return "{}...".format(ret[: maxlen - 3])
     return ret
 
 
 class JSONSchemaError(Exception):
-    '''Raised by load_rules when a basic schema check fails.'''
+    """Raised by load_rules when a basic schema check fails."""
 
 
 class JSONErrorWrapper(Exception):
-    '''Wraps json.JSONDecodeError to add path information.'''
+    """Wraps json.JSONDecodeError to add path information."""
 
     def __init__(self, original: json.JSONDecodeError, document_path: PathStr):
-        '''Instantiate a JSONErrorWrapper.'''
+        """Instantiate a JSONErrorWrapper."""
         self._orig = original
         self.path = document_path
 
     def __hasattr__(self, attr):
-        '''Proxy hasattr() to the wrapped exception.'''
+        """Proxy hasattr() to the wrapped exception."""
         return hasattr(self._orig, attr)
 
     def __getattr__(self, attr):
-        '''Proxy getattr() to the wrapped exception.'''
+        """Proxy getattr() to the wrapped exception."""
         return getattr(self._orig, attr)
 
     def __str__(self):
-        '''Return str(self).'''
-        return 'Unable to parse rules from {!r}: {}'.format(
-                self.path,
-                self._orig,
-                )
+        """Return str(self)."""
+        return "Unable to parse rules from {!r}: {}".format(
+            self.path,
+            self._orig,
+        )
 
 
 class RuleError(Exception):
-    '''Wraps re.error and ValueError to add rule information.'''
+    """Wraps re.error and ValueError to add rule information."""
 
     def __init__(
-            self,
-            original: Union[re.error, ValueError],
-            action: str,
-            rule: str,
-            tmpl: Optional[str] = None,
-            ):
-        '''Instantiate a RuleError.'''
+        self,
+        original: Union[re.error, ValueError],
+        action: str,
+        rule: str,
+        tmpl: Optional[str] = None,
+    ):
+        """Instantiate a RuleError."""
         self._orig = original
         self.action = action
         self.rule = rule
         self.tmpl = tmpl
 
     def __hasattr__(self, attr):
-        '''Proxy hasattr() to the wrapped exception.'''
+        """Proxy hasattr() to the wrapped exception."""
         return hasattr(self._orig, attr)
 
     def __getattr__(self, attr):
-        '''Proxy getattr() to the wrapped exception.'''
+        """Proxy getattr() to the wrapped exception."""
         return getattr(self._orig, attr)
 
     def __str__(self):
-        '''Return str(self).'''
-        return 'Unable to {} {!r}{}: {}'.format(
-                self.action,
-                self.rule,
-                '' if self.tmpl is None else ' (templated from {!r})'.format(
+        """Return str(self)."""
+        return "Unable to {} {!r}{}: {}".format(
+            self.action,
+            self.rule,
+            (
+                ""
+                if self.tmpl is None
+                else " (templated from {!r})".format(
                     self.tmpl,
-                    ),
-                self._orig,
                 )
+            ),
+            self._orig,
+        )
 
 
 def load_mru_candidate(
-        cache_path: PathStr = cache_path,
-        ) -> Optional[PasswordName]:
-    '''Load the name of the most-recently used password.
+    cache_path: PathStr = cache_path,
+) -> Optional[PasswordName]:
+    """Load the name of the most-recently used password.
 
     Returns the contents of the file at `cache_path`, if it exists;
     otherwise, returns None.
-    '''
+    """
     try:
-        with open(cache_path, 'r') as cache_file:
+        with open(cache_path, "r") as cache_file:
             return PasswordName(cache_file.read())
     except FileNotFoundError:
         return None
 
 
 def save_mru_candidate(
-        candidate: PasswordName,
-        cache_path: PathStr = cache_path,
-        ) -> None:
-    '''Save the name of the most-recently used password.
+    candidate: PasswordName,
+    cache_path: PathStr = cache_path,
+) -> None:
+    """Save the name of the most-recently used password.
 
     Updates the file at `cache_path` atomically to contain `candidate`.
-    '''
-    with NamedTemporaryFile(mode='w', dir=store_path) as cache_file:
+    """
+    with NamedTemporaryFile(mode="w", dir=store_path) as cache_file:
         cache_file.write(candidate)
         os.rename(cache_file.name, cache_path)
         os.link(cache_path, cache_file.name)
 
 
 def load_rules(rules_path: PathStr = rules_path) -> RuleSet:
-    '''Load and normalize a rule set.
+    """Load and normalize a rule set.
 
     A rule set is a JSON list of single-element dictionaries mapping strings to
     strings and lists of strings.  This function normalizes the former (values
@@ -195,26 +207,26 @@ def load_rules(rules_path: PathStr = rules_path) -> RuleSet:
         [{"a": ["x"]}, {"b": ["y", "z"]}]
 
     See `generate_pickers` for details on what the strings mean.
-    '''
+    """
     try:
-        with open(rules_path, 'r') as rules_file:
+        with open(rules_path, "r") as rules_file:
             rules_data = rules_file.read()
     except FileNotFoundError:
         sys.stderr.write(
-                'WARNING: Unable to read rules from {!r}\n'.format(rules_path),
-                )
+            "WARNING: Unable to read rules from {!r}\n".format(rules_path),
+        )
         return RuleSet([])
 
     def check_type(this, target):
         if not isinstance(this, target):
             raise JSONSchemaError(
-                    'Expecting JSON {}; got {} {}: {!r}'.format(
-                        target.__name__,
-                        type(this).__name__,
-                        short_repr(this),
-                        rules_path,
-                        )
-                    )
+                "Expecting JSON {}; got {} {}: {!r}".format(
+                    target.__name__,
+                    type(this).__name__,
+                    short_repr(this),
+                    rules_path,
+                )
+            )
 
     try:
         json_rules = json.loads(rules_data)
@@ -226,13 +238,13 @@ def load_rules(rules_path: PathStr = rules_path) -> RuleSet:
         check_type(rule, dict)
         if len(rule) != 1:
             raise JSONSchemaError(
-                    'Expecting 1-element JSON dict; got {}-element JSON '
-                    'dict ({}): {!r}'.format(
-                        len(rule),
-                        short_repr(rule),
-                        rules_path,
-                        )
-                    )
+                "Expecting 1-element JSON dict; got {}-element JSON "
+                "dict ({}): {!r}".format(
+                    len(rule),
+                    short_repr(rule),
+                    rules_path,
+                )
+            )
         (key, val) = next(iter(rule.items()))
         check_type(key, str)
         if isinstance(val, str):
@@ -245,27 +257,27 @@ def load_rules(rules_path: PathStr = rules_path) -> RuleSet:
 
 
 def load_candidates(store_path=store_path) -> List[PasswordName]:
-    '''Load the names of all the passwords in the store.'''
+    """Load the names of all the passwords in the store."""
     candidates = []
-    for (dirpath, dirnames, filenames) in os.walk(store_path):
+    for dirpath, dirnames, filenames in os.walk(store_path):
         for filename in filenames:
-            if not filename.endswith('.gpg'):
+            if not filename.endswith(".gpg"):
                 continue
             candidates.append(
-                    os.path.relpath(
-                        os.path.join(dirpath, filename[:-4]),
-                        store_path,
-                        ),
-                    )
+                os.path.relpath(
+                    os.path.join(dirpath, filename[:-4]),
+                    store_path,
+                ),
+            )
     candidates.sort()
     return candidates
 
 
 def generate_pickers(
-        rules: RuleSet,
-        mru_candidate: PasswordName,
-        ) -> List[Picker]:
-    '''
+    rules: RuleSet,
+    mru_candidate: PasswordName,
+) -> List[Picker]:
+    """
     For a given ruleset and a given `mru_candidate` (the most recently used
     password name), generate an ordered list of "pickers" that
     `sort_by_pickers` can use to permute a candidate list.
@@ -292,49 +304,46 @@ def generate_pickers(
     We call these functions "pickers," since they "pick" candidates out of a
     lexically-sorted list of password names to be repositioned to the start
     of said list.  This "picking" happens in `sort_by_pickers`.
-    '''
+    """
     pickers = []
     for rule in rules:
         (matcher, picker_templates) = next(iter(rule.items()))
         try:
             hit = re.search(matcher, mru_candidate)
         except re.error as exc:
-            raise RuleError(exc, 'parse regex', matcher)
+            raise RuleError(exc, "parse regex", matcher)
         if hit is None:
             continue
 
         for picker_tmpl in picker_templates:
             try:
                 picker_src = picker_tmpl.format(
-                        *(re.escape(val) for val in hit.groups()),
-                        mru=mru_candidate,
-                        **{
-                            key: re.escape(val)
-                            for (key, val) in hit.groupdict().items()
-                            },
-                        )
+                    *(re.escape(val) for val in hit.groups()),
+                    mru=mru_candidate,
+                    **{key: re.escape(val) for (key, val) in hit.groupdict().items()},
+                )
             except ValueError as exc:
-                raise RuleError(exc, 'interpolate template', picker_tmpl)
+                raise RuleError(exc, "interpolate template", picker_tmpl)
 
             try:
                 picker: Picker = re.compile(picker_src).search
                 pickers.append(picker)
             except re.error as exc:
                 raise RuleError(
-                        exc,
-                        'compile templated regex',
-                        picker_src,
-                        picker_tmpl,
-                        )
+                    exc,
+                    "compile templated regex",
+                    picker_src,
+                    picker_tmpl,
+                )
 
     return pickers
 
 
 def sort_by_pickers(
-        candidates: List[PasswordName],
-        pickers: List[Picker],
-        ) -> List[PasswordName]:
-    '''Return a permuted copy of candidates, sorted as follows:
+    candidates: List[PasswordName],
+    pickers: List[Picker],
+) -> List[PasswordName]:
+    """Return a permuted copy of candidates, sorted as follows:
 
     - Start with an empty list that will become the "permuted copy."
 
@@ -347,12 +356,12 @@ def sort_by_pickers(
     - Once all pickers have walked the list of candidates, extend the
       "permuted copy" with all of the candidates that have not already
       been "picked."
-    '''
+    """
     picked = []
     unpicked = candidates.copy()
     for picker in pickers:
         new_picks = []
-        for (idx, candidate) in enumerate(unpicked):
+        for idx, candidate in enumerate(unpicked):
             if picker(candidate):
                 new_picks.append(idx)
                 picked.append(candidate)
@@ -364,21 +373,25 @@ def sort_by_pickers(
 
 
 def dmenu(
-        candidates: List[str],
-        dmenu_path: PathStr = dmenu_path,
-        args: Tuple[str] = Union[Tuple[()], Tuple[str]],
-        ) -> Optional[str]:
-    '''Displays a list of candidates in dmenu, returns a response'''
+    candidates: List[str],
+    dmenu_path: PathStr = dmenu_path,
+    args: Tuple[str] = Union[Tuple[()], Tuple[str]],
+) -> Optional[str]:
+    """Displays a list of candidates in dmenu, returns a response"""
     argv = [str(dmenu_path)]
     argv.extend(args)
     try:
-        candidate = check_output(
+        candidate = (
+            check_output(
                 argv,
-                input='\n'.join(candidates).encode(),
+                input="\n".join(candidates).encode(),
                 stderr=STDOUT,
-                ).decode().rstrip('\n')
+            )
+            .decode()
+            .rstrip("\n")
+        )
     except CalledProcessError as err:
-        if err.returncode == 1 and err.stdout == b'':
+        if err.returncode == 1 and err.stdout == b"":
             # The user probably just hit Escape.
             candidate = None
         else:
@@ -387,103 +400,125 @@ def dmenu(
 
 
 class Dispatcher(object):
-    '''Returns a callable that can perform a certain action with a password.'''
+    """Returns a callable that can perform a certain action with a password."""
 
     def __init__(self, action: str):
-        '''Initialize a Dispatcher object.
+        """Initialize a Dispatcher object.
 
         `action` may be any string that corresponds to a `do_*` method in this
         class.
 
         Raises `ValueError` is `action` is invalid.
-        '''
+        """
         self._action = action
-        self._enactor = getattr(self, 'do_{}'.format(action), None)
-        if self._enactor is None:
-            raise ValueError('Not a valid action: {!r}'.format(action))
+        enactor: Callable[[PasswordName, str], None] | None = getattr(
+            self, "do_{}".format(action), None
+        )
+        if not enactor:
+            raise ValueError("Not a valid action: {!r}".format(action))
+
+        self._enactor = enactor
 
     def __repr__(self):
-        '''Return repr(self).'''
-        return '{}(action={!r})'.format(type(self).__name__, self._action)
+        """Return repr(self)."""
+        return "{}(action={!r})".format(type(self).__name__, self._action)
 
     def __call__(self, candidate: PasswordName) -> None:
-        '''Dispatch the action specified to __init__.'''
-        password = check_output(
-                ('pass', 'show', candidate),
-                ).decode().split('\n')[0]
-        if password.startswith('otpauth://'):
-            password = check_output(
-                    ('pass', 'otp', candidate),
-                    ).decode().rstrip('\n')
+        """Dispatch the action specified to __init__."""
+
+        if self._action == "otp":
+            password = (
+                check_output(
+                    ("pass", "otp", candidate),
+                )
+                .decode()
+                .rstrip("\n")
+            )
+        else:
+            password = (
+                check_output(
+                    ("pass", "show", candidate),
+                )
+                .decode()
+                .split("\n")[0]
+            )
+
         self._enactor(candidate, password)
 
     def do_type(self, candidate: PasswordName, password: str) -> None:
-        '''Type a password using xdotool.'''
+        """Type a password using xdotool."""
         check_output(
-            ('xdotool', 'type', '--clearmodifiers', '--file', '-'),
+            ("xdotool", "type", "--clearmodifiers", "--file", "-"),
             input=password.encode(),
-            )
+        )
 
     def do_clip(self, candidate: PasswordName, password: str) -> None:
-        '''Copy a password to the clipboard.'''
+        """Copy a password to the clipboard."""
         xclip = Popen(
-                ('wl-copy'),
-                stdin=PIPE,
-                stdout=DEVNULL,
-                stderr=DEVNULL,
-                )
+            ("xclip", "-quiet", "-selection", x_selection, "-loops", "1"),
+            stdin=PIPE,
+            stdout=DEVNULL,
+            stderr=DEVNULL,
+        )
 
         try:
             xclip.communicate(password.encode(), clip_time)
             if xclip.wait() != 0:
                 raise SystemExit(
-                        'xclip exited with code {}'.format(xclip.returncode),
-                        )
+                    "xclip exited with code {}".format(xclip.returncode),
+                )
         except subprocess.TimeoutExpired:
             os.kill(xclip.pid, signal.SIGTERM)
             xclip.wait()
 
+    def do_otp(self, candidate: PasswordName, password: str) -> None:
+        """Type an OTP code using xdotool."""
+        check_output(
+            ("xdotool", "type", "--clearmodifiers", "--file", "-"),
+            input=password.encode(),
+        )
+
 
 def main(
-        my_name=sys.argv[0],
-        action=sys.argv[1] if len(sys.argv) > 1 else None,
-        dmenu_args=sys.argv[2:],
-        ):
+    my_name=sys.argv[0],
+    action=sys.argv[1] if len(sys.argv) > 1 else None,
+    dmenu_args=sys.argv[2:],
+):
     try:
         dispatch = Dispatcher(action)
     except ValueError:
         raise SystemExit(
-            '{} {{type,clip}} [dmenu_args...]\n'
-            '  "clip" uses pass show -c to place the passphrase on the '
-            'clipboard.\n'
-            '  "type" uses xdotool to type the passphrase.'
-            ''.format(os.path.basename(my_name)),
-            )
+            "{} {{type,clip,otp}} [dmenu_args...]\n"
+            '  "clip" uses pass show -c to place the passphrase on the clipboard.\n'
+            '  "type" uses xdotool to type the passphrase.\n'
+            '  "otp" uses pass otp to type the OTP code.'
+            "".format(os.path.basename(my_name)),
+        )
 
     try:
         os.umask(umask)
     except Exception as exc:
-        raise SystemExit('ERROR: {}'.format(exc))
+        raise SystemExit("ERROR: {}".format(exc))
 
     try:
         rules = load_rules()
     except (JSONErrorWrapper, JSONSchemaError) as exc:
-        raise SystemExit('ERROR: {}'.format(exc))
+        raise SystemExit("ERROR: {}".format(exc))
 
     mru = load_mru_candidate()
     try:
-        pickers = generate_pickers(rules, mru or '')  # mru may be None
+        pickers = generate_pickers(rules, mru or "")  # mru may be None
     except RuleError as exc:
-        raise SystemExit('ERROR: {}'.format(exc))
+        raise SystemExit("ERROR: {}".format(exc))
 
     candidates = sort_by_pickers(load_candidates(), pickers)
     response = dmenu(candidates, args=dmenu_args)
     if response not in candidates:
-        save_mru_candidate('')
+        save_mru_candidate("")
     else:
         save_mru_candidate(response)
         dispatch(response)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

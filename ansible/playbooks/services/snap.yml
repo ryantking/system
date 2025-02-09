@@ -1,0 +1,8 @@
+---
+- name: "Manage snap packages"
+  hosts: all
+  become: true
+
+  roles:
+    - role: snap
+      tags: ["snap"]

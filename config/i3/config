@@ -1,0 +1,193 @@
+# i3/config: i3 configuration
+
+## Read `man 5 i3` for configuration information
+
+### Variables
+
+# Keys
+set $mod Mod4
+set $left n
+set $down e
+set $up u
+set $right i
+
+# Apps
+set $term xfce4-terminal
+set $menu rofi -show drun -font "Noto Sans Display Regular 12"
+
+# Locations
+set $scrot_file $(xdg-user-dir PICTURES)/screenshots/$(date +"%Y%m%d%H%M%S").png
+
+# Font
+font pango:Noto Sans Display SemiBold 12
+
+# Horizon dark theme
+set $fg_focused #FDF0ED
+set $fg_unfocused #6C6F93
+set $bg_active #1D8991
+set $bg_inactive #232530
+set $bg_unfocused #1A1C23
+set $bg_urgent #E73665
+set $border_active #1EAEAE
+set $border_inactive #2E303E
+set $border_unfocused #1C1E26
+set $border_urgent #E84A72
+
+# client colors          border             bg             fg             indicator      child_border
+client.focused           $border_active     $bg_active     $fg_focused    $fg_focused    $border_active
+client.focused_inactive  $border_inactive   $bg_inactive   $fg_focused    $fg_unfocused  $border_inactive
+client.unfocused         $border_unfocused  $bg_unfocused  $fg_unfocused  $fg_unfocused  $border_unfocused
+client.urgent            $border_urgent     $bg_urgent     $fg_focused    $bg_urgent    $border_urgent
+
+### Workspace configuration
+
+workspace 1 output DP-3
+workspace 2 output DP-3
+workspace 3 output DP-3
+workspace 4 output DP-3
+workspace 5 output DP-3
+workspace 6 output eDP-1
+workspace 7 output eDP-1
+workspace 8 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
+
+### Key bindings
+
+# Basics
+floating_modifier $mod
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec emacsclient -c
+bindsym $mod+q kill
+bindsym --release --border button2 kill
+bindsym $mod+space exec --no-startup-id rofi -show drun
+bindsym $mod+Shift+space exec --no-startup-id rofi-pass
+# bindsym $mod+d exec pass-dmenu clip
+bindsym $mod+Shift+c reload
+
+# Exit i3 (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'
+
+# Focus windows
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move windows
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Switch workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move windows to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Layout controls
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+w layout tabbed
+bindsym $mod+f layout toggle split
+bindsym $mod+p layout stacking
+bindsym $mod+s fullscreen
+bindsym $mod+t focus mode_toggle
+bindsym $mod+Shift+t floating toggle
+bindsym $mod+a focus parent
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# System controls
+# bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+# bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+# bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+# bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# bindsym --locked XF86MonBrightnessDown exec xbacklight -dec 2
+# bindsym --locked XF86MonBrightnessUp exec xbacklight -inc 4
+# bindsym XF86Display
+# bindsym --locked XF86AudioPlay exec playerctl play-pause
+# bindsym --locked XF86AudioNext exec playerctl next
+# bindsym --locked XF86AudioPrev exec playerctl previous
+# bindsym XF86PickupPhone
+# bindsym XF86HangupPhone
+# bindsym XF86Favorites
+
+# Screenshots
+# bindsym Print exec grim - | wl-copy
+# bindsym Control+Print exec grim -g "$(slurp)" - | wl-copy
+# bindsym Alt+Print exec grim $scrot_file
+# bindsym Alt+Control+Print exec grim -g "$(slurp)" $scrot_file
+# bindsym $mod+u exec grimshot copy area
+
+# Resize mode
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+### Window rules
+
+for_window [all] title_window_icon padding 2px
+
+# Identify XWayland
+# for_window [shell="xwayland"] title_format "[XWayland] %title"
+
+# Float windows
+# for_window [window_role = "pop-up"] floating enable
+# for_window [window_role = "bubble"] floating enable
+# for_window [window_role = "dialog"] floating enable
+# for_window [window_type = "dialog"] floating enable
+# for_window [window_role = "task_dialog"] floating enable
+# for_window [window_type = "menu"] floating enable
+# for_window [app_id = "floating"] floating enable
+# for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
+# for_window [class = "(?i)pinentry"] floating enable
+# for_window [title = "Administrator privileges required"] floating enable
+
+# i3/config ends here

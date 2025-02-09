@@ -1,0 +1,89 @@
+# -*- mode: sh -*-
+# shellcheck disable=SC1091,SC2059,SC2155
+
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+if [ "$(id -u)" -eq 0 ]; then
+    start="\033[1;37;41m"
+    end="\033[0m"
+    printf "\n"
+    printf "  $start                                                                       $end\n"
+    printf "  $start  WARNING: You are in a root shell. This is probably a very bad idea.  $end\n"
+    printf "  $start                                                                       $end\n"
+    printf "\n"
+fi
+
+## Shell Options
+
+HISTSIZE=500000
+HISTFILESIZE=100000
+HISTTIMEFORMAT='%F %T '
+HISTCONTROL=ignoreboth
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+set -o noclobber
+set -o vi
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s globstar
+shopt -s nocaseglob
+shopt -s autocd 2> /dev/null
+shopt -s dirspell 2> /dev/null
+shopt -s cdspell 2> /dev/null
+shopt -s cdable_vars
+
+## Bindings
+
+# Incremental search
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\e[C": forward-char'
+bind '"\e[D": backward-char'
+
+# Completion
+bind Space:magic-space
+bind "set completion-ignore-case on"
+bind "set completion-map-case on"
+bind "set show-all-if-ambiguous on"
+bind "set mark-symlinked-directories on"
+
+## Configuration files
+
+[ -f "$HOME/.env" ] && source "$HOME/.env"
+
+# System config files
+SHELL_CONFIGS="$HOME/System/config/shell"
+[ -f "$SHELL_CONFIGS/aliasrc" ] && source "$SHELL_CONFIGS/aliasrc"
+[ -f "$SHELL_CONFIGS/profile" ] && source "$SHELL_CONFIGS/profile"
+[ -f "$SHELL_CONFIGS/prompt" ] && source "$SHELL_CONFIGS/prompt"
+
+# Downloaded config files
+SHELL_EXT_CONFIGS="$XDG_DATA_HOME/shell"
+if [ -d "$SHELL_EXT_CONFIGS" ]; then
+  for config in "$SHELL_EXT_CONFIGS"/*; do source "$config"; done
+fi
+
+## Completion
+
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+
+  # HACK: Ubuntu doesn't load this by default
+  source /usr/share/bash-completion/completions/pass-otp
+fi
+
+complete -o default -F __start_kubectl k
+eval "$(flux completion bash)"
+
+## Programs
+
+eval "$(direnv hook bash)"
+
+### .bashrc ends here

@@ -1,0 +1,4 @@
+---
+pass_packages: ["pass", "pass-extension-otp"]
+
+pass_store_path: "{{ ansible_user_dir | d(ansible_env.HOME) }}/.password-store"

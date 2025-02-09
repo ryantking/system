@@ -1,0 +1,24 @@
+---
+- name: "Install APT packages"
+  ansible.builtin.apt:
+    name: "{{ apt_all_packages }}"
+    state: present
+
+- name: "Download .deb packages"
+  ansible.builtin.get_url:
+    url: "{{ deb }}"
+    dest: "/tmp/{{ deb | basename }}"
+    mode: '0644'
+  loop: "{{ apt_all_debs }}"
+  loop_control:
+    loop_var: deb
+  tags: ["apt:deb"]
+
+- name: "Install downloaded .deb packages"
+  ansible.builtin.apt:
+    deb: "/tmp/{{ deb | basename }}"
+    state: present
+  loop: "{{ apt_all_debs }}"
+  loop_control:
+    loop_var: deb
+  tags: ["apt:deb"]

@@ -1,0 +1,12 @@
+---
+ansible_python_interpreter: "/usr/bin/python3.12"
+
+browser: "brave"
+
+snap_group_packages:
+  - name: "{{ browser }}"
+  - name: discord
+  - name: signal-desktop
+  - name: syncthing-gael
+  - name: telegram-desktop
+  - name: vlc

@@ -1,0 +1,28 @@
+---
+- name: "Create user groups"
+  ansible.builtin.group:
+    name: "{{ group.name }}"
+    system: "{{ group.system | d(omit) }}"
+  loop: "{{ user_groups }}"
+  loop_control:
+    loop_var: group
+  tags: ["user:groups"]
+
+- name: "Create user account"
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    groups: "{{ user_groups | map(attribute='name') | list }}"
+    append: true
+    shell: /bin/bash
+    state: present
+  tags: ["user:account"]
+
+- name: "Configure passwordless sudo"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ user_name }}"
+    line: '{{ user_name }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+    create: true
+    mode: '0440'
+    state: present
+  tags: ["user:sudo"]

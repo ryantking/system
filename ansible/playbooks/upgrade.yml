@@ -1,0 +1,11 @@
+---
+- name: Upgrade a machine with APT
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Upgrade safe packages with refreshed cache
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: safe

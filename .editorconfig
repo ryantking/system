@@ -13,13 +13,11 @@ indent_size = 2
 indent_style = tab
 indent_size = 8
 
-# Ignore diffs/patches
 [*.{diff,patch}]
 end_of_line = unset
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_size = unset
 
-[*.go]
-indent_style = tab
-indent_size = 4
+[*.el]
+indent_size = unset

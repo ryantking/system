@@ -1,0 +1,16 @@
+---
+- name: "Reboot host"
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: "Check if reboot required"
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+        get_checksum: false
+      register: result
+
+    - name: "Reboot if required"
+      ansible.builtin.reboot: {}
+      when: result.stat.exists or force | d()

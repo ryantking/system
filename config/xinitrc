@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# xsslaunch slock &
+xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --timer 300 slock "" &
+xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --timer 900 "slock & sleep 5; loginctl suspend -i" "" &
+autorandr --change
+feh --bg-fill ~/Pictures/wallpapers/alena-aenami-wait.jpg
+
+dbus-launch --sh-syntax --exit-with-session startdwm
+
+# .xinitrc ends here

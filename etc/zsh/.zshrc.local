@@ -1,6 +1,0 @@
-# .zshrc.local: Private configuration
-# -*- mode: sh -*-
-
-# export MY_SECRET="foobar123"
-
-# .zshrc.local ends here

@@ -1,0 +1,56 @@
+! -*- mode: conf-xdefaults -*-
+
+#define bg0 #232530
+#define bg1 #1C1E26
+#define fg0 #C7C9CB
+#define fg1 #FDF0ED
+#define base0 #16161C
+#define base1 #1A1C23
+#define base2 #1D1F27
+#define base3 #232530
+#define base4 #6A6A6A
+#define base5 #F9CEC3
+#define base6 #F9CBBE
+#define base7 #FADAD1
+#define base8 #FDF0ED
+#define red #E95678
+#define orange #F09383
+#define green #09F7A0
+#define teal #87CEEB
+#define yellow #FAB795
+#define blue0 #21BFC2
+#define blue1 #25B2BC
+#define magenta #6C6F93
+#define violet #B877DB
+#define cyan0 #59E3E3
+#define cyan1 #27D797
+
+*.foreground: fg0
+*.background: bg0
+*.fadeColor: bg1
+*.cursorColor: fg1
+
+! Black + DarkGray
+*.color0: bg0
+*.color8: bg1
+! DarkRed + Red
+*.color1: red
+*.color9: red
+! DarkGreen + Green
+*.color2: green
+*.color10: teal
+! DarkYellow + Yellow
+*.color3: yellow
+*.color11: orange
+! DarkBlue + Blue
+*.color4: blue1
+*.color12: blue0
+! DarkMagenta + Magenta
+*.color5: magenta
+*.color13: violet
+! DarkCyan + Cyan
+*.color6: cyan1
+*.color14: cyan0
+! LightGray + Gray
+*.color7: fg1
+*.color15: fg0

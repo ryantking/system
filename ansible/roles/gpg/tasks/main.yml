@@ -1,0 +1,84 @@
+---
+- name: "Install GPG packages"
+  ansible.builtin.package:
+    name: "{{ gpg_packages }}"
+    state: present
+
+- name: "Manage gnupg home directory"
+  ansible.builtin.file:
+    path: "{{ gpg_home }}"
+    owner: "{{ gpg_user }}"
+    group: "{{ gpg_user }}"
+    mode: '0700'
+    state: directory
+
+- name: "Capture private key from controller"
+  delegate_to: localhost
+  ansible.builtin.command:
+    cmd: "gpg --export-secret-keys --armor {{ gpg_key }}"
+  loop: "{{ gpg_all_keys }}"
+  loop_control:
+    loop_var: gpg_key
+  register: private_keys
+  changed_when: false
+
+- name: "Capture owner trust database"
+  delegate_to: localhost
+  ansible.builtin.command:
+    cmd: "gpg --export-ownertrust"
+  register: owner_trust
+  changed_when: false
+
+- name: "Import private key"
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      echo '{{ private_key.stdout }}' | gpg --import
+  loop: "{{ private_keys.results }}"
+  loop_control:
+    loop_var: private_key
+    index_var: index
+    label: "{{ private_key.gpg_key }}"
+  register: result
+  changed_when: "'imported: 1' in result.stderr"
+
+- name: "Import owner trust database"
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      echo '{{ owner_trust.stdout }}' | gpg --import-ownertrust
+  register: result
+  changed_when: result.stderr_lines | length > 0
+
+
+# - name: "Copy public keys from controller"
+#   ansible.builtin.copy:
+#     src: "{{ lookup('env', 'HOME') }}/.ssh/{{ sshkey.name }}.pub"
+#     dest: "{{ ssh_dir }}/{{ sshkey.name }}.pub"
+#     owner: "{{ ssh_user }}"
+#     group: "{{ ssh_user }}"
+#     mode: '0600'
+#   loop: "{{ ssh_all_keys }}"
+#   loop_control:
+#     loop_var: sshkey
+
+# - name: "Copy private keys from controller"
+#   ansible.builtin.copy:
+#     src: "{{ lookup('env', 'HOME') }}/.ssh/{{ sshkey.name }}"
+#     dest: "{{ ssh_dir }}/{{ sshkey.name }}"
+#     owner: "{{ ssh_user }}"
+#     group: "{{ ssh_user }}"
+#     mode: '0600'
+#   loop: "{{ ssh_all_keys }}"
+#   loop_control:
+#     loop_var: sshkey
+
+# - name: "Configure authorized keys"
+#   ansible.posix.authorized_key:
+#     user: "{{ ssh_user }}"
+#     key: "{{ lookup('file', '~/.ssh/' + sshkey.name + '.pub') }}"
+#     state: present
+#   loop: "{{ ssh_all_keys }}"
+#   loop_control:
+#     loop_var: sshkey
+#   when: sshkey.authorized | d()

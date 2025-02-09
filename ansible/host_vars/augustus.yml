@@ -1,0 +1,51 @@
+# yamllint disable rule:line-length
+---
+data_dir: /mnt/user/data
+torrent_dir: "{{ data_dir }}/torrents/user"
+
+bjj_instructional_dir: "{{ data_dir }}/media/instructionals"
+
+bjj_instructionals:
+  # - download_dir: Gordon Ryan - Systematically Attacking The Front Headlock
+  #   name: Gordon Ryan - Systematically Attacking the Front Headlock
+  #   cover_url: https://bjjfanatics.com/cdn/shop/files/GordonRyan_SystematicallyAttackingtheFrontHeadlock_CoverFRONT_1024x1024.jpg?v=1709167573
+
+  # - download_dir: Gordon Ryan - Systematically Attacking from Top Pins - Mount 720p
+  #   name: Gordon Ryan - Systematically Attacking from Top Pins - Mount
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_Systematicallyattackingfromtoppins-Mount_Cover_grande.jpg?v=1654394736
+
+  # - download_dir: Gordon Ryan - Systematically Attacking the Guard
+  #   name: Gordon Ryan - Systematically Attacking the Guard
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_SystematicallyAttackingTheGuard_FRONTCover1.jpg?v=1619832027
+
+  # - download_dir: Gordon Ryan - Systematically Attacking the Guard 2.0
+  #   name: Gordon Ryan - Systematically Attacking the Guard 2.0
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_SystematicallyAttackingtheGuard2_CoverFRONT_1_grande.jpg?v=1659577632
+
+  # - download_dir: Gordon Ryan - Systematically Attacking the Legs
+  #   name: Gordon Ryan - Systematically Attacking the Legs
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_SystematicallyAttackingtheLegs_CoverFRONT.jpg?v=1674880704
+
+  # - download_dir: Gordon Ryan - Systematizing Closed Guard
+  #   name: Gordon Ryan - Systematically Attacking from Closed Guard
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_SystematicallyAttackingFromClosedGuard_FRONTCover1_grande.jpg?v=1619919929
+
+  # - download_dir: Gordon Ryan - They Shall Not Pass 720p
+  #   name: Gordon Ryan - They Shall Not Pass
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_Theyshallnotpass_Cover1front_1024x1024.jpg?v=1619804180
+
+  # - download_dir: Systematically Attacking the Guard Body Lock
+  #   name: Gordon Ryan - Systematically Attacking the Guard - Body Lock
+  #   cover_url: https://www.videofight.com.br/wp-content/uploads/2022/02/Systematically-Attacking-the-Guard-Body-Lock-Study-by-Gordon-Ryan.jpg
+
+  # - download_dir: Half Guard Passing By Gordon Ryan
+  #   name: Gordon Ryan - Systematically Attacking the Guard - Half Guard Passing
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_Systematicallyattackingtheguard-HalfGuardPassing_CoverFRONT_1024x1024.jpg?v=1654207571
+
+  # - download_dir: Half Guard Passing By Gordon Ryan
+  #   name: Gordon Ryan - Systematically Attacking the Guard - Half Guard Passing
+  #   cover_url: https://bjjfanatics.com/cdn/shop/products/GordonRyan_Systematicallyattackingtheguard-HalfGuardPassing_CoverFRONT_1024x1024.jpg?v=1654207571
+
+  - download_dir: Levi Jones-Leary - Xanadu Back Takes - Elite Guard Retention, Berimbolo's and Xanadu Guard
+    name: "Xanadu Back Takes: Elite Guard Retention, Berimbolo's and Xanadu Guard by Levi Jones-Leary"
+    cover_url: https://cdn.shopify.com/s/files/1/1800/2299/files/Levi_Jones-Leary_Xanadu_Back_Takes_Cover_FRONT_480x480.jpg?v=1650627637

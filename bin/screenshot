@@ -3,6 +3,6 @@
 set -e
 
 mkdir -p "$HOME/Pictures/screenshots"
-scrot "$HOME/Pictures/screenshots/%m-%d-%Y-%H%M%S.png"
+scrot --freeze "$HOME/Pictures/screenshots/%m-%d-%Y-%H%M%S.png"
 
 # screenthot ends here

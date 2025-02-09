@@ -1,0 +1,10 @@
+# -*- mode: conf-colon -*-
+
+configuration {
+  modi: "combi,calc,pass:/usr/local/bin/rofi-pass";
+  combi-mode: "drun,run";
+  font: "Noto Sans Display Regular 12";
+  show-icons: true;
+}
+
+@theme "custom"

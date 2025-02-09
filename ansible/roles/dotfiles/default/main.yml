@@ -1,0 +1,13 @@
+---
+dotfiles_repo: "git@github.com:ryantking/system.git"
+dotfiles_path: "{{ ansible_user_dir | d(ansible_env.HOME) }}/System"
+
+dotfiles_links:
+  - from: doom
+    recurse: true
+  - from: git
+  - from: k9s
+  - from: bashrc
+    to: .bashrc
+  - from: tealdeer
+    to: .config/tealdeer/config.toml

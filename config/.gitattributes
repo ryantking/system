@@ -1,0 +1,2 @@
+spotifyd.conf filter=git-crypt diff=git-crypt
+git/work_config filter=git-crypt diff=git-crypt

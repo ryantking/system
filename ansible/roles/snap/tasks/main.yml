@@ -1,0 +1,9 @@
+---
+- name: "Install snap packages"
+  community.general.snap:
+    name: "{{ snap.name }}"
+    classic: "{{ snap.classic | d(omit) }}"
+    state: present
+  loop: "{{ snap_all_packages }}"
+  loop_control:
+    loop_var: snap

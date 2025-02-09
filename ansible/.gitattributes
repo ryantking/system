@@ -1,0 +1,3 @@
+group_vars/*/vault.yml filter=git-crypt diff=git-crypt
+host_vars/*/vault.yml filter=git-crypt diff=git-crypt
+ansible/host_vars/augustus.yml filter=git-crypt diff=git-crypt

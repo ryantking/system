@@ -3,6 +3,6 @@
 set -e
 
 mkdir -p "$HOME/Pictures/screenshots"
-scrot "$HOME/Pictures/screenshots/%m-%d-%Y-%H%M%S.png" --select --line mode=edge
+scrot "$HOME/Pictures/screenshots/%m-%d-%Y-%H%M%S.png" --freeze --select --line mode=edge
 
 # screenthotsel ends here

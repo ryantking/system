@@ -1,69 +1,72 @@
 [user]
-email = "ryan@carelesslisper.xyz"
-name = "Ryan"
-signingKey = "0xD718BA353C298BB2"
+  email = "ryan@carelesslisper.xyz"
+  name = "Ryan"
+  signingKey = ~/.ssh/id_ed25519
 
 [alias]
-a = "add"
-aa = "add --all"
-b = "branch"
-c = "commit"
-ca = "commit --amend"
-cam = "commit --amend --message"
-cane = "commit --amend --no-edit"
-cm = "commit --message"
-d = "diff"
-ds = "diff --staged"
-f = "fetch"
-l = "log"
-lg = "log --graph"
-lo = "log --oneline"
-lor = "log --oneline --reverse"
-rr = "remote"
-s = "status"
-ss = "status --short"
-ssb = "status --short --branch"
-fixbare = "config remote.origin.fetch \"+refs/heads/*:refs/remotes/origin/*\""
-ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
-pristine = "!git resest --hard && git clean -dffx"
-whohas = "branch -a --contains"
+  a = "add"
+  aa = "add --all"
+  b = "branch"
+  c = "commit"
+  ca = "commit --amend"
+  cam = "commit --amend --message"
+  cane = "commit --amend --no-edit"
+  cm = "commit --message"
+  d = "diff"
+  ds = "diff --staged"
+  f = "fetch"
+  l = "log"
+  lg = "log --graph"
+  lo = "log --oneline"
+  lor = "log --oneline --reverse"
+  rr = "remote"
+  s = "status"
+  ss = "status --short"
+  ssb = "status --short --branch"
+  fixbare = "config remote.origin.fetch \"+refs/heads/*:refs/remotes/origin/*\""
+  ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+  pristine = "!git resest --hard && git clean -dffx"
+  whohas = "branch -a --contains"
 
 [commit]
-gpgSign = true
+  gpgSign = true
+
+[gpg]
+  format = ssh
 
 [delta]
-features = "decorations"
-line-numbers = true
-syntax-theme = "Nord"
+  features = "decorations"
+  line-numbers = true
+  syntax-theme = "Nord"
 
 [delta "decorations"]
-file-decoration-stlye = "none"
-file-style = "bold white ul"
-whitespace-error-style = "22 reverse"
+  file-decoration-stlye = "none"
+  file-style = "bold white ul"
+  whitespace-error-style = "22 reverse"
 
 [github]
-user = "ryantking"
+  user = "ryantking"
 
 [init]
-defaultBranch = "master"
+  defaultBranch = "master"
 
 [interactive]
-diffFilter = "delta --color-only"
+  diffFilter = "delta --color-only"
 
 [merge]
-conflictStyle = "diff3"
+  conflictStyle = "diff3"
 
 [pull]
-rebase = false
+  rebase = false
 
 [tag]
-sort = "version:refname"
+  sort = "version:refname"
 
 [url "git@github.com:ryantking"]
-insteadOf = https://github.com/ryantking
+  insteadOf = https://github.com/ryantking
 
 [url "git@git.carelesslisper.xyz"]
-insteadOf = https://git.carelesslisper.xyz
+  insteadOf = https://git.carelesslisper.xyz
 
 [includeIf "gitdir:~/Work/"]
-path = ~/.config/git/config_work
+  path = ~/.config/git/config_work
