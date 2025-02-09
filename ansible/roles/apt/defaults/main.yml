@@ -6,7 +6,9 @@ apt_default_packages:
   - direnv
   - dnsutils
   - fd-find
+  - git
   - git-crypt
+  - git-delta
   - net-tools
   - nmap
   - npm

@@ -1,0 +1,75 @@
+---
+- name: "Clone the dotfiles repository"
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_path }}"
+    version: "{{ dotfiles_version }}"
+
+- name: "Ensure config directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/{{ link.to | dirname }}"
+    mode: "0755"
+    state: directory
+  loop: "{{ dotfiles_links }}"
+  loop_control:
+    loop_var: link
+    label: "{{ link.from }}"
+  when:
+    - link.to | d()
+    - link.to | split("/") | length > 1
+
+- name: "Link dotfiles"
+  ansible.builtin.file:
+    src: "{{ dotfiles_path }}/config/{{ link.from }}"
+    dest: "{{ ansible_env.HOME }}/{{ link.to | d('.config/' + link.from) }}"
+    force: true
+    state: link
+  loop: "{{ dotfiles_links }}"
+  loop_control:
+    loop_var: link
+    label: "{{ link.from }}"
+  when: not link.recurse | d()
+
+- name: "Find files to link recursively"
+  ansible.builtin.find:
+    paths: "{{ dotfiles_path }}/config/{{ link.from }}"
+    recurse: true
+    file_type: any
+  register: found_files
+  loop: "{{ dotfiles_links }}"
+  loop_control:
+    loop_var: link
+    label: "{{ link.from }}"
+  when: link.recurse | d()
+
+- name: "Create directory for recursively linked files"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/{{ link.to | d('.config/' + link.from) }}"
+    mode: "0755"
+    state: directory
+  loop: "{{ dotfiles_links }}"
+  loop_control:
+    loop_var: link
+    label: "{{ link.from }}"
+  when: link.recurse | d()
+
+- name: "Link recursively found files"
+  ansible.builtin.file:
+    src: "{{ item.1.path }}"
+    dest: >-
+      {{ ansible_env.HOME }}/{{ item.0.to | d('.config/' + item.0.from) }}/{{
+      item.1.path | relpath(dotfiles_path + '/config/' + item.0.from) }}
+    state: link
+    force: true
+  loop: >-
+    {{ dotfiles_links
+    | selectattr('recurse', 'defined')
+    | selectattr('recurse')
+    | list
+    | product(found_files.results
+    | selectattr('files', 'defined')
+    | map(attribute='files') | flatten | list) }}
+  loop_control:
+    loop_var: item
+    label: >-
+      {{ item.1.path | relpath(dotfiles_path + '/config/' + item.0.from) }}

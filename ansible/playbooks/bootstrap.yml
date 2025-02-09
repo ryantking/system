@@ -23,12 +23,15 @@
 - name: Import the snap playbook
   ansible.builtin.import_playbook: services/snap.yml
 
-# TODO: Dotfiles
+- name: Import the dotfiles playbook
+  ansible.builtin.import_playbook: services/dotfiles.yml
 
 # TODO: Install script packages: nix, tailscale, devbox, flux
 
 # TODO: Fonts
 
 # TODO: keyd
+
+# TODO: .kube/config
 
 # TODO: Workspaces
