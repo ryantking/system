@@ -1,7 +1,31 @@
 ---
+- name: "Download APT repository keys"
+  ansible.builtin.get_url:
+    url: "{{ repo.key_url }}"
+    dest: "/usr/share/keyrings/{{ repo.name }}-archive-keyring.gpg"
+    mode: '0644'
+  loop: "{{ apt_all_repos }}"
+  loop_control:
+    loop_var: repo
+    label: "{{ repo.name }}"
+  when: repo.key_url | d()
+  tags: ["apt:repo"]
+
+- name: "Add APT repositories"
+  ansible.builtin.apt_repository:
+    repo: "{{ repo.source }}"
+    filename: "{{ repo.name }}"
+    state: present
+  loop: "{{ apt_all_repos }}"
+  loop_control:
+    loop_var: repo
+    label: "{{ repo.name }}"
+  tags: ["apt:repo"]
+
 - name: "Install APT packages"
   ansible.builtin.apt:
     name: "{{ apt_all_packages }}"
+    update_cache: true
     state: present
 
 - name: "Download .deb packages"

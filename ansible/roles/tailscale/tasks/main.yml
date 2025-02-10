@@ -1,0 +1,43 @@
+---
+- name: "Get Tailscale account list"
+  ansible.builtin.command:
+    cmd: tailscale switch --list
+  changed_when: false
+  register: account_list
+
+- name: "Login to Tailscale account"
+  ansible.builtin.command:
+    cmd: >-
+      tailscale login
+      --nickname {{ account.name }}
+      --auth-key {{ account.auth_key }}
+      {{ account.args
+      | d(tailscale_default_args)
+      | join(' ') }}
+  loop: "{{ tailscale_all_accounts }}"
+  loop_control:
+    loop_var: account
+    label: "{{ account.name }}"
+  changed_when: true
+  when: account.name not in account_list.stdout
+
+- name: "Switch to active Tailscale account"
+  ansible.builtin.command:
+    cmd: "tailscale switch {{ tailscale_account }}"
+  register: result
+  changed_when: "'Already on account' not in result.stdout"
+
+- name: "Check Tailscale status"
+  ansible.builtin.command:
+    cmd: tailscale status
+  changed_when: false
+  failed_when:
+    - status.rc != 0
+    - "status.stdout != 'Tailscale is stopped.'"
+  register: status
+
+- name: "Bring Tailscale up"
+  ansible.builtin.command:
+    cmd: tailscale up
+  changed_when: "status.stdout == 'Tailscale is stopped.'"
+  tags: ["tailscale:up"]

@@ -1,0 +1,20 @@
+---
+tailscale_account: home
+
+tailscale_default_args:
+  - --accept-routes
+  - --ssh
+
+tailscale_default_accounts:
+  - name: home
+    auth_key: "{{ tailscale_auth_key }}"
+
+tailscale_accounts: []
+tailscale_group_accounts: []
+tailscale_host_accounts: []
+
+tailscale_all_accounts: >-
+  {{ tailscale_default_accounts
+  + tailscale_accounts
+  + tailscale_group_accounts
+  + tailscale_host_accounts }}
