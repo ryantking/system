@@ -1,0 +1,16 @@
+---
+- name: "Clone Doom emacs"
+  ansible.builtin.git:
+    repo: "https://github.com/doomemacs/doomemacs"
+    dest: "{{ emacs_dir }}"
+    version: "master"
+  notify: install doom
+
+- name: "Install Doom"
+  ansible.builtin.meta: flush_handlers
+
+- name: "Sync Doom configuration"
+  ansible.builtin.shell:
+    cmd: "{{ emacs_dir }}/bin/doom sync"
+    executable: "/bin/bash"
+  changed_when: true

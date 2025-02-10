@@ -26,6 +26,9 @@
 - name: Import the dotfiles playbook
   ansible.builtin.import_playbook: services/dotfiles.yml
 
+- name: Import the emacs playbook
+  ansible.builtin.import_playbook: services/emacs.yml
+
 # TODO: Install script packages: nix, tailscale, devbox, flux
 
 # TODO: Fonts
@@ -34,4 +37,4 @@
 
 # TODO: .kube/config
 
-# TODO: Workspaces
+# TODO: Git Workspaces

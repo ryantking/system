@@ -1,0 +1,7 @@
+---
+- name: "Install Doom"
+  ansible.builtin.shell:
+    cmd: "{{ emacs_dir }}/bin/doom install --force"
+    executable: "/bin/bash"
+  changed_when: true
+  listen: install doom
