@@ -3,9 +3,7 @@ snap_default_packages:
   - name: docker
   - name: emacs
     classic: true
-  - name: kubectl
-    classic: true
-  - name: terraform
+  - name: helix
     classic: true
 
 snap_group_packages: []

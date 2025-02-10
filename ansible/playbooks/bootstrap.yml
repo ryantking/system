@@ -23,13 +23,17 @@
 - name: Import the snap playbook
   ansible.builtin.import_playbook: services/snap.yml
 
+- name: Import the nix playbook
+  ansible.builtin.import_playbook: services/nix.yml
+
+- name: Import the nixpkgs playbook
+  ansible.builtin.import_playbook: services/nixpkgs.yml
+
 - name: Import the dotfiles playbook
   ansible.builtin.import_playbook: services/dotfiles.yml
 
 - name: Import the emacs playbook
   ansible.builtin.import_playbook: services/emacs.yml
-
-# TODO: Install script packages: nix, tailscale, devbox, flux
 
 # TODO: Fonts
 

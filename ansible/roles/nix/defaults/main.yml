@@ -1,0 +1,4 @@
+---
+nix_settings:
+  experimental-features: nix-command flakes
+  trusted-users: "root {{ ansible_user | d(ansible_env.USER) }}"

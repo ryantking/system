@@ -7,8 +7,5 @@ apt_group_packages:
   - rhythmbox
 
 apt_group_debs:
-  - https://github.com/derailed/k9s/releases/download/v0.32.7/k9s_linux_amd64.deb
-  - https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb
   - https://zoom.us/client/6.3.6.6315/zoom_amd64.deb
-  - https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.6_all.deb
   - https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb

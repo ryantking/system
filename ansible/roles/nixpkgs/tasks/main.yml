@@ -1,0 +1,29 @@
+---
+- name: "Ensure nixpkgs config directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/nixpkgs"
+    mode: "0755"
+    state: directory
+  tags: ["nixpkgs:configure"]
+
+- name: "Manage nixpkgs configuration"
+  ansible.builtin.copy:
+    dest: "{{ nixpkgs_config_dir }}/config.nix"
+    content: |
+      {
+      {% for key, value in nixpkgs_config.items() %}
+        {{ key }} = {{ value }};
+      {% endfor %}
+      }
+    mode: "0644"
+  tags: ["nixpkgs:configure"]
+
+- name: "Install Nix profiles"
+  ansible.builtin.command: >-
+    bash -l -c 'nix profile install nixpkgs#{{ profile }}'
+  loop: "{{ nixpkgs_all_profiles }}"
+  loop_control:
+    loop_var: profile
+  register: result
+  changed_when: "'is already installed' not in result.stderr"
+  tags: ["nixpkgs:profiles"]

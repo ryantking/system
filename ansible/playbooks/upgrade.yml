@@ -1,11 +1,17 @@
 ---
 - name: Upgrade a machine with APT
   hosts: all
-  become: true
   gather_facts: false
 
   tasks:
     - name: Upgrade safe packages with refreshed cache
+      become: true
       ansible.builtin.apt:
         update_cache: true
         upgrade: safe
+
+    - name: Upgrade all Nix profiles
+      ansible.builtin.command: >-
+        bash -l -c 'nix profile upgrade --all'
+      register: result
+      changed_when: result.stdout_lines | length > 0

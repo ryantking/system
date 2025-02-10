@@ -1,0 +1,26 @@
+---
+- name: "Check if Nix is already installed"
+  ansible.builtin.command: "bash -l -c 'which nix'"
+  register: nix_check
+  failed_when: false
+  changed_when: false
+
+- name: "Run the Nix installation script"
+  ansible.builtin.shell:
+    cmd: "sh <(curl -L https://nixos.org/nix/install) --daemon --yes"
+    executable: "/bin/bash"
+  changed_when: true
+  when: nix_check.rc != 0
+
+- name: "Manage Nix settings"
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/etc/nix/nix.conf"
+    regexp: "^{{ opt.key }}"
+    line: "{{ opt.key }} = {{ opt.value }}"
+    state: present
+  loop: "{{ nix_settings | dict2items }}"
+  loop_control:
+    loop_var: opt
+    label: "{{ opt.key }}"
+  tags: ["nix:configure"]

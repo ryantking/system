@@ -85,5 +85,6 @@ eval "$(flux completion bash)"
 ## Programs
 
 eval "$(direnv hook bash)"
+eval "$(zoxide init bash)"
 
 ### .bashrc ends here

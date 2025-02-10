@@ -1,0 +1,35 @@
+---
+nixpkgs_config_dir: "{{ ansible_env.HOME }}/.config/nixpkgs"
+
+nixpkgs_config:
+  allowUnfree: "true"
+
+nixpkgs_default_profiles:
+  - "delta"
+  - "devenv"
+  - "fluxcd"
+  - "gitu"
+  - "gitui"
+  - "go"
+  - "k9s"
+  - "kubectl"
+  - "nushell"
+  - "protonvpn-gui"
+  - "rustup"
+  - "slack --impure"
+  - "starship"
+  - "tealdeer"
+  - "terraform --impure"
+  - "yazi"
+  - "zellij"
+  - "zoxide"
+
+nixpkgs_profiles: []
+nixpkgs_group_profiles: []
+nixpkgs_host_profiles: []
+
+nixpkgs_all_profiles: >-
+  {{ nixpkgs_default_profiles
+  + nixpkgs_profiles
+  + nixpkgs_group_profiles
+  + nixpkgs_host_profiles }}
