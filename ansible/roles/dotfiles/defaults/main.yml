@@ -12,3 +12,7 @@ dotfiles_links:
     to: .bashrc
   - from: tealdeer.toml
     to: .config/tealdeer/config.toml
+  - from: gnupg
+    to: .gnupg
+    recurse: true
+    mode: "0700"

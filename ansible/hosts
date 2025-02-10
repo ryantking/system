@@ -2,7 +2,7 @@
 
 [desktop]
 justinian
-tajan
+trajan
 
 [homelab]
 augustus
@@ -13,4 +13,4 @@ ansible_user=root
 
 [work]
 justinian
-tajan
+trajan

@@ -21,3 +21,6 @@ indent_size = unset
 
 [*.el]
 indent_size = unset
+
+[ansible/**.yml]
+indent_size = unset
