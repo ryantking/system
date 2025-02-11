@@ -38,7 +38,10 @@
 - name: Import the fonts playbook
   ansible.builtin.import_playbook: services/fonts.yml
 
-# TODO: keyd
+- name: Import the keyd playbook
+  ansible.builtin.import_playbook: services/keyd.yml
+
+# TODO: CA Certs
 
 # TODO: .kube/config
 

@@ -1,7 +1,6 @@
 ---
 - name: "Manage Nix packages"
   hosts: all
-  gather_facts: false
 
   roles:
     - role: nixpkgs

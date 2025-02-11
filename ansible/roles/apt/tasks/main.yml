@@ -13,7 +13,7 @@
 
 - name: "Add APT repositories"
   ansible.builtin.apt_repository:
-    repo: "{{ repo.source }}"
+    repo: "{{ 'ppa:' + repo.ppa if repo.ppa | d() else repo.source }}"
     filename: "{{ repo.name }}"
     state: present
   loop: "{{ apt_all_repos }}"

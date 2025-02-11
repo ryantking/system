@@ -2,6 +2,16 @@
 fonts_dir: "{{ ansible_env.HOME }}/.local/share/fonts"
 fonts_config_dir: "{{ ansible_user_dir }}/.config/fontconfig"
 
+fonts_base_packages:
+  - fonts-ibm-plex
+  - fonts-symbola
+  - npm
+  - ttfautohint
+
+fonts_packages: []
+
+fonts_all_packages: "{{ fonts_base_packages + fonts_packages }}"
+
 fonts_default_configs:
   - path: "10-nix.conf"
     content: |-

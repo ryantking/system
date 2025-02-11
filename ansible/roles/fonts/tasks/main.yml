@@ -1,4 +1,9 @@
 ---
+- name: "Install packages"
+  ansible.builtin.package:
+    name: "{{ fonts_all_packages }}"
+    state: present
+
 - name: "Ensure font directories exist"
   ansible.builtin.file:
     path: "{{ dir }}"

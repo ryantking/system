@@ -1,0 +1,12 @@
+---
+- name: Install keyd keyboard daemon
+  hosts: desktop
+
+  tasks:
+    - name: "Link keyd configuration"
+      become: true
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/System/config/keyd.conf"
+        dest: "/etc/keyd/default.conf"
+        force: true
+        state: link

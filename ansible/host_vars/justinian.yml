@@ -1,0 +1,6 @@
+---
+apt_host_repos:
+  - name: keyd
+    ppa: keyd-team/ppa
+
+apt_host_packages: ["keyd"]
