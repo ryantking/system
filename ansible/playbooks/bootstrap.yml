@@ -44,6 +44,7 @@
 - name: Import the keyd playbook
   ansible.builtin.import_playbook: services/keyd.yml
 
-# TODO: wallpapers
+- name: Import the backgrounds playbook
+  ansible.builtin.import_playbook: services/backgrounds.yml
 
 # TODO: Git Workspaces

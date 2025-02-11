@@ -1,5 +1,5 @@
 # Ansible
-ansible.log
+**/ansible.log
 
 # Devenv
 .devenv*

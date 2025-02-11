@@ -1,6 +1,0 @@
-bin/sync-org-gcal filter=git-crypt diff=git-crypt
-etc/ssh_config filter=git-crypt diff=git-crypt
-etc/git/config_work filter=git-crypt diff=git-crypt
-etc/gnupg/sshcontrol filter=git-crypt diff=git-crypt
-src/presentations/** filter=git-crypt diff=git-crypt
-src/resume/** filter=git-crypt diff=git-crypt

@@ -1,0 +1,13 @@
+---
+- name: "Manage system backgrounds"
+  hosts: desktop
+
+  tasks:
+    - name: "Link backgrounds directory"
+      become: true
+      ansible.builtin.file:
+        dest: "/usr/local/share/backgrounds"
+        src: "{{ ansible_env.HOME }}/System/share/backgrounds"
+        force: true
+        mode: "0755"
+        state: link
