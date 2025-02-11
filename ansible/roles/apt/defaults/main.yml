@@ -1,20 +1,26 @@
 ---
 apt_default_packages:
+  - 7zip
   - build-essential
   - certbot
   - curl
   - direnv
   - dnsutils
   - fd-find
+  - ffmpeg
+  - fonts-ibm-plex
+  - fonts-symbola
+  - fzf
   - git
   - git-crypt
-  - git-delta
+  - imagemagick
+  - jq
   - net-tools
   - nmap
   - npm
   - postgresql-client
   - ripgrep
-  - tealdeer
+  - tailscale
   - ttfautohint
   - unzip
   - vim
@@ -34,3 +40,21 @@ apt_host_debs: []
 apt_all_debs: >-
   {{ apt_group_debs
   + apt_host_debs }}
+
+apt_default_repos:
+  - name: tailscale
+    key_url: >-
+      https://pkgs.tailscale.com/stable/ubuntu/{{
+      ansible_distribution_release }}.noarmor.gpg
+    source: >-
+      deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg]
+      https://pkgs.tailscale.com/stable/ubuntu
+      {{ ansible_distribution_release }} main
+
+apt_group_repos: []
+apt_host_repos: []
+
+apt_all_repos: >-
+  {{ apt_default_repos
+  + apt_group_repos
+  + apt_host_repos }}
