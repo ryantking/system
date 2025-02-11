@@ -35,7 +35,8 @@
 - name: Import the emacs playbook
   ansible.builtin.import_playbook: services/emacs.yml
 
-# TODO: Fonts
+- name: Import the fonts playbook
+  ansible.builtin.import_playbook: services/fonts.yml
 
 # TODO: keyd
 

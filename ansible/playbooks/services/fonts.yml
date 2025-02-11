@@ -1,0 +1,38 @@
+---
+- name: "Manage fonts"
+  hosts: desktop
+
+  tasks:
+    - name: "Ensure local src directory exists"
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/src"
+        state: directory
+        mode: "0755"
+
+    - name: "Clone Iosevka"
+      ansible.builtin.git:
+        repo: "https://github.com/be5invis/Iosevka.git"
+        dest: "{{ ansible_env.HOME }}/.local/src/iosevka"
+        version: "main"
+        depth: 1
+        force: true
+
+    - name: "Create private build plans"
+      ansible.builtin.copy:
+        src: >-
+          {{ ansible_env.HOME }}/System/config/iosevka-build-plans.toml
+        dest: >-
+          {{ ansible_env.HOME }}/.local/src/iosevka/private-build-plans.toml
+        mode: "0644"
+
+    - name: "Build and install Iosevka"
+      ansible.builtin.shell:
+        cmd: |
+          npm install
+          npm run build -- ttf::iosevka-term
+          mkdir -p ~/.local/share/fonts/truetype
+          cp -fr dist/iosevka-term/TTF/* ~/.local/share/fonts/truetype
+          fc-cache -f -v
+        executable: /bin/bash
+        chdir: "{{ ansible_env.HOME }}/.local/src/iosevka"
+      changed_when: true
