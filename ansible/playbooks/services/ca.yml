@@ -1,0 +1,9 @@
+---
+- name: "Manage certificate authorities"
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - role: ca
+      tags: ["ca"]

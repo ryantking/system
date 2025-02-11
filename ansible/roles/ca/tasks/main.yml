@@ -1,0 +1,16 @@
+---
+- name: "Manage packages"
+  ansible.builtin.package:
+    name: "{{ ca_all_packages }}"
+    state: present
+
+- name: "Manage bundles"
+  ansible.builtin.copy:
+    dest: "{{ ca_bundle_dir }}/{{ bundle.name }}"
+    content: "{{ bundle.chain }}"
+    mode: '0644'
+  loop: "{{ ca_all_bundles }}"
+  loop_control:
+    loop_var: bundle
+    label: "{{ bundle.name }}"
+  notify: update ca certificates

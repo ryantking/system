@@ -1,0 +1,12 @@
+---
+ca_base_packages: ["ca-certificates"]
+ca_packages: []
+ca_all_packages: "{{ ca_base_packages + ca_packages }}"
+
+ca_bundle_dir: /usr/local/share/ca-certificates
+
+ca_bundles: []
+ca_group_bundles: []
+ca_host_bundles: []
+
+ca_all_bundles: "{{ ca_bundles + ca_group_bundles + ca_host_bundles }}"
