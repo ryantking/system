@@ -16,3 +16,6 @@ dotfiles_links:
     to: .gnupg
     recurse: true
     mode: "0700"
+  - from: kube.yaml
+    to: .kube/config
+    mode: "0600"

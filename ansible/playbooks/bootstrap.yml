@@ -8,6 +8,9 @@
 - name: Import the APT playbook
   ansible.builtin.import_playbook: services/apt.yml
 
+- name: Import the CA playbook
+  ansible.builtin.import_playbook: services/ca.yml
+
 - name: Import the user playbook
   ansible.builtin.import_playbook: services/user.yml
 
@@ -41,8 +44,6 @@
 - name: Import the keyd playbook
   ansible.builtin.import_playbook: services/keyd.yml
 
-# TODO: CA Certs
-
-# TODO: .kube/config
+# TODO: wallpapers
 
 # TODO: Git Workspaces
