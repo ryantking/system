@@ -16,8 +16,8 @@
 
 ;; Appearance
 (setq doom-theme 'doom-horizon
-      doom-font (font-spec :family "Iosevka Custom" :size 16 :weight 'regular)
-      doom-big-font (font-spec :family "Iosevka Custom" :size 28)
+      doom-font (font-spec :family "Iosevka" :size 16 :weight 'regular)
+      doom-big-font (font-spec :family "Iosevka" :size 28)
       doom-variable-pitch-font (font-spec :family "Overpass" :size 16)
       doom-symbol-font (font-spec :family "JuliaMono")
       doom-emoji-font (font-spec :family "Noto Color Emoji")

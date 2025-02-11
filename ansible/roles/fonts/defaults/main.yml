@@ -1,0 +1,60 @@
+---
+fonts_dir: "{{ ansible_env.HOME }}/.local/share/fonts"
+fonts_config_dir: "{{ ansible_user_dir }}/.config/fontconfig"
+
+fonts_default_configs:
+  - path: "10-nix.conf"
+    content: |-
+      <dir>~/.nix-profile/share/fonts/</dir>
+      <cachedir>~/.cache/fontconfig</cachedir>
+
+fonts_configs: []
+fonts_group_configs: []
+fonts_host_configs: []
+
+fonts_all_configs: >-
+  {{ fonts_default_configs
+  + fonts_configs
+  + fonts_group_configs
+  + fonts_host_configs }}
+
+fonts_nfm_url: >-  # yamllint disable-line rule:line-length
+  https://github.com/rainstormstudio/nerd-icons.el/raw/refs/heads/main/fonts/NFM.ttf
+fonts_nfm_dest: "{{ fonts_dir }}/NFM.ttf"
+
+fonts_iosevka_repo: "https://github.com/be5invis/Iosevka.git"
+fonts_iosevka_version: "main"
+fonts_iosevka_dir: "{{ ansible_env.HOME }}/.local/src/iosevka"
+
+fonts_iosevka_default_variant: ss08
+fonts_iosevka_default_slope: italic
+fonts_iosevka_default_weights:
+  - name: Light
+    weight: 300
+  - name: Regular
+    weight: 400
+  - name: Medium
+    weight: 500
+  - name: Bold
+    weight: 700
+  - name: Heavy
+    weight: 900
+
+fonts_iosevka_build_plans:
+  - name: Iosevka
+
+  - name: IosevkaTerm
+    family: Iosevka Term
+    spacing: term
+    slope: oblique
+    noLigation: "true"
+
+    weights:
+      - name: Regular
+        weight: 400
+      - name: Bold
+        weight: 700
+
+  - name: IosevkaMono
+    family: Iosevka Mono
+    spacing: fontconfig-mono
