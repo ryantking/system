@@ -55,12 +55,6 @@
   changed = yellow bold
   untracked = red bold
 
-[url "git@github.com:ryantking"]
-  insteadOf = https://github.com/ryantking
-
-[url "git@git.carelesslisper.xyz"]
-  insteadOf = https://git.carelesslisper.xyz
-
 [include]
   path = aliases
   path = delta

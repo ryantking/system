@@ -1,0 +1,25 @@
+# -*- mode: gitconfig -*-
+{% if workspace.config.user | d() %}
+
+  {% set user = workspace.config.user %}
+[user]
+  {% if user.name | d() %}
+  name = {{ user.name }}
+  {% endif %}
+  {% if user.email | d() %}
+  email = {{ user.email }}
+  {% endif %}
+  {% if user.signingKey | d() %}
+  signingKey = {{ user.signingKey }}
+  {% endif %}
+{% endif %}
+{% if workspace.config.insteadOf | d() %}
+
+  {% for owner in workspace.config.insteadOf %}
+[url "git@github.com:{{ owner }}"]
+  insteadOf = https://github.com/{{ owner }}
+  {% if not loop.last %}
+
+  {% endif %}
+  {% endfor %}
+{% endif %}

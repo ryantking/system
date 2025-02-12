@@ -1,0 +1,78 @@
+---
+- name: "Create workspace directories"
+  ansible.builtin.file:
+    path: "{{ git_workspace_dir }}/{{ workspace.name }}"
+    mode: "0755"
+    state: directory
+  loop: "{{ git_all_workspaces }}"
+  loop_control:
+    loop_var: workspace
+    label: "{{ workspace.name }}"
+  when:
+    - not workspace.repo | d()
+    - not workspace.transfer | d(false)
+  tags: ["git:dirs"]
+
+- name: "Clone workspace repositories"
+  ansible.builtin.git:
+    repo: "{{ workspace.repo }}"
+    dest: "{{ git_workspace_dir }}/{{ workspace.name }}"
+    version: "{{ workspace.version | d('master') }}"
+    force: true
+    update: true
+  loop: "{{ git_all_workspaces }}"
+  loop_control:
+    loop_var: workspace
+    label: "{{ workspace.name }}"
+  when: workspace.repo | d()
+  tags: ["git:clone"]
+
+- name: "Clone repositories"
+  vars:
+    repo_dir: "{{ (workspace.1.url | basename | split('.git'))[0] }}"
+  ansible.builtin.git:
+    repo: "{{ workspace.1.url }}"
+    dest: "{{ git_workspace_dir }}/{{ workspace.0.name }}/{{ repo_dir }}"
+    version: "{{ workspace.1.version | d('master') }}"
+    force: true
+    update: true
+  loop: "{{ git_all_workspaces | subelements('repos', skip_missing=true) }}"
+  loop_control:
+    loop_var: workspace
+    label: "{{ workspace.1.url }}"
+  tags: ["git:clone"]
+
+- name: "Transfer repositories"
+  ansible.builtin.copy:
+    src: "{{ git_workspace_dir }}/{{ workspace.name }}"
+    dest: "{{ git_workspace_dir }}"
+    mode: "0644"
+  loop: "{{ git_all_workspaces }}"
+  loop_control:
+    loop_var: workspace
+    label: "{{ workspace.name }}"
+  when: workspace.transfer | d(false)
+  tags: ["git:transfer"]
+
+- name: "Create workspace git configs"
+  ansible.builtin.template:
+    src: "templates/workspace.conf.j2"
+    dest: "{{ ansible_env.HOME }}/.config/git/{{ workspace.name }}"
+    lstrip_blocks: true
+    trim_blocks: true
+    mode: "0644"
+  loop: "{{ git_all_workspaces }}"
+  loop_control:
+    loop_var: workspace
+    label: "{{ workspace.name }}"
+  when: workspace.config | d()
+  tags: ["git:config"]
+
+- name: "Create git config to load workspace configs"
+  ansible.builtin.template:
+    src: "templates/workspaces.conf.j2"
+    dest: "{{ ansible_env.HOME }}/.config/git/workspaces"
+    lstrip_blocks: true
+    trim_blocks: true
+    mode: "0644"
+  tags: ["git:config"]

@@ -1,0 +1,11 @@
+# -*- mode: gitconfig -*-
+
+{% for workspace in git_all_workspaces %}
+  {% if workspace.config | d() %}
+[includeIf "gitdir:{{ git_workspace_dir }}/{{ workspace.name }}/"]
+  path = {{ workspace.name }}
+    {% if not loop.last %}
+
+    {% endif %}
+  {% endif %}
+{% endfor %}

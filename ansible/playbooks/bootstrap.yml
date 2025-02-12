@@ -23,6 +23,9 @@
 - name: Import the pass playbook
   ansible.builtin.import_playbook: services/pass.yml
 
+- name: Import the git playbook
+  ansible.builtin.import_playbook: services/git.yml
+
 - name: Import the snap playbook
   ansible.builtin.import_playbook: services/snap.yml
 
@@ -46,5 +49,3 @@
 
 - name: Import the backgrounds playbook
   ansible.builtin.import_playbook: services/backgrounds.yml
-
-# TODO: Git Workspaces

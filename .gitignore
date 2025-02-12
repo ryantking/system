@@ -10,3 +10,10 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+
+# generated configs
+config/git/*
+!config/git/config
+!config/git/aliases
+!config/git/delta
+!config/git/ignore
