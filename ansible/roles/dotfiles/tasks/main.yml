@@ -53,3 +53,25 @@
     label: "{{ link.from }}"
   when: link.recurse | d()
   changed_when: link_result.stdout is search("changed=1")
+
+- name: "Ensure download directory exists"
+  ansible.builtin.file:
+    path: "{{ file.dest | dirname }}"
+    mode: "0755"
+    state: directory
+  loop: "{{ dotfiles_downloads }}"
+  loop_control:
+    loop_var: file
+    label: "{{ file.url }}"
+  tags: ["dotfiles:download"]
+
+- name: "Download files"
+  ansible.builtin.get_url:
+    url: "{{ file.url }}"
+    dest: "{{ file.dest }}"
+    mode: "0755"
+  loop: "{{ dotfiles_downloads }}"
+  loop_control:
+    loop_var: file
+    label: "{{ file.url }}"
+  tags: ["dotfiles:download"]

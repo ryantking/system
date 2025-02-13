@@ -1,5 +1,6 @@
 ---
 user_name: ryan
+user_shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nu"
 
 user_groups:
   - name: docker

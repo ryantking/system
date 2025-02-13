@@ -3,8 +3,8 @@
 
 ## Default programs
 
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -t -a \"\""
+export EDITOR="hx"
+export VISUAL="hx"
 export BROWSER=brave
 
 ## XDG paths

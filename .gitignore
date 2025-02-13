@@ -11,6 +11,9 @@ devenv.local.nix
 # pre-commit
 .pre-commit-config.yaml
 
+# shell history
+config/nushell/history.*
+
 # generated configs
 config/git/*
 !config/git/config

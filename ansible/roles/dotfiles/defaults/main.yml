@@ -1,3 +1,4 @@
+# yamllint disable rule:line-length
 ---
 dotfiles_repo: "git@github.com:ryantking/system.git"
 dotfiles_path: "{{ ansible_user_dir | d(ansible_env.HOME) }}/System"
@@ -10,6 +11,13 @@ dotfiles_links:
   - from: k9s
   - from: bashrc
     to: .bashrc
+  - from: nushell
+  - from: bat
+  - from: helix
+  - from: starship.toml
+  - from: zellij
+  - from: alacritty.toml
+    to: .config/alacritty/alacritty.toml
   - from: tealdeer.toml
     to: .config/tealdeer/config.toml
   - from: gnupg
@@ -19,3 +27,13 @@ dotfiles_links:
   - from: kube.yaml
     to: .kube/config
     mode: "0600"
+
+dotfiles_downloads:
+  - url: https://raw.githubusercontent.com/tesujimath/bash-env-nushell/refs/heads/main/bash-env.nu
+    dest: "{{ ansible_env.HOME }}/.cache/nushell/bash-env.nu"
+
+  - url: https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/nu-hooks/nu-hooks/command_not_found/did_you_mean.nu
+    dest: "{{ ansible_env.HOME }}/.cache/nushell/did_you_mean.nu"
+
+  - url: https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/nu-hooks/nu-hooks/direnv/config.nu
+    dest: "{{ ansible_env.HOME }}/.cache/nushell/direnv.nu"

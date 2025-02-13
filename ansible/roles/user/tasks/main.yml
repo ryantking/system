@@ -1,4 +1,11 @@
 ---
+- name: "Add user shell to supported list"
+  ansible.builtin.lineinfile:
+    path: "/etc/shells"
+    line: "{{ user_shell }}"
+    state: present
+  tags: ["user:shell"]
+
 - name: "Create user groups"
   ansible.builtin.group:
     name: "{{ group.name }}"
@@ -13,7 +20,7 @@
     name: "{{ user_name }}"
     groups: "{{ user_groups | map(attribute='name') | list }}"
     append: true
-    shell: /bin/bash
+    shell: "{{ user_shell }}"
     state: present
   tags: ["user:account"]
 

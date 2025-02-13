@@ -1,0 +1,30 @@
+theme = "horizon-dark"
+
+[editor]
+line-number = "relative"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[keys.normal]
+C-left = "jump_view_left"
+C-down = "jump_view_down"
+C-up = "jump_view_up"
+C-right = "jump_view_right"
+
+[keys.normal.g]
+n = "goto_line_start"
+i = "goto_line_end"
+k = "goto_next_buffer"
+u = "goto_implementation"
+
+[keys.select.g]
+n = "goto_line_start"
+i = "goto_line_end"
+k = "goto_next_buffer"
+u = "goto_implementation"

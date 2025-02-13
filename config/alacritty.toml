@@ -1,0 +1,36 @@
+[window]
+decorations = "full"
+opacity = 1.0
+dynamic_title = true
+decorations_theme_variant = "dark"
+
+[font]
+normal = { family = "Iosevka", style = "Regular" }
+bold = { family = "Iosevka", style = "Bold" }
+italic = { family = "Iosevka", style = "Italic" }
+bold_italic = { family = "Iosevka", style = "Bold Italic" }
+size = 12.0
+
+[colors.primary]
+background = "#1C1E26"
+foreground = "#D5D8DA"
+
+[colors.normal]
+black = "#16161C"
+red = "#E95678"
+green = "#29D398"
+yellow = "#FAB795"
+blue = "#26BBD9"
+magenta = "#EE64AC"
+cyan = "#59E1E3"
+white = "#D5D8DA"
+
+[colors.bright]
+black = "#5B5858"
+red = "#EC6A88"
+green = "#3FDAA4"
+yellow = "#FBC3A7"
+blue = "#3FC4DE"
+magenta = "#F075B5"
+cyan = "#6BE4E6"
+white = "#D5D8DA"
