@@ -17,6 +17,9 @@ C-down = "jump_view_down"
 C-up = "jump_view_up"
 C-right = "jump_view_right"
 
+[keys.normal.space]
+ret = ":lsp-workspace-command"
+
 [keys.normal.g]
 n = "goto_line_start"
 i = "goto_line_end"

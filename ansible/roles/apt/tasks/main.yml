@@ -13,7 +13,7 @@
 
 - name: "Add APT repositories"
   ansible.builtin.apt_repository:
-    repo: "{{ 'ppa:' + repo.ppa if repo.ppa | d() else repo.source }}"
+    repo: "{{ repo.source }}"
     filename: "{{ repo.name }}"
     state: present
   loop: "{{ apt_all_repos }}"
@@ -27,22 +27,3 @@
     name: "{{ apt_all_packages }}"
     update_cache: true
     state: present
-
-- name: "Download .deb packages"
-  ansible.builtin.get_url:
-    url: "{{ deb }}"
-    dest: "/tmp/{{ deb | basename }}"
-    mode: '0644'
-  loop: "{{ apt_all_debs }}"
-  loop_control:
-    loop_var: deb
-  tags: ["apt:deb"]
-
-- name: "Install downloaded .deb packages"
-  ansible.builtin.apt:
-    deb: "/tmp/{{ deb | basename }}"
-    state: present
-  loop: "{{ apt_all_debs }}"
-  loop_control:
-    loop_var: deb
-  tags: ["apt:deb"]

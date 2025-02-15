@@ -1,3 +1,4 @@
 --theme="ansi"
 --style="numbers,changes"
+--pager="less -RF"
 --italic-text="always"

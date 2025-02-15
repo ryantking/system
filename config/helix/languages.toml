@@ -1,0 +1,16 @@
+[[language]]
+name = "markdown"
+language-servers = ["marksman", "markdown-oxide", "vale-ls"]
+auto-format = true
+formatter = { command = "dprint", args = ["fmt", "--stdin", "md"] }
+rulers = [120]
+
+[[language]]
+name = "toml"
+auto-format = true
+formatter = { command = "dprint", args = ["fmt", "--stdin", "toml"] }
+
+[[language]]
+name = "yaml"
+auto-format = true
+formatter = { command = "dprint", args = ["fmt", "--stdin", "yaml"] }

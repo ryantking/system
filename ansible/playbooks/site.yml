@@ -1,0 +1,9 @@
+---
+- name: Import the system layer playbook
+  ansible.builtin.import_playbook: layers/system.yml
+
+- name: Import the package layer playbook
+  ansible.builtin.import_playbook: layers/packages.yml
+
+- name: Import the user layer playbook
+  ansible.builtin.import_playbook: layers/user.yml

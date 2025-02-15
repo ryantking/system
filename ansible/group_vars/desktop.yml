@@ -1,4 +1,6 @@
 ---
+browser: "brave"
+
 apt_group_packages:
   - evolution
   - gir1.2-ayatanaappindicator3-0.1
@@ -6,13 +8,20 @@ apt_group_packages:
   - libayatana-appindicator3-1
   - rhythmbox
 
-apt_group_debs:
-  - https://zoom.us/client/6.3.6.6315/zoom_amd64.deb
-  - https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
-
 nixpkgs_group_profiles:
   - "alegreya"
   - "julia-mono"
   - "overpass"
   - "protonvpn-gui"
   - "slack --impure"
+
+snap_group_packages:
+  - name: alacritty
+    classic: true
+  - name: "{{ browser }}"
+  - name: discord
+  - name: obsidian
+    classic: true
+  - name: signal-desktop
+  - name: telegram-desktop
+  - name: vlc

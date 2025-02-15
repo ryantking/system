@@ -1,94 +1,154 @@
-## Libraries
+# config.nu: Nushell configuration
 
-source ~/.cache/carapace/init.nu
+use lib.nu preview_file
+
+source vars.nu
+
 source ~/.cache/nushell/bash-env.nu
 source ~/.cache/nushell/did_you_mean.nu
-# source ~/.cache/nushell/zoxide.nu
 
-## Plugins
-
-# plugin add "$(readlink ~/.nix-profile/bin/nu_plugin_skim)"
-# plugin add "$(readlink ~/.nix-profile/bin/nu_plugin_query)"
-
-## Configuration
-
-$env.config.show_banner = false
-$env.config.buffer_editor = "hx"
-$env.config.table.mode = "light"
-
-$env.config.history = {
-  file_format: sqlite
-  max_size: 1_000_000
-  sync_on_enter: true
-  isolation: true
+const menu_style = {
+  text: blue
+  selected_text: blue_reverse
+  description_text: white
 }
 
-## Completion
+$env.config = {
+  show_banner: false
+  buffer_editor: "hx"
+  table: {
+    mode: "light"
+  }
 
-let zoxide_completer = {|spans|
-    $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
-}
+  history: {
+    file_format: sqlite
+    max_size: 1_000_000
+    sync_on_enter: true
+    isolation: true
+  }
 
-let external_completer = {|spans|
-    let expanded_alias = scope aliases
-    | where name == $spans.0
-    | get -i 0.expansion
-
-    let spans = if $expanded_alias != null {
-        $spans
-        | skip 1
-        | prepend ($expanded_alias | split row ' ' | take 1)
-    } else {
-        $spans
+  menus: [
+    {
+      name: completion_menu
+      only_buffer_difference: false
+      marker: "| "
+      type: {
+        layout: columnar
+        columns: 4
+        col_width: 20
+        col_padding: 2
+      }
+      style: $menu_style
+    } 
+    {
+      name: history_menu
+      only_buffer_difference: true 
+      marker: "? "
+      type: {
+        layout: list
+        page_size: 10
+      }
+      style: $menu_style
     }
+  ]
 
-    match $spans.0 {
-        __zoxide_z | __zoxide_zi => $zoxide_completer
-        _ => $carapace_completer
-    } | do $in $spans
+  keybindings:  [
+    {
+      name: reload_config
+      modifier: none
+      keycode: f5
+      mode: [emacs vi_normal vi_insert]
+      event: {
+        send: executehostcommand,
+        cmd: $"source '($nu.config-path)'"
+      }
+    }
+    {
+        name: fzf_change_dir
+        modifier: alt
+        keycode: char_c
+        mode: [emacs, vi_normal, vi_insert]
+        event: [
+          {
+              send: executehostcommand
+              cmd: "
+                try {
+                  let result = (
+                    fd --type directory
+                    | fzf --preview 'eza --color=always -la {} | head -n 200'
+                  )
+                  cd $result
+                } catch { null }"
+          }
+      ]
+    }
+    {
+        name: fzf_dirs
+        modifier: alt
+        keycode: char_d
+        mode: [emacs, vi_normal, vi_insert]
+        event: [
+          {
+              send: executehostcommand
+              cmd: "
+                try {
+                  let result = (
+                    fd --type directory
+                    | fzf --preview 'eza --color=always -la {} | head -n 200'
+                  )
+                  commandline edit --insert '\"'
+                  commandline edit --insert $result
+                  commandline edit --insert '\"'
+                } catch { null }"
+          }
+      ]
+    }
+    {
+      name: history_menu
+      modifier: control
+      keycode: char_r
+      mode: [emacs, vi_insert, vi_normal]
+      event: [
+        {
+          send: executehostcommand
+          cmd: "
+            let result = history
+              | get command
+              | str replace --all (char newline) ' '
+              | uniq
+              | to text
+              | fzf --preview 'printf \'{}\' | nufmt --stdin o+e>| rg -v ERROR';
+            commandline edit --replace $result;
+            commandline set-cursor --end
+          "
+        }
+      ]
+    }
+    {
+      name: fuzzy_file
+      modifier: control
+      keycode: char_f
+      mode: [emacs, vi_normal, vi_insert]
+      event: [
+        {
+          send: executehostcommand
+          cmd: "
+            try {
+              let result = (
+                fd --type file
+                | fzf --preview 'nu -l -c \"preview_file {}\"'
+              )
+              commandline edit --insert '\"'
+              commandline edit --insert $result
+              commandline edit --insert '\"'
+            } catch { null }"
+        }
+      ]
+    }
+  ]
 }
 
-$env.config.completions.external = {
-  enable: true
-  completer: $external_completer
-}
+source aliases.nu
+source load-hooks.nu
 
-## Aliases
-
-alias apt = sudo apt
-alias g = git
-alias k = kubectl
-alias ka = kill
-alias la = ls -la
-alias ll = ls -l
-alias shutdown = sudo shutdown
-alias su = sudo su
-
-# Ansible
-alias apb = ansible-playbook
-alias ainv = ansible-inventory
-alias agal = ansible-galaxy
-alias aval = ansible-vault
-
-# Emacs
-alias e = emacsclient -n
-alias et = emacsclient -t
-
-# Tailscale
-alias tailscale = sudo tailscale
-alias tlscl = sudo tailscale
-alias tlu = sudo tailscale up
-alias tld = sudo tailscale down
-
-## Programs
-
-# Direnv
-$env.config.hooks.pre_prompt = (
-    $env.config.hooks.pre_prompt | append (source ~/.cache/direnv/config.nu)
-)
-
-# Starship
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-
-# TODO: skim fuzzy finder
+# config.nu ends here

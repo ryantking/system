@@ -18,6 +18,19 @@
     mode: "0644"
   tags: ["nixpkgs:configure"]
 
+- name: "Add nixpkgs channel"  
+  ansible.builtin.command: >-
+    bash -l -c 'nix-channel --add {{ nixpkgs_channel }}'
+  register: result
+  changed_when: result.stdout_lines | length > 1
+  tags: ["nixpkgs:channel"]
+
+- name: "Update nix channels"
+  ansible.builtin.command: >-
+    bash -l -c "nix-channel --update"
+  changed_when: true
+  tags: ["nixpkgs:channel"]
+
 - name: "Install Nix profiles"
   ansible.builtin.command: >-
     bash -l -c 'nix profile install nixpkgs#{{ profile }}'

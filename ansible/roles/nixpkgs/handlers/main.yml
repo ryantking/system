@@ -1,0 +1,5 @@
+---
+- name: "Update nix channels"
+  ansible.builtin.command: >-
+    bash -l -c "nix-channel --update"
+  listen: update nix channels

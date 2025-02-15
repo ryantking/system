@@ -2,13 +2,9 @@
 apt_default_packages:
   - 7zip
   - build-essential
-  - certbot
   - curl
-  - direnv
   - dnsutils
-  - fd-find
   - ffmpeg
-  - fzf
   - git
   - git-crypt
   - imagemagick
@@ -16,26 +12,21 @@ apt_default_packages:
   - net-tools
   - nmap
   - postgresql-client
-  - ripgrep
   - tailscale
+  - tuned
   - unzip
   - vim
   - wget
 
+apt_packages: []
 apt_group_packages: []
 apt_host_packages: []
 
 apt_all_packages: >-
   {{ apt_default_packages
+  + apt_packages
   + apt_group_packages
   + apt_host_packages }}
-
-apt_group_debs: []
-apt_host_debs: []
-
-apt_all_debs: >-
-  {{ apt_group_debs
-  + apt_host_debs }}
 
 apt_default_repos:
   - name: tailscale

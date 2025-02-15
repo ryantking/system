@@ -1,0 +1,15 @@
+---
+- name: Import the user playbook
+  ansible.builtin.import_playbook: ../services/user.yml
+
+- name: Import the certificate authority playbook
+  ansible.builtin.import_playbook: ../services/ca.yml
+
+- name: Import the Nix playbook
+  ansible.builtin.import_playbook: ../services/nix.yml
+
+- name: Import the keyd playbook
+  ansible.builtin.import_playbook: ../services/keyd.yml
+
+- name: Import the backgrounds playbook
+  ansible.builtin.import_playbook: ../services/backgrounds.yml

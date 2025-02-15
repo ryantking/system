@@ -12,6 +12,6 @@
 
     - name: Upgrade all Nix profiles
       ansible.builtin.command: >-
-        bash -l -c 'nix profile upgrade --all'
+        bash -l -c 'nix profile upgrade --all --impure'
       register: result
       changed_when: result.stdout_lines | length > 0
