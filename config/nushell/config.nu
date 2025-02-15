@@ -2,8 +2,6 @@
 
 use lib.nu preview_file
 
-source vars.nu
-
 source ~/.cache/nushell/bash-env.nu
 source ~/.cache/nushell/did_you_mean.nu
 
