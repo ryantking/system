@@ -4,18 +4,15 @@ apt_default_packages:
   - build-essential
   - curl
   - dnsutils
-  - ffmpeg
   - fish
   - fonts-ibm-plex
   - fonts-symbola
   - git
   - git-crypt
-  - imagemagick
   - jq
   - net-tools
   - nmap
   - postgresql-client
-  - tailscale
   - tuned
   - unzip
   - vim
@@ -24,18 +21,7 @@ apt_default_packages:
 apt_packages: []
 apt_all_packages: "{{ apt_default_packages + apt_packages }}"
 
-apt_default_repos:
-  - name: fish-shell
-    source: ppa:fish-shell/beta-4
+apt_default_ppas: ["fish-shell/beta-4"]
 
-  - name: tailscale
-    source: >-
-      deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg]
-      https://pkgs.tailscale.com/stable/ubuntu
-      {{ ansible_distribution_release }} main
-    key_url: >-
-      https://pkgs.tailscale.com/stable/ubuntu/{{
-      ansible_distribution_release }}.noarmor.gpg
-
-apt_repos: []
-apt_all_repos: "{{ apt_default_repos + apt_repos }}"
+apt_ppas: []
+apt_all_ppas: "{{ apt_default_ppas + apt_ppas }}"

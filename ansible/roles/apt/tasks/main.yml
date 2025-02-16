@@ -1,24 +1,39 @@
 ---
-- name: "Download Apt repository keys"
-  ansible.builtin.get_url:
-    url: "{{ repo.key_url }}"
-    dest: "/usr/share/keyrings/{{ repo.name }}-archive-keyring.gpg"
-    mode: "0644"
-  loop: "{{ apt_all_repos }}"
-  loop_control:
-    loop_var: repo
-    label: "{{ repo.name }}"
-  when: repo.key_url | d()
+- name: "Manage PPA repositories"
+  tags: ["role::apt:ppa"]
 
-- name: "Add Apt repositories"
-  ansible.builtin.apt_repository:
-    repo: "{{ repo.source }}"
-    filename: "{{ repo.name }}"
-    state: present
-  loop: "{{ apt_all_repos }}"
-  loop_control:
-    loop_var: repo
-    label: "{{ repo.name }}"
+  vars:
+    ppa_name: "{{ ppa is mapping | ternary(ppa.name, ppa) }}"
+    ppa_name_split: "{{ ppa_name | split('/') }}"
+    ppa_owner: "{{ ppa_name_split[0] }}"
+    ppa_repo: "{{ ppa_name_split[1] }}"
+    apt_sources_file: >-
+      /etc/apt/sources.list.d/{{ ppa_owner }}-ubuntu-{{ ppa_repo
+      }}-{{ ansible_distribution_release }}.sources
+
+  block:
+    - name: "Add PPA repository"
+      ansible.builtin.command:
+        cmd: >-
+          add-apt-repository ppa:{{ ppa_name }} -y
+          {{ ppa.release is defined | ternary('-n', '') }}
+        creates: "{{ apt_sources_file }}"
+      loop: "{{ apt_all_ppas }}"
+      loop_control:
+        loop_var: ppa
+        label: "{{ ppa_name }}"
+
+    - name: "Modify PPA release when necessary"
+      ansible.builtin.lineinfile:
+        path: "{{ apt_sources_file }}"
+        regexp: "^Suites:"
+        line: "Suites: {{ ppa.release }}"
+        state: present
+      loop: "{{ apt_all_ppas }}"
+      loop_control:
+        loop_var: ppa
+        label: "{{ ppa_name }}"
+      when: ppa.release is defined
 
 - name: "Install Apt packages"
   ansible.builtin.apt:
