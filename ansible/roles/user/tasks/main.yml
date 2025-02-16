@@ -1,11 +1,13 @@
 ---
 - name: "Add user shell to supported list"
+  become: true
   ansible.builtin.lineinfile:
     path: "/etc/shells"
     line: "{{ user_shell }}"
     state: present
 
 - name: "Create user groups"
+  become: true
   ansible.builtin.group:
     name: "{{ group.name }}"
     system: "{{ group.system | d(omit) }}"
@@ -14,6 +16,7 @@
     loop_var: group
 
 - name: "Create user account"
+  become: true
   ansible.builtin.user:
     name: "{{ user_name }}"
     groups: "{{ user_groups | map(attribute='name') | list }}"
@@ -22,6 +25,7 @@
     state: present
 
 - name: "Configure passwordless sudo"
+  become: true
   ansible.builtin.lineinfile:
     path: "/etc/sudoers.d/{{ user_name }}"
     line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL"
@@ -37,7 +41,8 @@
     version: "{{ user_dotfiles_version }}"
 
 - name: "Link dotfiles"
-  become: "{{ link.owner | d(user_name) == 'root' }}"
+  become: "{{ link.owner is defined }}"
+  become_user: "{{ link.owner | d(omit) }}"
   ansible.builtin.file:
     src: "{{ user_dotfiles_path }}/{{ link.src }}"
     dest: "{{ link.dest | d(user_home ~ '/.' + link.src) }}"
@@ -51,6 +56,8 @@
   tags: ["role::user:dotfiles", "skip::user:dotfiles"]
 
 - name: "Ensure download directory exists"
+  become: true
+  become_user: "{{ file.owner | d(user_name) }}"
   ansible.builtin.file:
     path: "{{ file.path | dirname }}"
     mode: "0755"
@@ -62,6 +69,7 @@
   tags: ["role::user:urls"]
 
 - name: "Download files"
+  become_user: "{{ file.owner | d(user_name) }}"
   ansible.builtin.get_url:
     url: "{{ file.url }}"
     dest: "{{ file.path }}"

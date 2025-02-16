@@ -1,8 +1,6 @@
 ---
 - name: "Manage user account"
-  hosts: desktop
-  become: true
-  gather_facts: false
+  hosts: all
 
   roles:
     - role: user
