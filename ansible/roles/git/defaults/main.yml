@@ -9,10 +9,8 @@ git_default_workspaces:
 
 git_workspaces: []
 git_group_workspaces: []
-git_host_workspaces: []
 
 git_all_workspaces: >-
   {{ git_default_workspaces
   + git_workspaces
-  + git_group_workspaces
-  + git_host_workspaces }}
+  + git_group_workspaces }}

@@ -1,4 +1,11 @@
 ---
+- name: "Install Tailscale"
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -fsSL https://tailscale.com/install.sh | sh
+    creates: /usr/bin/tailscale
+
 - name: "Get Tailscale account list"
   ansible.builtin.command:
     cmd: tailscale switch --list
@@ -18,14 +25,20 @@
   loop_control:
     loop_var: account
     label: "{{ account.name }}"
-  changed_when: true
+  register: result
+  async: 120
+  poll: 5
+  changed_when: result.rc == 0
+  failed_when:
+    - result.rc != 0
+    - "'profile name \"home\" already in use' not in result.stderr"
   when: account.name not in account_list.stdout
 
 - name: "Switch to active Tailscale account"
-  ansible.builtin.command:
-    cmd: "tailscale switch {{ tailscale_account }}"
+  ansible.builtin.command: "bash -lc 'tailscale switch {{ tailscale_account }}'"
   register: result
   changed_when: "'Already on account' not in result.stdout"
+  when: "tailscale_account + '*' not in account_list.stdout"
 
 - name: "Check Tailscale status"
   ansible.builtin.command:
@@ -35,9 +48,12 @@
     - status.rc != 0
     - "status.stdout != 'Tailscale is stopped.'"
   register: status
+  async: 120
+  poll: 5
 
 - name: "Bring Tailscale up"
-  ansible.builtin.command:
-    cmd: tailscale up
-  changed_when: "status.stdout == 'Tailscale is stopped.'"
-  tags: ["role::tailscale:up"]
+  ansible.builtin.command: "bash -lc 'tailscale up'"
+  async: 120
+  poll: 5
+  changed_when: true
+  when: "status.stdout == 'Tailscale is stopped.'"

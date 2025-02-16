@@ -1,15 +1,5 @@
 ---
-pki_base_packages: ["ca-certificates"]
-pki_packages: []
-pki_all_packages: "{{ pki_base_packages + pki_packages }}"
+pki_packages: ["ca-certificates"]
 
 pki_ca_certificates_dir: /usr/local/share/ca-certificates
-
 pki_ca_certificates: []
-pki_group_ca_certificates: []
-pki_host_ca_certificates: []
-
-pki_all_ca_certificates: >-
-  {{ pki_ca_certificates
-  + pki_group_ca_certificates
-  + pki_host_ca_certificates }}

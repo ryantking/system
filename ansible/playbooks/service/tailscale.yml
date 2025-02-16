@@ -4,8 +4,6 @@
   become: true
   gather_facts: false
 
-  # NOTE: This doesn't work yet since tailscale up breaks SSH
-
   roles:
     - role: tailscale
       tags: ["role::tailscale", "skip::tailscale"]
