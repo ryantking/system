@@ -1,8 +1,4 @@
 ---
 keyd_enabled: false
-
-keyd_ppa: keyd-team/ppa
-
-keyd_base_packages: ["keyd", "keyd-application-mapper"]
-keyd_packages: []
-keyd_all_packages: "{{ keyd_base_packages + keyd_packages }}"
+keyd_ppa: "ppa:keyd-team/ppa"
+keyd_packages: ["keyd", "keyd-application-mapper"]

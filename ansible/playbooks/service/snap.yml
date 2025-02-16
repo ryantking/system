@@ -1,0 +1,9 @@
+---
+- name: "Manage Snap packages"
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - role: snap
+      tags: ["role::snap", "skip::snap"]

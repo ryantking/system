@@ -1,21 +1,21 @@
 ---
 browser: "brave"
 
-apt_group_packages:
+apt_packages:
   - evolution
   - gir1.2-ayatanaappindicator3-0.1
   - gnome-shell-extension-appindicator
   - libayatana-appindicator3-1
   - rhythmbox
 
-nixpkgs_group_profiles:
+nix_packages:
   - "alegreya"
   - "julia-mono"
   - "overpass"
   - "protonvpn-gui"
   - "slack --impure"
 
-snap_group_packages:
+snap_packages:
   - name: alacritty
     classic: true
   - name: "{{ browser }}"

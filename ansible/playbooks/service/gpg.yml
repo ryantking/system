@@ -1,0 +1,7 @@
+---
+- name: Manage GPG keys
+  hosts: all
+
+  roles:
+    - role: gpg
+      tags: ["role::gpg", "skip::gpg"]

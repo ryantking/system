@@ -1,0 +1,7 @@
+---
+- name: "Manage SSH configuration and keys"
+  hosts: all
+
+  roles:
+    - role: ssh
+      tags: ["role::ssh", "skip::ssh"]

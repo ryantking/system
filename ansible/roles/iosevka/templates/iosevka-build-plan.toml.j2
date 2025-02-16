@@ -1,0 +1,42 @@
+{% for build_plan in iosevka_build_plans %}
+[buildPlans.{{ build_plan.name }}]
+family = "{{ build_plan.family | d(build_plan.name) }}"
+spacing = "{{ build_plan.spacing | d('normal') }}"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+noLigation = {{ build_plan.noLigation | d("false") }}
+
+  [buildPlans.{{ build_plan.name }}.variants]
+  inherits = "{{ build_plan.variant | d(iosevka_default_variant) }}"
+
+{% for weight in build_plan.weights | d(iosevka_default_weights) %}
+[buildPlans.{{ build_plan.name }}.weights.{{ weight.name }}]
+shape = {{ weight.weight }}
+menu = {{ weight.weight }}
+css = {{ weight.weight }}
+
+{% endfor %}
+[buildPlans.{{ build_plan.name }}.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+{% if build_plan.slope | d(iosevka_default_slope) == 'italic' %}
+[buildPlans.{{ build_plan.name }}.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+{% else %}
+[buildPlans.{{ build_plan.name }}.slopes.Oblique]
+angle = 9.4
+shape = "oblique"
+menu = "oblique"
+css = "oblique"
+{% endif %}
+{% if loop.index < iosevka_build_plans | length - 1 %}
+
+{% endif %}
+{% endfor %}

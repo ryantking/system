@@ -1,17 +1,17 @@
 ---
-- name: "Add PPA repository"
+- name: "Add keyd PPA repository"
   ansible.builtin.apt_repository:
-    repo: "ppa:{{ keyd_ppa }}"
-    filename: "keyd"
+    repo: "{{ keyd_ppa }}"
+    filename: "keyd-team"
     state: present
   when: keyd_enabled
 
-- name: "Install packages"
+- name: "Install keyd packages"
   ansible.builtin.apt:
-    name: "{{ keyd_all_packages }}"
+    name: "{{ keyd_packages }}"
   when: keyd_enabled
 
-- name: "Manage configuration"
+- name: "Manage keyd default configuration"
   ansible.builtin.copy:
     dest: /etc/keyd/default.conf
     content: "{{ keyd_config }}"

@@ -1,0 +1,7 @@
+---
+- name: "Manage Emacs installation"
+  hosts: all
+
+  roles:
+    - role: emacs
+      tags: ["role::emacs", "skip::emacs"]

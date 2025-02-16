@@ -1,0 +1,9 @@
+---
+- name: Import the user playbook
+  ansible.builtin.import_playbook: ../service/user.yml
+
+- name: Import the PKI playbook
+  ansible.builtin.import_playbook: ../service/pki.yml
+
+- name: Import the keyd playbook
+  ansible.builtin.import_playbook: ../service/keyd.yml

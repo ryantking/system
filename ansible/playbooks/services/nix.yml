@@ -1,7 +1,0 @@
----
-- name: "Install the Nix package manager"
-  hosts: all
-
-  roles:
-    - role: nix
-      tags: ["nix"]

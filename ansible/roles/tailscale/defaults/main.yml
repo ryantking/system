@@ -10,11 +10,4 @@ tailscale_default_accounts:
     auth_key: "{{ tailscale_auth_key }}"
 
 tailscale_accounts: []
-tailscale_group_accounts: []
-tailscale_host_accounts: []
-
-tailscale_all_accounts: >-
-  {{ tailscale_default_accounts
-  + tailscale_accounts
-  + tailscale_group_accounts
-  + tailscale_host_accounts }}
+tailscale_all_accounts: "{{ tailscale_default_accounts + tailscale_accounts }}"

@@ -1,0 +1,7 @@
+---
+- name: "Install and mange the fish shell"
+  hosts: all
+
+  roles:
+    - role: fish
+      tags: ["fish"]

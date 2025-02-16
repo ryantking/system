@@ -1,0 +1,7 @@
+---
+- name: "Manage git workspaces"
+  hosts: all
+
+  roles:
+    - role: git
+      tags: ["role::git", "skip::git"]

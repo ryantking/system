@@ -1,0 +1,7 @@
+---
+- name: "Manage Iosevka fonts"
+  hosts: desktop
+
+  roles:
+    - role: iosevka
+      tags: ["role::iosevka", "skip::iosevka"]

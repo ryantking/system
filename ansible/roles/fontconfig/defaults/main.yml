@@ -1,0 +1,9 @@
+---
+fontconfig_config_dir: "{{ ansible_user_dir }}/.config/fontconfig/conf.d"
+fontconfig_cache_dir: "{{ ansible_user_dir }}/.cache/fontconfig"
+
+fontconfig_configs: []
+fontconfig_dependent_configs: []
+
+fontconfig_all_configs: >-
+  {{ (fontconfig_configs + fontconfig_dependent_configs) | flatten }}

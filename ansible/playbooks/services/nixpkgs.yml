@@ -1,7 +1,0 @@
----
-- name: "Manage Nix packages"
-  hosts: all
-
-  roles:
-    - role: nixpkgs
-      tags: ["nixpkgs"]

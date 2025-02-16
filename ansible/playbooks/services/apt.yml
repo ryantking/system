@@ -1,8 +1,0 @@
----
-- name: "Manage APT packages"
-  hosts: all
-  become: true
-
-  roles:
-    - role: apt
-      tags: ["apt"]

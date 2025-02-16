@@ -1,0 +1,7 @@
+---
+- name: "Configure fontconfig"
+  hosts: desktop
+
+  roles:
+    - role: fontconfig
+      tags: ["role::fontconfig", "skip::fontconfig"]

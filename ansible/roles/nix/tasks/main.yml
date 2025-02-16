@@ -23,4 +23,36 @@
   loop_control:
     loop_var: opt
     label: "{{ opt.key }}"
-  tags: ["nix:configure"]
+
+- name: "Ensure nixpkgs config directory exists"
+  ansible.builtin.file:
+    path: "{{ nix_nixpkgs_dir }}"
+    mode: "0755"
+    state: directory
+
+- name: "Manage nixpkgs configuration"
+  ansible.builtin.copy:
+    dest: "{{ nix_nixpkgs_dir }}/config.nix"
+    content: "{{ nix_nixpkgs_config }}"
+    mode: "0644"
+
+- name: "Manage nixpkgs channel"
+  ansible.builtin.command: >-
+    bash -l -c 'nix-channel --add {{ nix_nixpkgs_channel }}'
+  register: result
+  changed_when: result.stdout_lines | length > 1
+
+- name: "Update nixpkgs channels"
+  ansible.builtin.command: >-
+    bash -l -c "nix-channel --update"
+  changed_when: true
+
+- name: "Install Nix packages"
+  ansible.builtin.command: >-
+    bash -l -c 'nix profile install nixpkgs#{{ pkg }}'
+  loop: "{{ nix_all_packages }}"
+  loop_control:
+    loop_var: pkg
+  register: result
+  changed_when: "'is already installed' not in result.stderr"
+  tags: ["role::nix:packages"]

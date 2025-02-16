@@ -1,13 +1,11 @@
 ---
 ssh_packages: ["sshpass"]
 
-ssh_dir: "{{ ansible_user_dir | d(ansible_env.HOME) }}/.ssh"
-ssh_user: "{{ ansible_user | d(ansible_env.USER) }}"
+ssh_dir: "{{ ansible_user_dir }}/.ssh"
+ssh_user: "{{ ansible_user_id }}"
+ssh_group: "{{ ansible_user_id }}"
 ssh_default_identity: id_ed25519
 
 ssh_keys: []
 ssh_group_keys: []
-ssh_host_keys: []
-
-ssh_all_keys: >-
-  {{ ssh_keys + ssh_group_keys + ssh_host_keys }}
+ssh_all_keys: "{{ ssh_keys + ssh_group_keys }}"

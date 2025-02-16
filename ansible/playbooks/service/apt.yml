@@ -1,0 +1,8 @@
+---
+- name: "Manage Apt package manager"
+  hosts: all
+  become: true
+
+  roles:
+    - role: apt
+      tags: ["role::apt", "skip::apt"]

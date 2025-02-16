@@ -1,0 +1,16 @@
+---
+- name: "Manage PKI packages"
+  ansible.builtin.package:
+    name: "{{ pki_all_packages }}"
+    state: present
+
+- name: "Manage system CA certificates"
+  ansible.builtin.copy:
+    dest: "{{ pki_ca_certificates_dir }}/{{ ca.name }}"
+    content: "{{ ca.chain }}"
+    mode: "0644"
+  loop: "{{ pki_all_ca_certificates }}"
+  loop_control:
+    loop_var: ca
+    label: "{{ ca.name }}"
+  notify: update ca certificates

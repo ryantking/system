@@ -1,0 +1,40 @@
+---
+iosevka_packages: ["npm", "ttfautohint"]
+
+iosevka_repo_url: "https://github.com/be5invis/Iosevka.git"
+iosevka_version: "main"
+iosevka_src_dir: "{{ ansible_user_dir }}/.local/src/iosevka"
+
+iosevka_default_variant: ss08
+iosevka_default_slope: italic
+
+iosevka_default_weights:
+  - name: Light
+    weight: 300
+  - name: Regular
+    weight: 400
+  - name: Medium
+    weight: 500
+  - name: Bold
+    weight: 700
+  - name: Heavy
+    weight: 900
+
+iosevka_build_plans:
+  - name: Iosevka
+
+  - name: IosevkaTerm
+    family: Iosevka Term
+    spacing: term
+    slope: oblique
+    noLigation: "true"
+
+    weights:
+      - name: Regular
+        weight: 400
+      - name: Bold
+        weight: 700
+
+  - name: IosevkaMono
+    family: Iosevka Mono
+    spacing: fontconfig-mono

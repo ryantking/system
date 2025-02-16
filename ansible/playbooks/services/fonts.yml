@@ -1,7 +1,0 @@
----
-- name: "Manage fonts"
-  hosts: desktop
-
-  roles:
-    - role: fonts
-      tags: ["fonts"]

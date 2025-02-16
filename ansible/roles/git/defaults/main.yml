@@ -1,4 +1,6 @@
 ---
+git_packages: ["git", "git-crypt"]
+
 git_workspace_dir: "{{ ansible_env.HOME }}/Workspaces"
 
 git_default_workspaces:

@@ -1,7 +1,0 @@
----
-- name: "Manage Doom Emacs"
-  hosts: all
-
-  roles:
-    - role: emacs
-      tags: ["emacs"]

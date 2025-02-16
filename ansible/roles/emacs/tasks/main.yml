@@ -1,16 +1,27 @@
 ---
+- name: "Install the Emacs snap"
+  become: true
+  community.general.snap:
+    name: "emacs"
+    classic: true
+    state: present
+
 - name: "Clone Doom emacs"
   ansible.builtin.git:
-    repo: "https://github.com/doomemacs/doomemacs"
-    dest: "{{ emacs_dir }}"
-    version: "master"
+    repo: "{{ emacs_doom_repo_url }}"
+    dest: "{{ emacs_doom_install_dir }}"
+    version: "{{ emacs_doom_repo_version }}"
   notify: install doom
+  when: emacs_doom_enabled
 
-- name: "Install Doom"
+- name: "Install Doom if cloned"
   ansible.builtin.meta: flush_handlers
+  when: emacs_doom_enabled
 
 - name: "Sync Doom configuration"
   ansible.builtin.shell:
-    cmd: "{{ emacs_dir }}/bin/doom sync"
+    cmd: "{{ emacs_doom_install_dir }}/bin/doom sync"
     executable: "/bin/bash"
   changed_when: true
+  when: emacs_doom_enabled
+  tags: ["role::emacs:doom-sync"]

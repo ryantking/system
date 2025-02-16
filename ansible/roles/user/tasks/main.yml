@@ -4,7 +4,6 @@
     path: "/etc/shells"
     line: "{{ user_shell }}"
     state: present
-  tags: ["user:shell"]
 
 - name: "Create user groups"
   ansible.builtin.group:
@@ -13,7 +12,6 @@
   loop: "{{ user_groups }}"
   loop_control:
     loop_var: group
-  tags: ["user:groups"]
 
 - name: "Create user account"
   ansible.builtin.user:
@@ -22,14 +20,54 @@
     append: true
     shell: "{{ user_shell }}"
     state: present
-  tags: ["user:account"]
 
 - name: "Configure passwordless sudo"
   ansible.builtin.lineinfile:
     path: "/etc/sudoers.d/{{ user_name }}"
-    line: '{{ user_name }} ALL=(ALL) NOPASSWD: ALL'
-    validate: 'visudo -cf %s'
+    line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
     create: true
-    mode: '0440'
+    mode: "0440"
     state: present
-  tags: ["user:sudo"]
+
+- name: "Clone the dotfiles repository"
+  ansible.builtin.git:
+    repo: "{{ user_dotfiles_repo }}"
+    dest: "{{ user_dotfiles_path }}"
+    version: "{{ user_dotfiles_version }}"
+
+- name: "Link dotfiles"
+  become: "{{ link.owner | d(user_name) == 'root' }}"
+  ansible.builtin.file:
+    src: "{{ user_dotfiles_path }}/{{ link.src }}"
+    dest: "{{ link.dest | d(user_home ~ '/.' + link.src) }}"
+    force: true
+    mode: "{{ link.mode | d('0755') }}"
+    state: link
+  loop: "{{ user_dotfiles_links }}"
+  loop_control:
+    loop_var: link
+    label: "{{ link.src }}"
+  tags: ["role::user:dotfiles", "skip::user:dotfiles"]
+
+- name: "Ensure download directory exists"
+  ansible.builtin.file:
+    path: "{{ file.path | dirname }}"
+    mode: "0755"
+    state: directory
+  loop: "{{ user_download_urls }}"
+  loop_control:
+    loop_var: file
+    label: "{{ file.url }}"
+  tags: ["role::user:urls"]
+
+- name: "Download files"
+  ansible.builtin.get_url:
+    url: "{{ file.url }}"
+    dest: "{{ file.path }}"
+    mode: "0755"
+  loop: "{{ user_download_urls }}"
+  loop_control:
+    loop_var: file
+    label: "{{ file.url }}"
+  tags: ["role::user:urls"]

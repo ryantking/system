@@ -8,8 +8,8 @@
   ansible.builtin.file:
     path: "{{ ssh_dir }}"
     owner: "{{ ssh_user }}"
-    group: "{{ ssh_user }}"
-    mode: '0700'
+    group: "{{ ssh_group }}"
+    mode: "0700"
     state: directory
 
 - name: "Manage client configuration"
@@ -17,11 +17,11 @@
     src: "templates/ssh_config.j2"
     dest: "{{ ssh_dir }}/config"
     owner: "{{ ssh_user }}"
-    group: "{{ ssh_user }}"
-    mode: '0600'
+    group: "{{ ssh_group }}"
+    mode: "0600"
     lstrip_blocks: true
     trim_blocks: true
-  tags: ["ssh:config"]
+  tags: ["role::ssh:config"]
 
 - name: "Configure authorized keys"
   ansible.posix.authorized_key:
@@ -32,28 +32,25 @@
   loop_control:
     loop_var: sshkey
   when: sshkey.authorized | d()
-  tags: ["ssh:authorized-keys"]
 
 - name: "Copy public keys from controller"
   ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/{{ sshkey.name }}.pub"
     dest: "{{ ssh_dir }}/{{ sshkey.name }}.pub"
     owner: "{{ ssh_user }}"
-    group: "{{ ssh_user }}"
-    mode: '0600'
+    group: "{{ ssh_group }}"
+    mode: "0600"
   loop: "{{ ssh_all_keys }}"
   loop_control:
     loop_var: sshkey
-  tags: ["ssh:transfer"]
 
 - name: "Copy private keys from controller"
   ansible.builtin.copy:
     src: "{{ lookup('env', 'HOME') }}/.ssh/{{ sshkey.name }}"
     dest: "{{ ssh_dir }}/{{ sshkey.name }}"
     owner: "{{ ssh_user }}"
-    group: "{{ ssh_user }}"
-    mode: '0600'
+    group: "{{ ssh_group }}"
+    mode: "0600"
   loop: "{{ ssh_all_keys }}"
   loop_control:
     loop_var: sshkey
-  tags: ["ssh:transfer"]

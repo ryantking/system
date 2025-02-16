@@ -1,18 +1,14 @@
 ---
 snap_default_packages:
   - name: docker
-  - name: emacs
-    classic: true
   - name: helix
     classic: true
   - name: syncthing-gael
 
 snap_packages: []
-snap_group_packages: []
-snap_host_packages: []
+snap_dependent_packages: []
 
 snap_all_packages: >-
   {{ snap_default_packages
   + snap_packages
-  + snap_group_packages
-  + snap_host_packages }}
+  + snap_dependent_packages }}

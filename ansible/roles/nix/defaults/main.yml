@@ -1,4 +1,75 @@
 ---
 nix_settings:
   experimental-features: nix-command flakes
-  trusted-users: "root {{ ansible_user | d(ansible_env.USER) }}"
+  trusted-users: "root {{ ansible_user_id }}"
+
+nix_nixpkgs_dir: "{{ ansible_user_dir }}/.config/nixpkgs"
+nix_nixpkgs_channel: "https://nixos.org/channels/nixpkgs-unstable unstable"
+
+nix_nixpkgs_config: |
+  {
+    allowUnfree = true;
+  }
+
+nix_default_packages:
+  - "ansible-language-server"
+  - "bash-env-json"
+  - "bat"
+  - "bat-extras.batdiff"
+  - "bat-extras.batgrep"
+  - "bat-extras.batman"
+  - "bat-extras.batpipe"
+  - "bat-extras.batwatch"
+  - "carapace"
+  - "delta"
+  - "devenv"
+  - "dprint"
+  - "eza"
+  - "fd"
+  - "fluxcd"
+  - "gitu"
+  - "go"
+  - "isort"
+  - "k9s"
+  - "kubectl"
+  - "lsp-ai"
+  - "marksman"
+  - "markdown-oxide"
+  - "moar"
+  - "nixfmt-rfc-style"
+  - "nushell"
+  - "nufmt"
+  - "python312Packages.jedi-language-server"
+  - "python312Packages.python-lsp-server"
+  - "python312Packages.python-lsp-ruff"
+  - "python312Packages.pylsp-mypy"
+  - "python312Packages.pylsp-rope"
+  - "rustup"
+  - "ruff"
+  - "starship"
+  - "taplo"
+  - "tealdeer"
+  - "terraform --impure"
+  - "uv"
+  - "vagrant --impure"
+  - "vale"
+  - "vale-ls"
+  - "yaml-language-server"
+  - "yamllint"
+  - "yazi"
+  - "zellij"
+  - "zoxide"
+
+nix_packages: []
+nix_dependent_packages: []
+
+nix_all_packages: >-
+  {{ (nix_default_packages
+  + nix_packages
+  + nix_dependent_packages) | flatten }}
+
+nix_fontconfig_dependent_configs:
+  - path: "10-nix.conf"
+    content: |-
+      <dir>~/.nix-profile/share/fonts/</dir>
+      <cachedir>~/.cache/fontconfig</cachedir>

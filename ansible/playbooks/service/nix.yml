@@ -1,0 +1,12 @@
+---
+- name: "Manage the Nix package manage"
+  hosts: all
+
+  roles:
+    - role: fontconfig
+      fontconfig_dependent_configs:
+        - "{{ nix_fontconfig_dependent_configs }}"
+      tags: ["role::fontconfig", "skip::fontconfig"]
+
+    - role: nix
+      tags: ["role::nix", "skip::nix"]

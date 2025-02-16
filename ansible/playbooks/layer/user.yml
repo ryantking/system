@@ -1,0 +1,21 @@
+---
+- name: "Import the GnuPG playbook"
+  ansible.builtin.import_playbook: ../service/gpg.yml
+
+- name: "Import the OpenSSH playbook"
+  ansible.builtin.import_playbook: ../service/ssh.yml
+
+- name: "Import the git playbook"
+  ansible.builtin.import_playbook: ../service/git.yml
+
+- name: "Import the Password Store playbook"
+  ansible.builtin.import_playbook: ../service/pass.yml
+
+- name: "Import the fontconfig playbook"
+  ansible.builtin.import_playbook: ../service/fontconfig.yml
+
+- name: "Import the Iosevka font playbook"
+  ansible.builtin.import_playbook: ../service/iosevka.yml
+
+- name: "Import the emacs playbook"
+  ansible.builtin.import_playbook: ../service/emacs.yml

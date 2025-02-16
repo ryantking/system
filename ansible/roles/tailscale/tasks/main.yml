@@ -40,4 +40,4 @@
   ansible.builtin.command:
     cmd: tailscale up
   changed_when: "status.stdout == 'Tailscale is stopped.'"
-  tags: ["tailscale:up"]
+  tags: ["role::tailscale:up"]

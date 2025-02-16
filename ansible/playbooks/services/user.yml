@@ -1,9 +1,0 @@
----
-- name: "Manage user account"
-  hosts: desktop
-  become: true
-  gather_facts: false
-
-  roles:
-    - role: user
-      tags: ["user"]

@@ -1,0 +1,25 @@
+---
+- name: "Ensure fontconfig directories exist"
+  ansible.builtin.file:
+    path: "{{ dir }}"
+    mode: "0755"
+    state: directory
+  loop: ["{{ fontconfig_config_dir }}", "{{ fontconfig_cache_dir }}"]
+  loop_control:
+    loop_var: dir
+
+- name: "Manage fontconfig"
+  ansible.builtin.copy:
+    dest: "{{ fontconfig_config_dir }}/{{ config.path }}"
+    content: |
+      <?xml version='1.0'?>
+      <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+      <fontconfig>
+        {{ config.content | indent(2) }}
+      </fontconfig>
+    mode: "0644"
+  loop: "{{ fontconfig_all_configs }}"
+  loop_control:
+    loop_var: config
+    label: config.name
+  notify: update font cache

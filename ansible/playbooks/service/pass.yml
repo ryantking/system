@@ -1,0 +1,7 @@
+---
+- name: "Manage Unix password store"
+  hosts: all
+
+  roles:
+    - role: pass
+      tags: ["role::pass", "skip:pass"]

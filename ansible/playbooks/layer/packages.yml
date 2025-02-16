@@ -1,0 +1,15 @@
+---
+- name: "Import Apt playbook"
+  ansible.builtin.import_playbook: ../service/apt.yml
+
+- name: "Import Nix playbook"
+  ansible.builtin.import_playbook: ../service/nix.yml
+
+- name: "Import Snap playbook"
+  ansible.builtin.import_playbook: ../service/snap.yml
+
+- name: "Import Zoom playbook"
+  ansible.builtin.import_playbook: ../service/zoom.yml
+
+- name: "Import AppImageLauncher playbook"
+  ansible.builtin.import_playbook: ../service/appimagelauncher.yml

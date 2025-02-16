@@ -1,15 +1,13 @@
 ---
-- name: "Install GPG packages"
+- name: "Install GnuPG packages"
   ansible.builtin.package:
     name: "{{ gpg_packages }}"
     state: present
 
-- name: "Manage gnupg home directory"
+- name: "Manage GnuPG directory"
   ansible.builtin.file:
     path: "{{ gpg_home }}"
-    owner: "{{ gpg_user }}"
-    group: "{{ gpg_user }}"
-    mode: '0700'
+    mode: "0700"
     state: directory
 
 - name: "Capture private key from controller"
@@ -21,7 +19,6 @@
     loop_var: gpg_key
   register: private_keys
   changed_when: false
-  tags: ["gpg:transfer"]
 
 - name: "Capture owner trust database"
   delegate_to: localhost
@@ -29,7 +26,6 @@
     cmd: "gpg --export-ownertrust"
   register: owner_trust
   changed_when: false
-  tags: ["gpg:transfer"]
 
 - name: "Import private key"
   ansible.builtin.shell:
@@ -43,7 +39,6 @@
     label: "{{ private_key.gpg_key }}"
   register: result
   changed_when: "'imported: 1' in result.stderr"
-  tags: ["gpg:transfer"]
 
 - name: "Import owner trust database"
   ansible.builtin.shell:
@@ -52,4 +47,3 @@
       echo '{{ owner_trust.stdout }}' | gpg --import-ownertrust
   register: result
   changed_when: result.stderr_lines | length > 0
-  tags: ["gpg:transfer"]

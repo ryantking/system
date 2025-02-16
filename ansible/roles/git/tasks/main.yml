@@ -1,4 +1,9 @@
 ---
+- name: "Manage Git packages"
+  ansible.builtin.package:
+    name: "{{ git_packages }}"
+    state: present
+
 - name: "Create workspace directories"
   ansible.builtin.file:
     path: "{{ git_workspace_dir }}/{{ workspace.name }}"
@@ -11,7 +16,6 @@
   when:
     - not workspace.repo | d()
     - not workspace.transfer | d(false)
-  tags: ["git:dirs"]
 
 - name: "Clone workspace repositories"
   ansible.builtin.git:
@@ -25,7 +29,7 @@
     loop_var: workspace
     label: "{{ workspace.name }}"
   when: workspace.repo | d()
-  tags: ["git:clone"]
+  tags: ["role::git:sync"]
 
 - name: "Clone repositories"
   vars:
@@ -40,7 +44,7 @@
   loop_control:
     loop_var: workspace
     label: "{{ workspace.1.url }}"
-  tags: ["git:clone"]
+  tags: ["role::git:sync"]
 
 - name: "Transfer repositories"
   ansible.builtin.copy:
@@ -52,7 +56,7 @@
     loop_var: workspace
     label: "{{ workspace.name }}"
   when: workspace.transfer | d(false)
-  tags: ["git:transfer"]
+  tags: ["never"]
 
 - name: "Create workspace git configs"
   ansible.builtin.template:
@@ -66,7 +70,6 @@
     loop_var: workspace
     label: "{{ workspace.name }}"
   when: workspace.config | d()
-  tags: ["git:config"]
 
 - name: "Create git config to load workspace configs"
   ansible.builtin.template:
@@ -75,4 +78,3 @@
     lstrip_blocks: true
     trim_blocks: true
     mode: "0644"
-  tags: ["git:config"]

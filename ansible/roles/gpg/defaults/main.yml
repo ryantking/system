@@ -1,12 +1,8 @@
 ---
 gpg_packages: ["gnupg2"]
 
-gpg_user: "{{ ansible_user | d(ansible_env.USER) }}"
-gpg_home: "{{ ansible_user_dir | d(ansible_env.HOME) }}/.gnupg"
+gpg_home: "{{ ansible_user_dir }}/.gnupg"
 
 gpg_keys: []
 gpg_group_keys: []
-gpg_host_keys: []
-
-gpg_all_keys: >-
-  {{ gpg_keys + gpg_group_keys + gpg_host_keys }}
+gpg_all_keys: "{{ gpg_keys + gpg_group_keys }}"

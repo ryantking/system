@@ -1,0 +1,8 @@
+---
+- name: Install keyd keyboard daemon
+  hosts: desktop
+  become: true
+
+  roles:
+    - role: keyd
+      tags: ["role::keyd", "skip::keyd"]

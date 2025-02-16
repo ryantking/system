@@ -23,3 +23,12 @@ config/git/*
 !config/git/aliases
 !config/git/delta
 !config/git/ignore
+
+# gnupg state
+config/gnupg/*
+!config/gnupg/gpg.conf
+!config/gnupg/gpg-agent.conf
+
+# kubernetes state
+config/kube/*
+!config/kube/config

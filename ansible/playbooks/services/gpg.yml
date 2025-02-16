@@ -1,7 +1,0 @@
----
-- name: Manage GPG keys
-  hosts: all
-
-  roles:
-    - role: gpg
-      tags: ["gpg"]

@@ -1,2 +1,8 @@
 ---
 emacs_dir: "{{ ansible_user_dir }}/.config/emacs"
+
+emacs_doom_enabled: true
+emacs_doom_repo_url: "https://github.com/doomemacs/doomemacs"
+emacs_doom_repo_version: master
+emacs_doom_install_dir: "{{ emacs_dir }}"
+emacs_doom_bin: "{{ emacs_doom_install_dir }}/bin/doom"
