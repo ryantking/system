@@ -2,7 +2,7 @@
 ---
 user_name: ryan
 user_home: "{{ ansible_user_dir | d('/home/' ~ user_name) }}"
-user_shell: "{{ user_home }}/.nix-profile/bin/nu"
+user_shell: /usr/bin/fish
 
 user_groups:
   - name: docker
@@ -13,36 +13,29 @@ user_dotfiles_path: "{{ user_home }}/System"
 user_dotfiles_version: "master"
 
 user_dotfiles_links:
+  - src: config/alacritty
   - src: config/bashrc
     dest: "{{ user_home }}/.bashrc"
     mode: "0644"
-  - src: config/doom
-  - src: config/git
-  - src: config/k9s
-  - src: config/nushell
   - src: config/bat
-  - src: config/helix
-  - src: config/starship.toml
-    mode: "0644"
-  - src: config/zellij
-  - src: config/alacritty
-  - src: config/tealdeer
+  - src: config/doom
+  - src: config/fish
+  - src: config/git
   - src: config/gnupg
     dest: "{{ user_home }}/.gnupg"
     mode: "0700"
+  - src: config/helix
+  - src: config/k9s
   - src: config/kube
     dest: "{{ user_home }}/.kube"
     mode: "0700"
+  - src: config/nushell
+  - src: config/starship.toml
+    mode: "0644"
+  - src: config/tealdeer
+  - src: config/zellij
   - src: share/backgrounds
     dest: /usr/local/share/backgrounds
     owner: root
 
-user_download_urls:
-  - url: https://raw.githubusercontent.com/tesujimath/bash-env-nushell/refs/heads/main/bash-env.nu
-    path: "{{ user_home }}/.cache/nushell/bash-env.nu"
-
-  - url: https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/nu-hooks/nu-hooks/command_not_found/did_you_mean.nu
-    path: "{{ user_home }}/.cache/nushell/did_you_mean.nu"
-
-  - url: https://raw.githubusercontent.com/nushell/nu_scripts/refs/heads/main/nu-hooks/nu-hooks/direnv/config.nu
-    path: "{{ user_home }}/.cache/nushell/direnv.nu"
+user_download_urls: []

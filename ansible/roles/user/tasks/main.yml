@@ -39,6 +39,7 @@
     repo: "{{ user_dotfiles_repo }}"
     dest: "{{ user_dotfiles_path }}"
     version: "{{ user_dotfiles_version }}"
+  tags: ["role::user:dotfiles", "skip::user:dotfiles-clone"]
 
 - name: "Link dotfiles"
   become: "{{ link.owner is defined }}"
@@ -53,10 +54,10 @@
   loop_control:
     loop_var: link
     label: "{{ link.src }}"
-  tags: ["role::user:dotfiles", "skip::user:dotfiles"]
+  tags: ["role::user:dotfiles"]
 
 - name: "Ensure download directory exists"
-  become: true
+  become: "{{ file.owner is defined }}"
   become_user: "{{ file.owner | d(user_name) }}"
   ansible.builtin.file:
     path: "{{ file.path | dirname }}"
@@ -69,6 +70,7 @@
   tags: ["role::user:urls"]
 
 - name: "Download files"
+  become: "{{ file.owner is defined }}"
   become_user: "{{ file.owner | d(user_name) }}"
   ansible.builtin.get_url:
     url: "{{ file.url }}"
