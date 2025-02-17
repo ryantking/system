@@ -3,6 +3,9 @@ conf.d/*
 !conf.d/profile.fish
 !conf.d/aliases.fish
 !conf.d/theme.fish
+!conf.d/hydro.fish
 completions/*
 functions/*
+!functions/fish_prompt.fish
+!functions/fish_mode_prompt.fish
 !functions/zellij-attach.fish
