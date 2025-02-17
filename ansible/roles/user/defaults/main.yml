@@ -33,6 +33,7 @@ user_dotfiles_links:
   - src: config/starship.toml
     mode: "0644"
   - src: config/tealdeer
+  - src: config/television
   - src: config/zellij
   - src: share/backgrounds
     dest: /usr/local/share/backgrounds

@@ -50,6 +50,7 @@ nix_default_packages:
   - "starship"
   - "taplo"
   - "tealdeer"
+  - "television"
   - "terraform --impure"
   - "uv"
   - "vagrant --impure"

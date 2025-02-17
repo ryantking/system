@@ -1,4 +1,3 @@
-# -*- mode: sh -*-
 # shellcheck disable=SC1091,SC2059,SC2155
 
 case $- in
