@@ -1,4 +1,7 @@
 fish_variables
 conf.d/*
+!conf.d/profile.fish
+!conf.d/aliases.fish
+!conf.d/theme.fish
 completions/*
 functions/*
