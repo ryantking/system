@@ -1,4 +1,13 @@
 [[language]]
+name = "kdl"
+formatter = { command = "kdlfmt", args = ["format", "-"] }
+
+[[language]]
+name = "lua"
+formatter = { command = "stylua", args = ["-"] }
+auto-format = true
+
+[[language]]
 name = "markdown"
 language-servers = ["marksman", "markdown-oxide", "vale-ls"]
 auto-format = true

@@ -9,12 +9,19 @@
 {
   packages = [
     pkgs.git
+    pkgs.editorconfig-checker
     pkgs.ruff
     pkgs.pylyzer
     pkgs.isort
-    pkgs.editorconfig-checker
+    pkgs.dprint
     pkgs.nixfmt-rfc-style
+    pkgs.lsp-ai
     pkgs.ansible-language-server
+    pkgs.fish-lsp
+    pkgs.lua-language-server
+    pkgs.marksman
+    pkgs.markdown-oxide
+    pkgs.stylua
   ];
 
   languages = {

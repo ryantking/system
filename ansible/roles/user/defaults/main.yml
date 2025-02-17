@@ -34,6 +34,7 @@ user_dotfiles_links:
     mode: "0644"
   - src: config/tealdeer
   - src: config/television
+  - src: config/yazi
   - src: config/zellij
   - src: share/backgrounds
     dest: /usr/local/share/backgrounds
