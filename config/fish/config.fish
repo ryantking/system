@@ -1,6 +1,10 @@
 # config.fish: User configuration for the fish shell
 
 if status is-interactive
+    if not set -q ZELLIJ
+        zellij-attach
+        kill $fish_pid
+    end
 
     if not functions -q fisher
         curl -sL https://git.io/fisher | source

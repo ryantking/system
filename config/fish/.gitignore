@@ -5,3 +5,4 @@ conf.d/*
 !conf.d/theme.fish
 completions/*
 functions/*
+!functions/zellij-attach.fish

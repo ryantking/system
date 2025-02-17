@@ -24,3 +24,6 @@ indent_size = unset
 
 [ansible/**.yml]
 indent_size = unset
+
+[*.kdl]
+indent_size = unset
