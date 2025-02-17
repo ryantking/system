@@ -56,9 +56,9 @@ function _hydro_who
         set --local short_host (
             string split --fields 1 . $hostname
         )
-        set --global _hydro_who "$USER@$short_host "
+        set --global _hydro_who "$USER@$short_host:"
     else if test "$hydro_always_show_user" = true
-        set --global _hydro_who "$USER "
+        set --global _hydro_who "$USER:"
     else
         set --global _hydro_who ""
     end

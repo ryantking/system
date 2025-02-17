@@ -10,7 +10,8 @@ if not set -qU _fish_theme_configured
     set -U hydro_color_pwd blue
     set -U hydro_color_git 6C6F93
     set -U hydro_color_duration yellow
-    set -U hydro_multiline true
+    set -U hydro_color_who green
+    set -U hydro_multiline blue
 
     set -U _fish_theme_configured
 end
