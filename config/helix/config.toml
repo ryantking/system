@@ -2,6 +2,7 @@ theme = "horizon-dark"
 
 [editor]
 line-number = "relative"
+true-color = true
 
 [editor.cursor-shape]
 insert = "bar"
