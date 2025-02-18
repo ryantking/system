@@ -7,6 +7,7 @@ abbr l ls -a
 abbr ll ls -al
 abbr k kubectl
 abbr yz yazi
+abbr za zellij-attach
 
 abbr a ansible
 abbr agal ansible-galaxy
