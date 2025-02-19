@@ -7,7 +7,6 @@ abbr l ls -a
 abbr ll ls -al
 abbr k kubectl
 abbr yz yazi
-abbr za zellij-attach
 
 abbr a ansible
 abbr agal ansible-galaxy
@@ -21,5 +20,8 @@ abbr tlscl sudo tailscale
 abbr tlu sudo tailscale up
 abbr tld sudo tailscale down
 abbr tls sudo tailscale switch
+
+abbr zl zellij
+abbr za zellij-attach
 
 # aliases.fish ends here
