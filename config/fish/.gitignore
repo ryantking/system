@@ -4,6 +4,7 @@ conf.d/*
 !conf.d/aliases.fish
 !conf.d/theme.fish
 !conf.d/hydro.fish
+!conf.d/secrets.fish
 completions/*
 functions/*
 !functions/fish_prompt.fish
