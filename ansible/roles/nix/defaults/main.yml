@@ -33,7 +33,9 @@ nix_default_packages:
   - "isort"
   - "k9s"
   - "kdlfmt"
+  - "kind"
   - "kubectl"
+  - "kubectx"
   - "lsp-ai"
   - "lua-language-server"
   - "marksman"
@@ -59,10 +61,11 @@ nix_default_packages:
   - "vagrant --impure"
   - "vale"
   - "vale-ls"
+  - "wezterm"
   - "yaml-language-server"
   - "yamllint"
   - "yazi"
-  - "zellij"
+  # - "zellij"
   - "zoxide"
 
 nix_packages: []

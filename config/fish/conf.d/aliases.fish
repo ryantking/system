@@ -24,4 +24,7 @@ abbr tls sudo tailscale switch
 abbr zl zellij
 abbr za zellij-attach
 
+alias cat = bat
+alias tree = eza --tree --level=3 --ignore-glob='__pycache__/*|node_modules/*|ansible_collections/*'
+
 # aliases.fish ends here
