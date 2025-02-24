@@ -1,4 +1,4 @@
-theme = "horizon-dark"
+theme = "horizon-custom"
 
 [editor]
 line-number = "relative"

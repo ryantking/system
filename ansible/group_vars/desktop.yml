@@ -1,15 +1,41 @@
 ---
-browser: "brave"
+apt_repositories:
+  - name: wezterm
+    key_url: https://apt.fury.io/wez/gpg.key
+    key_file: wezterm-fury.gpg
+    key_dearmor: true
+    uris: ["https://apt.fury.io/wez/"]
+    suites: ["*"]
+    components: ["*"]
+
+  - name: brave-browser
+    key_url: >-
+      https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    key_file: brave-browser-archive-keyring.gpg
+    uris: ["https://brave-browser-apt-release.s3.brave.com/"]
+    suites: ["stable"]
+    components: ["main"]
+
+  - name: paul4us
+    key_url: >-
+      https://download.opensuse.org/repositories/home:paul4us/xUbuntu_24.10/Release.key
+    key_file: paul4us.gpg
+    uris:
+      - "http://download.opensuse.org/repositories/home:/paul4us/xUbuntu_24.10/"
+    suites: ["/"]
 
 apt_packages:
   - alacritty
+  - brave-browser
   - evolution
   - ffmpeg
   - gir1.2-ayatanaappindicator3-0.1
   - gnome-shell-extension-appindicator
   - imagemagick
+  - klassy
   - libayatana-appindicator3-1
   - rhythmbox
+  - wezterm
 
 apt_ppas:
   - name: aslatter/ppa
@@ -25,7 +51,6 @@ nix_packages:
 snap_packages:
   - name: alacritty
     classic: true
-  - name: "{{ browser }}"
   - name: discord
   - name: obsidian
     classic: true

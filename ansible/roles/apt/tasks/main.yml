@@ -1,4 +1,66 @@
 ---
+- name: "Ensure keyring directory exists"
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  tags: ["role::apt:repository"]
+
+- name: "Download repository keys"
+  ansible.builtin.get_url:
+    url: "{{ repo.key_url }}"
+    dest: >-
+      {{ repo.key_dearmor | d(false) | bool
+      | ternary('/tmp/' + repo.key_file,
+      '/etc/apt/keyrings/' + repo.key_file) }}
+    mode: "0644"
+  loop: "{{ apt_repositories }}"
+  loop_control:
+    loop_var: repo
+    label: "{{ repo.name }}"
+  tags: ["role::apt:repository"]
+
+- name: "Dearmor GPG keys when required"
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      tmp_file="/tmp/{{ repo.key_file }}"
+      dest_file="/etc/apt/keyrings/{{ repo.key_file }}"
+      if [ ! -f "$dest_file" ]; then
+        cat "$tmp_file" | gpg --dearmor --yes > "$dest_file"
+        echo "changed"
+      else
+        new_dearmored=$(gpg --dearmor --yes < "$tmp_file")
+        if ! diff <(echo "$new_dearmored") "$dest_file" >/dev/null 2>&1; then
+          cat "$tmp_file" | gpg --dearmor --yes > "$dest_file"
+          echo "changed"
+        fi
+      fi
+    executable: /bin/bash
+  register: dearmor_result
+  changed_when: "'changed' in dearmor_result.stdout"
+  loop: "{{ apt_repositories }}"
+  loop_control:
+    loop_var: repo
+    label: "{{ repo.name }}"
+  when: repo.dearmor | default(false) | bool
+  tags: ["role::apt:repository"]
+
+- name: "Configure deb822 repositories"
+  # noqa: args[module]
+  ansible.builtin.deb822_repository:
+    name: "{{ repo.name }}"
+    types: "{{ repo.types | d(['deb']) }}"
+    uris: "{{ repo.uris }}"
+    suites: "{{ repo.suites }}"
+    components: "{{ repo.components | d(omit) }}"
+    signed_by: "/etc/apt/keyrings/{{ repo.key_file }}"
+  loop: "{{ apt_repositories }}"
+  loop_control:
+    loop_var: repo
+    label: "{{ repo.name }}"
+  tags: ["role::apt:repository"]
+
 - name: "Manage PPA repositories"
   tags: ["role::apt:ppa"]
 

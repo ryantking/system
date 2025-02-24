@@ -1,0 +1,8 @@
+inherits = 'horizon-dark'
+
+"ui.background.fg" = "light-gray"
+"ui.gutter" = "light-gray"
+"ui.gutter.selected" = "white"
+
+[palette]
+bg = "#232530"

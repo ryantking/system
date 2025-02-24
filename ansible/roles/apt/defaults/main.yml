@@ -21,6 +21,8 @@ apt_default_packages:
 apt_packages: []
 apt_all_packages: "{{ apt_default_packages + apt_packages }}"
 
+apt_repositories: []
+
 apt_default_ppas: ["fish-shell/beta-4"]
 
 apt_ppas: []

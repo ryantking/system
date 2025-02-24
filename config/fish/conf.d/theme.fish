@@ -1,6 +1,7 @@
 # theme.fish: Customizations for fish visuals
 
 if not set -qU _fish_theme_configured
+    set -xU BASE16_SHELL_SET_BACKGROUND false
     base16-horizon-terminal-dark
 
     set -U fish_greeting
