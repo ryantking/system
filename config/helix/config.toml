@@ -12,6 +12,10 @@ select = "underline"
 [editor.file-picker]
 hidden = false
 
+[editor.soft-wrap]
+enable = true
+max-indent-retain = 0
+
 [keys.normal]
 C-left = "jump_view_left"
 C-down = "jump_view_down"

@@ -18,6 +18,7 @@
   loop_control:
     loop_var: repo
     label: "{{ repo.name }}"
+  when: repo.key_url | d()
   tags: ["role::apt:repository"]
 
 - name: "Dearmor GPG keys when required"
@@ -43,7 +44,7 @@
   loop_control:
     loop_var: repo
     label: "{{ repo.name }}"
-  when: repo.dearmor | default(false) | bool
+  when: repo.key_dearmor | d(false) | bool
   tags: ["role::apt:repository"]
 
 - name: "Configure deb822 repositories"
@@ -54,7 +55,10 @@
     uris: "{{ repo.uris }}"
     suites: "{{ repo.suites }}"
     components: "{{ repo.components | d(omit) }}"
-    signed_by: "/etc/apt/keyrings/{{ repo.key_file }}"
+    trusted: "{{ repo.trusted | d(omit) }}"
+    signed_by: >-
+      {{ repo.key_file | d()
+      | ternary("/etc/apt/keyrings/" + repo.key_file, omit) }}
   loop: "{{ apt_repositories }}"
   loop_control:
     loop_var: repo

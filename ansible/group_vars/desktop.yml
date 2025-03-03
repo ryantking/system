@@ -17,11 +17,10 @@ apt_repositories:
     components: ["main"]
 
   - name: paul4us
-    key_url: >-
-      https://download.opensuse.org/repositories/home:paul4us/xUbuntu_24.10/Release.key
     key_file: paul4us.gpg
     uris:
       - "http://download.opensuse.org/repositories/home:/paul4us/xUbuntu_24.10/"
+    trusted: true
     suites: ["/"]
 
 apt_packages:
