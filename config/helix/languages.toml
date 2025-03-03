@@ -1,6 +1,23 @@
 [language-server.pylsp.config.pylsp]
+plugins.black.enabled = false
+plugins.isort.enabled = true
+plugins.pyflakes.enabled = true
+plugins.pylint.enabled = true
+plugins.pylsp_mypy.enabled = false
+plugins.pylsp_mypy.live_mode = false
+plugins.pylsp_mypy.dmypy = false
 plugins.ruff.enabled = true
-plugins.black.enabled = true
+plugins.ruff.formatEnabled = true
+plugins.ruff.preview = true
+
+[language-server.pylyzer]
+command = "pylyzer"
+args = ["--server"]
+
+[language-server.ruff]
+command = "ruff"
+args = ["server", "-q", "--preview"]
+environment = { "RUFF_TRACE" = "messages" }
 
 [[language]]
 name = "kdl"
@@ -17,6 +34,12 @@ language-servers = ["marksman", "markdown-oxide", "vale-ls"]
 auto-format = true
 formatter = { command = "dprint", args = ["fmt", "--stdin", "md"] }
 rulers = [120]
+
+[[language]]
+name = "python"
+auto-format = true
+language-servers = ["pylsp", "ruff", "basedpyright"]
+formatter = { command = "bash", args = ["-c", "ruff check - --fix -n | ruff format -"] }
 
 [[language]]
 name = "toml"
