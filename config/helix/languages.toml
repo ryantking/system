@@ -10,14 +10,15 @@ plugins.ruff.enabled = true
 plugins.ruff.formatEnabled = true
 plugins.ruff.preview = true
 
-[language-server.pylyzer]
-command = "pylyzer"
-args = ["--server"]
-
 [language-server.ruff]
 command = "ruff"
 args = ["server", "-q", "--preview"]
 environment = { "RUFF_TRACE" = "messages" }
+
+[[language]]
+name = "dockerfile"
+auto-format = true
+formatter = { command = "dprint", args = ["fmt", "--stdin", "dockerfile"] }
 
 [[language]]
 name = "kdl"
@@ -34,6 +35,11 @@ language-servers = ["marksman", "markdown-oxide", "vale-ls"]
 auto-format = true
 formatter = { command = "dprint", args = ["fmt", "--stdin", "md"] }
 rulers = [120]
+
+[[language]]
+name = "nix"
+formatter.command = "alejandra"
+auto-format = true
 
 [[language]]
 name = "python"
