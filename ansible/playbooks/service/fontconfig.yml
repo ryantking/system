@@ -1,6 +1,6 @@
 ---
 - name: "Configure fontconfig"
-  hosts: desktop
+  hosts: "desktop:&ubuntu"
 
   roles:
     - role: fontconfig

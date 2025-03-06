@@ -1,12 +1,9 @@
 # yamllint disable rule:line-length
 ---
 user_name: ryan
+user_groups: []
 user_home: "{{ ansible_user_dir | d('/home/' ~ user_name) }}"
 user_shell: /usr/bin/fish
-
-user_groups:
-  - name: docker
-    system: true
 
 user_dotfiles_repo: "git@github.com:ryantking/system.git"
 user_dotfiles_path: "{{ user_home }}/System"

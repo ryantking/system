@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name: "{{ gpg_packages }}"
     state: present
+  when: ansible_os_family == 'Linux'
 
 - name: "Manage GnuPG directory"
   ansible.builtin.file:
@@ -45,5 +46,6 @@
     cmd: |
       set -o pipefail
       echo '{{ owner_trust.stdout }}' | gpg --import-ownertrust
+    executable: "{{ gpg_shell }}"
   register: result
   changed_when: result.stderr_lines | length > 0

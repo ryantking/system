@@ -1,0 +1,8 @@
+---
+- name: "Manage Homebrew formulae"
+  hosts: macos
+  gather_facts: false
+
+  roles:
+    - role: brew
+      tags: ["role::brew", "skip::brew"]

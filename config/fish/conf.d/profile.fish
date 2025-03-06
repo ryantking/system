@@ -33,7 +33,7 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish' ]
     source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
 end
 
-if status is-interactive
+if status is-interactive; and type -q batman
     set -xg MANPAGER "env BATMAN_IS_BEING_MANPAGER=yes $(dirname (readlink (which batman)))/.batman-wrapped"
 end
 

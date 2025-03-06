@@ -1,8 +1,10 @@
 ---
 - name: "Install SSH packages"
+  become: true
   ansible.builtin.package:
     name: "{{ ssh_packages }}"
     state: present
+  when: ansible_system == 'Linux'
 
 - name: "Manage client directory"
   ansible.builtin.file:

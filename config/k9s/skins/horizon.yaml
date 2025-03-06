@@ -5,8 +5,8 @@
 
 # Styles...
 foreground: &foreground "#FDF0ED"
-background: &background "#232530"
-black: &black "#1C1E26"
+background: &background "#1C1E26"
+black: &black "#16161C"
 blue: &blue "#21BFC2"
 green: &green "#09F7A0"
 grey: &grey "#F9CBBE"

@@ -6,6 +6,7 @@
     - role: fontconfig
       fontconfig_dependent_configs:
         - "{{ nix_fontconfig_dependent_configs }}"
+      when: inventory_hostname in groups['ubuntu']
       tags: ["role::fontconfig", "skip::fontconfig"]
 
     - role: nix

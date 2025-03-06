@@ -1,6 +1,7 @@
 ---
 - name: "Manage user account"
   hosts: all
+  environment: "{{ os_environment | d({}) }}"
 
   roles:
     - role: user

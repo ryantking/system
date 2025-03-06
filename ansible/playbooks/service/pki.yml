@@ -1,6 +1,6 @@
 ---
 - name: "Manage Public Key Infrastructure"
-  hosts: all
+  hosts: ubuntu
   become: true
   gather_facts: false
 

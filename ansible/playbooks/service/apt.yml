@@ -1,6 +1,6 @@
 ---
 - name: "Manage Apt package manager"
-  hosts: all
+  hosts: ubuntu
   become: true
 
   roles:

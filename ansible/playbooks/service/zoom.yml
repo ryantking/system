@@ -1,6 +1,6 @@
 ---
 - name: "Install the latest Zoom version from the .deb"
-  hosts: desktop
+  hosts: "desktop:&ubuntu"
   become: true
   gather_facts: false
   tags: ["play::zoom", "skip::zoom"]

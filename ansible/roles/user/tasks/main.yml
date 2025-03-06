@@ -7,7 +7,6 @@
     state: present
 
 - name: "Create user groups"
-  become: true
   ansible.builtin.group:
     name: "{{ group.name }}"
     system: "{{ group.system | d(omit) }}"

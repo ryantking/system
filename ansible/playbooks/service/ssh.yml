@@ -1,6 +1,7 @@
 ---
 - name: "Manage SSH configuration and keys"
   hosts: all
+  environment: "{{ os_environment | d({}) }}"
 
   roles:
     - role: ssh

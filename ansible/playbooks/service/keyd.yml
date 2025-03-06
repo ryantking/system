@@ -1,6 +1,6 @@
 ---
 - name: Install keyd keyboard daemon
-  hosts: desktop
+  hosts: "desktop:&ubuntu"
   become: true
 
   roles:

@@ -1,0 +1,5 @@
+---
+- name: "Manage brew formulae"
+  community.general.homebrew:
+    name: "{{ brew_formulae }}"
+    update_homebrew: true

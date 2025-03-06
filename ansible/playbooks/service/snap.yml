@@ -1,6 +1,6 @@
 ---
 - name: "Manage Snap packages"
-  hosts: all
+  hosts: ubuntu
   become: true
   gather_facts: false
 

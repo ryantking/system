@@ -1,6 +1,7 @@
 ---
 - name: Manage GPG keys
   hosts: all
+  environment: "{{ os_environment | d({}) }}"
 
   roles:
     - role: gpg

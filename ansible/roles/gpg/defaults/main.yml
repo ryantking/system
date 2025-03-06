@@ -2,6 +2,7 @@
 gpg_packages: ["gnupg2"]
 
 gpg_home: "{{ ansible_user_dir }}/.gnupg"
+gpg_shell: /bin/bash
 
 gpg_keys: []
 gpg_group_keys: []

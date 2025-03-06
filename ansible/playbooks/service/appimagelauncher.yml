@@ -1,6 +1,6 @@
 ---
 - name: "Manage AppImageLauncher"
-  hosts: desktop
+  hosts: "desktop:&ubuntu"
   become: true
   gather_facts: false
   tags: ["play::appimagelauncher", "skip::appimagelauncher"]
