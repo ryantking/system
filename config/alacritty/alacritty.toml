@@ -5,10 +5,10 @@ dynamic_title = true
 decorations_theme_variant = "dark"
 
 [font]
-normal = { family = "Iosevka", style = "Regular" }
-bold = { family = "Iosevka", style = "Bold" }
-italic = { family = "Iosevka", style = "Italic" }
-bold_italic = { family = "Iosevka", style = "Bold Italic" }
+normal = { family = "Iosevka Mono", style = "Regular" }
+bold = { family = "Iosevka Mono", style = "Bold" }
+italic = { family = "Iosevka Mono", style = "Italic" }
+bold_italic = { family = "Iosevka Mono", style = "Bold Italic" }
 size = 12.0
 
 [colors.primary]

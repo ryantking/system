@@ -1,5 +1,6 @@
 # Ansible
 **/ansible.log
+ansible/collections/ansible_collections
 
 # Devenv
 .devenv*
