@@ -25,6 +25,13 @@ abbr zl zellij
 abbr za zellij-attach
 
 alias cat bat
+alias ccat /bin/cat
 alias tree "eza --tree --level=3 --ignore-glob='__pycache__/*|node_modules/*|ansible_collections/*'"
+
+if test "$TERM_PROGRAM" = WezTerm
+    abbr wssh "wezterm ssh"
+    abbr wcon "wezterm conect"
+    abbr wimgcat "wezterm imgcat"
+end
 
 # aliases.fish ends here

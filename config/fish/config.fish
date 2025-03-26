@@ -21,6 +21,10 @@ if status is-interactive
     if type -q tailscale
         tailscale completion fish | source
     end
+
+    if test "$TERM_PROGRAM" = WezTerm
+        wezterm shell-completion --shell fish | source
+    end
 end
 
 # config.fish ends here

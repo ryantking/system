@@ -32,6 +32,7 @@ user_dotfiles_links:
   - src: config/tealdeer
   - src: config/television
   - src: config/yazi
+  - src: config/wezterm
   - src: config/zellij
   - src: share/backgrounds
     dest: /usr/local/share/backgrounds
