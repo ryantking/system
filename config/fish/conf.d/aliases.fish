@@ -30,7 +30,7 @@ alias tree "eza --tree --level=3 --ignore-glob='__pycache__/*|node_modules/*|ans
 
 if test "$TERM_PROGRAM" = WezTerm
     abbr wssh "wezterm ssh"
-    abbr wcon "wezterm conect"
+    abbr wcon "wezterm connect"
     abbr wimgcat "wezterm imgcat"
 end
 
