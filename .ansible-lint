@@ -1,0 +1,25 @@
+---
+profile: safety
+offline: true
+
+exclude_paths:
+  - .direnv
+  - .devenv
+  - .git
+  - .github/
+  - .ruff_cache
+  - .yamllint
+  - .venv
+  - .vscode
+  - ansible/collections
+  - ansible/playbooks/util
+
+skip_list:
+  - "name[casing]"
+
+enable_list:
+  - args
+  - empty-string-compare
+  - no-log-password
+  - no-same-owner
+  - galaxy-version-incorrect

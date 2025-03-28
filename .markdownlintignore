@@ -1,0 +1,7 @@
+/.git
+/.devenv
+/.direnv
+/.ruff_cache
+/.venv
+/ansible/collections
+/ansible/roles/*.*

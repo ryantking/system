@@ -181,7 +181,7 @@ domains.apply_to_config(config, {
 wezterm.on("format-window-title", function(tab, _, tabs, _, _)
   local zoomed = ""
   if tab.active_pane.is_zoomed then
-    zoomed = " "
+    zoomed = "🔍 "
   end
 
   local index = ""

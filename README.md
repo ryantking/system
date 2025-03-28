@@ -12,14 +12,13 @@ To configure your host, you will need to sure that the OpenSSH server is install
 
 One final change to make is allowing your non-root admin user the abiliy to use sudo witout a password by editing `/etc/sudoers` or preferably making a new file in `/etc/sudoers.d/` to avoid touching default configs. Add the following line and replace `admin` with your admin username of choice. You can leave this step out if you prefer passing in your password to Ansible each time you need a role with root permissions.
 
-```
+```sudo
 %admin ALL=(ALL) NOPASSWD:ALL
 ```
 
 Once this is all done, you should be able to SSH into your host and execute a sudo command without being prompted for a password (unless you want passwords):
 
-
-```
+```sh
 ubuntu@controller:~$ ssh new-host
 ubuntu@server:~$ suod ls /
 ```
@@ -29,5 +28,4 @@ ubuntu@server:~$ suod ls /
 To bootstrap your host, you can run the following command:
 
 ```bash
-
 ```

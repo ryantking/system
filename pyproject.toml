@@ -5,5 +5,32 @@ description = "System management and configuration"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "ansible>=11.3.0",
+  "ansible>=11.3.0",
+]
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
+exclude = [
+  ".direnv",
+  ".devenv",
+  ".git",
+  ".ruff_cache",
+  ".venv",
+  ".vscode",
+  "ansible/collections",
+  "ansible/roles/*.*/**",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "C4", "PL", "RUF"]
+ignore = ["E501", "PLR2004"]
+exclude = [
+  ".direnv",
+  ".devenv",
+  ".git",
+  ".ruff_cache",
+  ".venv",
+  ".vscode",
+  "ansible/collections",
+  "ansible/roles/*.*/**",
 ]

@@ -41,7 +41,7 @@
     lint-markdown
   '';
 
-  scripts.lint-ansible.exec = "ansible-lint .";
+  scripts.lint-ansible.exec = "ansible-lint ansible/*";
 
   scripts.lint-python.exec = ''
     ruff check .

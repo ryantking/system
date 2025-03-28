@@ -6,46 +6,40 @@
   ansible.builtin.import_playbook: reboot.yml
 
 - name: Import the APT playbook
-  ansible.builtin.import_playbook: services/apt.yml
+  ansible.builtin.import_playbook: service/apt.yml
 
-- name: Import the CA playbook
-  ansible.builtin.import_playbook: services/ca.yml
+- name: Import the PKI playbook
+  ansible.builtin.import_playbook: service/pki.yml
 
 - name: Import the user playbook
-  ansible.builtin.import_playbook: services/user.yml
+  ansible.builtin.import_playbook: service/user.yml
 
 - name: Import the SSH playbook
-  ansible.builtin.import_playbook: services/ssh.yml
+  ansible.builtin.import_playbook: service/ssh.yml
 
 - name: Import the GPG playbook
-  ansible.builtin.import_playbook: services/gpg.yml
+  ansible.builtin.import_playbook: service/gpg.yml
 
 - name: Import the pass playbook
-  ansible.builtin.import_playbook: services/pass.yml
+  ansible.builtin.import_playbook: service/pass.yml
 
 - name: Import the git playbook
-  ansible.builtin.import_playbook: services/git.yml
+  ansible.builtin.import_playbook: service/git.yml
 
 - name: Import the snap playbook
-  ansible.builtin.import_playbook: services/snap.yml
+  ansible.builtin.import_playbook: service/snap.yml
 
 - name: Import the nix playbook
-  ansible.builtin.import_playbook: services/nix.yml
+  ansible.builtin.import_playbook: service/nix.yml
 
-- name: Import the nixpkgs playbook
-  ansible.builtin.import_playbook: services/nixpkgs.yml
-
-- name: Import the dotfiles playbook
-  ansible.builtin.import_playbook: services/dotfiles.yml
+- name: Import the Nix playbook
+  ansible.builtin.import_playbook: service/nix.yml
 
 - name: Import the emacs playbook
-  ansible.builtin.import_playbook: services/emacs.yml
+  ansible.builtin.import_playbook: service/emacs.yml
 
-- name: Import the fonts playbook
-  ansible.builtin.import_playbook: services/fonts.yml
+- name: Import the fontconfig playbook
+  ansible.builtin.import_playbook: service/fontconfig.yml
 
 - name: Import the keyd playbook
-  ansible.builtin.import_playbook: services/keyd.yml
-
-- name: Import the backgrounds playbook
-  ansible.builtin.import_playbook: services/backgrounds.yml
+  ansible.builtin.import_playbook: service/keyd.yml
