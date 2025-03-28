@@ -110,7 +110,7 @@ local keys = {
       resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, _)
         local type = string.match(id, "^([^/]+)") -- match before '/'
         id = string.match(id, "([^/]+)$") -- match after '/'
-        id = string.match(id, "(.+)%..+$") -- remove file extention
+        id = string.match(id, "(.+)%..+$") -- remove file extension
         local opts = {
           relative = true,
           restore_text = true,
@@ -136,7 +136,7 @@ local keys = {
       resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, _)
         local type = string.match(id, "^([^/]+)") -- match before '/'
         id = string.match(id, "([^/]+)$") -- match after '/'
-        id = string.match(id, "(.+)%..+$") -- remove file extention
+        id = string.match(id, "(.+)%..+$") -- remove file extension
         local opts = {
           relative = true,
           restore_text = true,

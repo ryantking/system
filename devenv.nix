@@ -39,18 +39,32 @@
     lint-ansible
     lint-python
     lint-markdown
+    lint-typos
   '';
 
-  scripts.lint-ansible.exec = "ansible-lint ansible/*";
+  scripts.lint-ansible.exec = ''
+    echo "Linting Ansible..."
+    ansible-lint ansible/*
+  '';
 
   scripts.lint-python.exec = ''
+    echo "Linting Python..."
     ruff check .
+    echo "Checking Python types..."
     basedpyright .
   '';
 
   scripts.lint-markdown.exec = "markdownlint .";
 
-  scripts.lint-yaml.exec = "yamllint .";
+  scripts.lint-typos.exec = ''
+    echo "Linting Typos..."
+    typos
+  '';
+
+  scripts.lint-yaml.exec = ''
+    echo "Linting YAML..."
+    yamllint .
+  '';
 
   git-hooks.hooks = {
     alejandra.enable = true;
@@ -132,6 +146,7 @@
 
     typos = {
       enable = true;
+      files = "\\.md$";
       stages = ["pre-push"];
     };
 

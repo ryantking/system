@@ -1,0 +1,17 @@
+[default]
+extend-ignore-identifiers-re = [
+  "AttributeID.*Supress.*",
+]
+extend-ignore-re = [
+  "(?Rm)^.*(#|//)\\s*spellchecker:disable-line$",
+  "(?s)(#|//)\\s*spellchecker:off.*?\\n\\s*(#|//)\\s*spellchecker:on",
+  "UPnP",
+]
+
+[default.extend-identifiers]
+AttributeIDSupressMenu = "AttributeIDSupressMenu"
+
+[default.extend-words]
+
+[files]
+extend-exclude = ["config/*", "bin/*", "ansible/*"]
