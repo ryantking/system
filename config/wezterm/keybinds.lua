@@ -15,14 +15,138 @@ local keys = {
     action = workspace_switcher.switch_to_prev_workspace(),
   },
   {
+    key = "a",
+    mods = "LEADER",
+    action = act.AttachDomain("unix"),
+  },
+  {
+    key = "d",
+    mods = "LEADER",
+    action = act.DetachDomain({ DomainName = "unix" }),
+  },
+  {
     key = "g",
     mods = "LEADER",
     action = wezterm.action_callback(function(window, pane)
       local current_tab_id = pane:tab():tab_id()
-      local cmd = "lazygit ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local cmd = "gitui ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
       local tab, tab_pane, _ = window:mux_window():spawn_tab({})
       tab_pane:send_text(cmd)
-      tab:set_title(wezterm.nerdfonts.dev_git .. " Lazygit")
+      tab:set_title(wezterm.nerdfonts.dev_git .. " Git")
+    end),
+  },
+  {
+    key = "y",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "yazi ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({})
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_folder .. " Yazi")
+    end),
+  },
+  {
+    key = "Y",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "sudo /root/.nix-profile/bin/yazi ; wezterm cli activate-tab --tab-id "
+        .. current_tab_id
+        .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = "/" })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_folder_cog .. " Yazi (System)")
+    end),
+  },
+  {
+    key = "h",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "btm ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.fa_dashboard .. " Bottom")
+    end),
+  },
+  {
+    key = "D",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "sudo /root/.nix-profile/bin/systemctl-tui; wezterm cli activate-tab --tab-id "
+        .. current_tab_id
+        .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_code_brackets .. " Systemd")
+    end),
+  },
+  {
+    key = "c",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "ducker; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_docker .. " Systemd")
+    end),
+  },
+  {
+    key = "o",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "hx ~/Documents/notes; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir .. "/Documents/notes" })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_notebook .. " Notes")
+    end),
+  },
+  {
+    key = "O",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "rucola ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir .. "/Documents/notes" })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.md_notebook .. " Notes")
+    end),
+  },
+  {
+    key = "m",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "spotify_player ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.fa_spotify .. " Spotify")
+    end),
+  },
+  {
+    key = "M",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "minesweep ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.fa_spotify .. " Spotify")
+    end),
+  },
+  {
+    key = "k",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      local current_tab_id = pane:tab():tab_id()
+      local cmd = "k9s ; wezterm cli activate-tab --tab-id " .. current_tab_id .. " ; exit\n"
+      local tab, tab_pane, _ = window:mux_window():spawn_tab({ cwd = wezterm.home_dir })
+      tab_pane:send_text(cmd)
+      tab:set_title(wezterm.nerdfonts.dev_kubernetes .. " Kubernetes")
     end),
   },
   {
@@ -47,11 +171,6 @@ local keys = {
     action = wezterm.action.TogglePaneZoomState,
   },
   {
-    key = "o",
-    mods = "LEADER",
-    action = wezterm.action.ActivateLastTab,
-  },
-  {
     key = "t",
     mods = "LEADER",
     action = act.SpawnTab("CurrentPaneDomain"),
@@ -74,12 +193,12 @@ local keys = {
     }),
   },
   {
-    key = "d",
+    key = "B",
     mods = "LEADER",
     action = wezterm.action_callback(function(window, pane)
       window:perform_action(
         act.SwitchToWorkspace({
-          name = "System",
+          name = "~/System",
           spawn = { cwd = wezterm.home_dir .. "/System" },
         }),
         pane
@@ -158,6 +277,21 @@ local keys = {
       end)
     end),
   },
+  {
+    key = "x",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+        resurrect.state_manager.delete_state(id)
+      end, {
+        title = "Delete State",
+        description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
+        fuzzy_description = "Search State to Delete: ",
+        is_fuzzy = true,
+      })
+    end),
+  },
+
   { key = "L", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
   { key = "UpArrow", mods = "SHIFT", action = act.ScrollToPrompt(-1) },
   { key = "DownArrow", mods = "SHIFT", action = act.ScrollToPrompt(1) },
@@ -185,21 +319,21 @@ local keys = {
   -- { key = "|", mods = "LEADER|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
   -- { key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 
-  { key = "UpArrow", mods = "ALT", action = act({ SpawnTab = "CurrentPaneDomain" }) },
-  { key = "DownArrow", mods = "ALT", action = act({ CloseCurrentTab = { confirm = true } }) },
-  { key = "LeftArrow", mods = "ALT", action = act({ ActivateTabRelative = -1 }) },
-  { key = "RightArrow", mods = "ALT", action = act({ ActivateTabRelative = 1 }) },
-  { key = "LeftArrow", mods = "ALT|SHIFT", action = act({ MoveTabRelative = -1 }) },
-  { key = "RightArrow", mods = "ALT|SHIFT", action = act({ MoveTabRelative = 1 }) },
-  { key = "1", mods = "ALT", action = act({ ActivateTab = 0 }) },
-  { key = "2", mods = "ALT", action = act({ ActivateTab = 1 }) },
-  { key = "3", mods = "ALT", action = act({ ActivateTab = 2 }) },
-  { key = "4", mods = "ALT", action = act({ ActivateTab = 3 }) },
-  { key = "5", mods = "ALT", action = act({ ActivateTab = 4 }) },
-  { key = "6", mods = "ALT", action = act({ ActivateTab = 5 }) },
-  { key = "7", mods = "ALT", action = act({ ActivateTab = 6 }) },
-  { key = "8", mods = "ALT", action = act({ ActivateTab = 7 }) },
-  { key = "9", mods = "ALT", action = act({ ActivateTab = 8 }) },
+  -- { key = "UpArrow", mods = "ALT", action = act({ SpawnTab = "CurrentPaneDomain" }) },
+  -- { key = "DownArrow", mods = "ALT", action = act({ CloseCurrentTab = { confirm = true } }) },
+  -- { key = "LeftArrow", mods = "ALT", action = act({ ActivateTabRelative = -1 }) },
+  -- { key = "RightArrow", mods = "ALT", action = act({ ActivateTabRelative = 1 }) },
+  -- { key = "LeftArrow", mods = "ALT|SHIFT", action = act({ MoveTabRelative = -1 }) },
+  -- { key = "RightArrow", mods = "ALT|SHIFT", action = act({ MoveTabRelative = 1 }) },
+  -- { key = "1", mods = "ALT", action = act({ ActivateTab = 0 }) },
+  -- { key = "2", mods = "ALT", action = act({ ActivateTab = 1 }) },
+  -- { key = "3", mods = "ALT", action = act({ ActivateTab = 2 }) },
+  -- { key = "4", mods = "ALT", action = act({ ActivateTab = 3 }) },
+  -- { key = "5", mods = "ALT", action = act({ ActivateTab = 4 }) },
+  -- { key = "6", mods = "ALT", action = act({ ActivateTab = 5 }) },
+  -- { key = "7", mods = "ALT", action = act({ ActivateTab = 6 }) },
+  -- { key = "8", mods = "ALT", action = act({ ActivateTab = 7 }) },
+  -- { key = "9", mods = "ALT", action = act({ ActivateTab = 8 }) },
 
   -- Copy/Paste
   -- {

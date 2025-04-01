@@ -9,14 +9,21 @@ apt_default_packages:
   - fonts-symbola
   - git
   - git-crypt
+  - glow
+  - gh
+  - gum
   - jq
   - net-tools
   - nmap
   - postgresql-client
+  - python3-click
+  - python3-sh
+  - tig
   - tuned
   - unzip
   - vim
   - wget
+  - yq
 
 apt_packages: []
 apt_all_packages: "{{ apt_default_packages + apt_packages }}"

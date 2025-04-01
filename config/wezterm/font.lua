@@ -5,7 +5,8 @@ local harfbuzz_features = { "calt", "liga", "dlig", "ss01", "ss02", "ss03", "ss0
 return {
   -- default font
   font = font({
-    family = "Monaspace Neon",
+    family = "Iosevka Mono",
+    -- family = "Monaspace Neon",
     -- family = "Monaspace Argon",
     -- family = "Monaspace Xenon",
     -- family = "Monaspace Radon",
@@ -19,7 +20,8 @@ return {
       intensity = "Normal",
       italic = false,
       font = font({
-        family = "Monaspace Neon",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Neon",
         weight = "Medium",
         harfbuzz_features = harfbuzz_features,
       }),
@@ -28,7 +30,8 @@ return {
       intensity = "Bold",
       italic = false,
       font = font({
-        family = "Monaspace Argon",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Argon",
         weight = "ExtraBold",
         harfbuzz_features = harfbuzz_features,
       }),
@@ -37,8 +40,9 @@ return {
       intensity = "Half",
       italic = false,
       font = font({
-        family = "Monaspace Krypton",
-        weight = "Book",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Krypton",
+        weight = "Thin",
         harfbuzz_features = harfbuzz_features,
       }),
     },
@@ -46,7 +50,8 @@ return {
       intensity = "Normal",
       italic = true,
       font = font({
-        family = "Monaspace Argon",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Argon",
         weight = "Regular",
         style = "Italic",
         harfbuzz_features = harfbuzz_features,
@@ -56,8 +61,10 @@ return {
       intensity = "Bold",
       italic = true,
       font = font({
-        family = "Monaspace Argon",
-        weight = "DemiBold",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Argon",
+        weight = "Bold",
+        -- weight = "DemiBold",
         style = "Italic",
         harfbuzz_features = harfbuzz_features,
       }),
@@ -66,7 +73,8 @@ return {
       intensity = "Half",
       italic = true,
       font = font({
-        family = "Monaspace Argon",
+        family = "Iosevka Mono",
+        -- family = "Monaspace Argon",
         weight = "Thin",
         style = "Italic",
         harfbuzz_features = harfbuzz_features,
@@ -74,7 +82,7 @@ return {
     },
   },
 
-  ui_font = font("Ubuntu Mono"),
+  ui_font = font("Iosevka"),
 
   ui_font_size = 14,
 }

@@ -1,0 +1,2 @@
+plugins/*
+!plugins/auto-layout.yazi

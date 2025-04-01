@@ -15,6 +15,7 @@ end
 local config = {
   default_workspace = "~",
   font = require("font").font,
+  -- font_antialias = "Subpixel",
   font_size = 16,
   font_rules = require("font").font_rules,
   warn_about_missing_glyphs = false,
@@ -40,6 +41,10 @@ local config = {
   -- front_end = "WebGpu",
   -- webgpu_power_preference = "HighPerformance",
 
+  unix_domains = {
+    { name = "unix" },
+  },
+
   ssh_domains = {
     {
       name = "trajan",
@@ -51,7 +56,7 @@ local config = {
 local colors = require("colors")
 merge_tables(config, colors)
 
-config.leader = { key = "Space", mods = "CTRL|SHIFT", timeout_milliseconds = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = require("keybinds")
 config.mouse_bindings = require("mousebinds")
 
@@ -192,7 +197,7 @@ wezterm.on("format-window-title", function(tab, _, tabs, _, _)
   return zoomed .. index .. tab.active_pane.title
 end)
 
-wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
+-- wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
 
 -- local options = require("options")
 -- local theme = require("theme")

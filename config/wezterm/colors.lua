@@ -2,10 +2,6 @@ local wezterm = require("wezterm")
 
 local theme = "Horizon Dark (Gogh)"
 
-local font = "Ubuntu"
-
-local font_size = 12
-
 local colors = wezterm.color.get_builtin_schemes()[theme]
 
 colors.tab_bar = {

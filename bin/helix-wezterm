@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+
+import json
+import subprocess
+import sys
+from functools import lru_cache
+from typing import Any
+
+import click
+
+
+def wezterm(*args) -> str:
+    try:
+        result = subprocess.run(
+            ["wezterm", "cli", *args], check=True, capture_output=True
+        )
+    except subprocess.CalledProcessError as e:
+        click.echo(message=f"Error running wezterm commaind: {e}")
+        raise
+
+    return result.stdout.decode().strip()
+
+
+def wezterm_type(pane_id: int, text: str) -> None:
+    wezterm("send-text", "--pane-id", str(pane_id), "--no-paste", text + "\r")
+
+
+@click.group()
+def cli() -> None:
+    pass
+
+
+@cli.command()
+@click.argument("pane_id")
+def reload(pane_id: int) -> None:
+    wezterm_type(pane_id, text=":reload")
+
+
+type Window = dict[str, Any]
+
+
+@lru_cache()
+def get_windows() -> list[Window]:
+    out = wezterm("list", "--format", "json")
+    return json.loads(out)
+
+
+def get_window(pane_id: int) -> Window:
+    windows = get_windows()
+    for window in windows:
+        if pane_id == window["pane_id"]:
+            return window
+
+    raise ValueError(f"Could not locate pane with ID {pane_id}")
+
+
+def get_floating_window(window: Window) -> Window | None:
+    tab_id: int = window["tab_id"]
+    windows = [
+        window
+        for window in get_windows()
+        if window.get("is_floating", False) and window["tab_id"] == tab_id
+    ]
+    if windows:
+        return sorted(windows, key=lambda window: window.get("pane_id", 0))[0]
+
+
+def spawn_floating_window(pane_id: int):
+    window = get_window(pane_id)
+    if window["is_zoomed"]:
+        wezterm("zoom-pane", "--unzoom")
+
+    floating_window = get_floating_window(window)
+    if not floating_window:
+        print("spawing")
+        wezterm("spawn", "--floating-pane")
+
+
+@cli.command()
+@click.argument("pane_id", type=int)
+@click.argument("buffer_name")
+@click.argument("cursor_line")
+def blame(pane_id: int, buffer_name: str, cursor_line: int):
+    spawn_floating_window(pane_id)
+
+    # tig blame $buffer_name +$cursor_line
+    # position floating
+    pass
+
+
+@cli.command()
+@click.argument("pane_id", type=int)
+def test(pane_id: int):
+    spawn_floating_window(pane_id)
+
+
+@cli.command()
+@click.argument("pane_id", type=int)
+@click.option("--command", default="open")
+@click.option("--mode", default="sidebar")
+def yazi(pane_id: int, command: str, mode: str):
+    wezterm(
+        "split-pane",
+        "--left",
+        "--percent",
+        "30",
+        "--",
+        "helix-yazi",
+        str(pane_id),
+        command,
+        mode,
+    )
+
+
+def main():
+    try:
+        cli(prog_name="helix-@ezterm")
+    except Exception as e:
+        click.echo(f"Error: {e}", err=True)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

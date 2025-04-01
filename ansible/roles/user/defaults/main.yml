@@ -10,6 +10,8 @@ user_dotfiles_path: "{{ user_home }}/System"
 user_dotfiles_version: "master"
 
 user_dotfiles_links:
+  - src: config/aider.conf.yml
+    dest: "{{ user_home }}/.aider.conf.yml"
   - src: config/alacritty
   - src: config/bashrc
     dest: "{{ user_home }}/.bashrc"
@@ -23,10 +25,8 @@ user_dotfiles_links:
     mode: "0700"
   - src: config/helix
   - src: config/k9s
-  - src: config/kube
-    dest: "{{ user_home }}/.kube"
-    mode: "0700"
   - src: config/nushell
+  - src: config/nvim
   - src: config/starship.toml
     mode: "0644"
   - src: config/tealdeer

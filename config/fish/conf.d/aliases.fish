@@ -28,6 +28,9 @@ alias cat bat
 alias ccat /bin/cat
 alias tree "eza --tree --level=3 --ignore-glob='__pycache__/*|node_modules/*|ansible_collections/*'"
 
+alias st "sudo /root/.nix-profile/bin/systemctl-tui"
+alias sst systemctl-tui
+
 if test "$TERM_PROGRAM" = WezTerm
     abbr wssh "wezterm ssh"
     abbr wcon "wezterm connect"

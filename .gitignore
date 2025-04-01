@@ -33,3 +33,4 @@ config/gnupg/*
 # kubernetes state
 config/kube/*
 !config/kube/config
+.aider*

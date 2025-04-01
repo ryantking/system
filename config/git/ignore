@@ -105,4 +105,7 @@ tags
 .history
 .ionide
 
+## lsp-ai chat files
+lsp-ai-chat.md
+
 # End of https://www.toptal.com/developers/gitignore/api/linux,visualstudiocode,emacs,vim

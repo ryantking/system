@@ -1,8 +1,13 @@
 theme = "horizon-dark"
 
 [editor]
+auto-save = true
+auto-format = true
+bufferline = "multiple"
+cursorline = true
+color-modes = true
+end-of-line-diagnostics = "hint"
 line-number = "relative"
-true-color = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -11,6 +16,19 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+
+[editor.gutters]
+layout = ["diagnostics", "line-numbers", "spacer", "diff"]
+
+[editor.indent-guides]
+render = true
+
+[editor.inline-diagnostics]
+cursor-line = "hint"
+other-lines = "disable"
+
+[editor.lsp]
+display-inlay-hints = true
 
 [editor.soft-wrap]
 enable = true
@@ -21,6 +39,10 @@ C-left = "jump_view_left"
 C-down = "jump_view_down"
 C-up = "jump_view_up"
 C-right = "jump_view_right"
+C-g = [":new", ":insert-output lazygit", ":buffer-close!", ":redraw"]
+tab = "move_parent_node_end"
+S-tab = "move_parent_node_start"
+"C-t" = ":open lsp-ai-chat.md"
 
 [keys.normal.space]
 ret = ":lsp-workspace-command"
@@ -36,3 +58,17 @@ n = "goto_line_start"
 i = "goto_line_end"
 k = "goto_next_buffer"
 u = "goto_implementation"
+
+[keys.normal.C-y]
+y = ":sh helix-wezterm yazi $WEZTERM_PANE > /dev/null"
+v = ":sh helix-wezterm yazi --command vsplit $WEZTERM_PANE > /dev/null"
+h = ":sh helix-wezterm yazi --command hsplit $WEZTERM_PANE > /dev/null"
+Y = ":sh helix-wezterm yazi --mode zoom $WEZTERM_PANE > /dev/null"
+V = ":sh helix-wezterm yazi --mode zoom --command vsplit $WEZTERM_PANE > /dev/null"
+H = ":sh helix-wezterm yazi --mode zoom --command hsplit $WEZTERM_PANE > /dev/null"
+
+[keys.select]
+l = [
+  "yank_to_clipboard",
+  ":sh helix-ai",
+]

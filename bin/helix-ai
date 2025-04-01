@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+buffer_name=$1
+cursor_line=$2
+session=$(basename "$PWD")_$(echo "$buffer_name" | tr "/" "_")
+command="wl-paste | aichat --code --session $session \$(gum input --placeholder 'prompt') && gum confirm 'Accept suggestion?' && aichat --session $session --info | yq '.messages | map(select(.role == \"assistant\")) | .[-1].content' | sed -i '${cursor_line}r /dev/stdin' $buffer_name && helix-reload $WEZTERM_PANE"
+
+pane_id=$(wezterm cli get-pane-direction "right")
+if [ -z "$pane_id" ]; then
+  pane_id=$(wezterm cli split-pane --right --percent 50)
+fi
+
+wezterm cli activate-pane --pane-id $pane_id
+echo "$command\r" | wezterm cli send-text --pane-id $pane_id --no-paste

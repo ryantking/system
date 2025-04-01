@@ -2,10 +2,14 @@
   packages = [
     pkgs.ansible-language-server
     pkgs.fish-lsp
+    pkgs.harper
     pkgs.lsp-ai
     pkgs.lua-language-server
     pkgs.marksman
     pkgs.markdown-oxide
+    pkgs.nixd
+    pkgs.nodePackages.vscode-json-languageserver
+    pkgs.typos-lsp
     pkgs.stylua
     (pkgs.python3.withPackages (ppkgs: [ppkgs.python-lsp-server]))
   ];
