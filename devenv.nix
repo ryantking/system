@@ -130,7 +130,7 @@
     markdownlint = {
       enable = true;
       pass_filenames = false;
-      stages = ["pre-push"];
+      stages = ["post-commit"];
     };
 
     pyright = {
@@ -139,25 +139,25 @@
       entry = "${pkgs.basedpyright}/bin/basedpyright";
       pass_filenames = false;
       after = ["ruff"];
-      stages = ["pre-push"];
+      stages = ["post-commit"];
     };
 
     ruff = {
       enable = true;
       pass_filenames = false;
-      stages = ["pre-push"];
+      stages = ["post-commit"];
     };
 
     typos = {
       enable = true;
       files = "\\.md$";
-      stages = ["pre-push"];
+      stages = ["post-commit"];
     };
 
     yamllint = {
       enable = true;
       files = ".";
-      stages = ["pre-push"];
+      stages = ["post-commit"];
     };
   };
 }
