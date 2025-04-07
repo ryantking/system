@@ -33,6 +33,15 @@
     ansible-galaxy install -r ansible/requirements.yml
   '';
 
+  scripts.sys-upgrade.exec = ''
+    cd $DEVENV_ROOT/ansible
+    if [ $# -gt 0 ]; then
+      ansible-playbook playbooks/upgrade.yml -l "$1"
+    else
+      ansible-playbook playbooks/upgrade.yml -l $(hostname) -c local
+    fi
+  '';
+
   scripts.format.exec = ''
     ruff check --fix --unsafe-fixes .
     dprint fmt
@@ -79,7 +88,7 @@
     ansible-lint = {
       enable = true;
       pass_filenames = false;
-      stages = ["pre-push"];
+      stages = ["post-commit"];
       after = ["yamllint"];
     };
 

@@ -19,6 +19,7 @@ if not set -qU _fish_profile_configured
     set -xU CARGO_HOME "$XDG_DATA_HOME/cargo"
     set -xU KREW_ROOT "$XDG_DATA_HOME/krew"
     set -xU DIRENV_LOG_FORMAT ""
+    set -xU DIRENV_WARN_TIMEOUT 600s
     set -U _fish_profile_configured
 end
 

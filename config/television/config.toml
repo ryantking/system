@@ -11,7 +11,7 @@ theme = "default"
 [previewers.file]
 theme = "ansi"
 
-[keybindings.Channel]
+[keybindings]
 quit = ["esc", "ctrl-c"]
 select_next_entry = ["down", "ctrl-n"]
 select_prev_entry = ["up", "ctrl-p"]
@@ -28,27 +28,27 @@ toggle_send_to_channel = "ctrl-s"
 toggle_help = "ctrl-h"
 toggle_preview = "ctrl-o"
 
-[keybindings.RemoteControl]
-quit = "esc"
-select_next_entry = ["down", "ctrl-n", "ctrl-j"]
-select_prev_entry = ["up", "ctrl-p", "ctrl-k"]
-select_next_page = "pagedown"
-select_prev_page = "pageup"
-select_entry = "enter"
-toggle_remote_control = "ctrl-r"
-toggle_help = "ctrl-g"
-toggle_preview = "ctrl-o"
+# [keybindings.RemoteControl]
+# quit = "esc"
+# select_next_entry = ["down", "ctrl-n", "ctrl-j"]
+# select_prev_entry = ["up", "ctrl-p", "ctrl-k"]
+# select_next_page = "pagedown"
+# select_prev_page = "pageup"
+# select_entry = "enter"
+# toggle_remote_control = "ctrl-r"
+# toggle_help = "ctrl-g"
+# toggle_preview = "ctrl-o"
 
-[keybindings.SendToChannel]
-quit = "esc"
-select_next_entry = ["down", "ctrl-n", "ctrl-j"]
-select_prev_entry = ["up", "ctrl-p", "ctrl-k"]
-select_next_page = "pagedown"
-select_prev_page = "pageup"
-select_entry = "enter"
-toggle_send_to_channel = "ctrl-s"
-toggle_help = "ctrl-g"
-toggle_preview = "ctrl-o"
+# [keybindings.SendToChannel]
+# quit = "esc"
+# select_next_entry = ["down", "ctrl-n", "ctrl-j"]
+# select_prev_entry = ["up", "ctrl-p", "ctrl-k"]
+# select_next_page = "pagedown"
+# select_prev_page = "pageup"
+# select_entry = "enter"
+# toggle_send_to_channel = "ctrl-s"
+# toggle_help = "ctrl-g"
+# toggle_preview = "ctrl-o"
 
 [shell_integration.channel_triggers]
 "alias" = ["alias", "unalias"]

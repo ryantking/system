@@ -56,7 +56,7 @@ local config = {
 local colors = require("colors")
 merge_tables(config, colors)
 
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
+config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = require("keybinds")
 config.mouse_bindings = require("mousebinds")
 
