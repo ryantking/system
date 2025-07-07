@@ -3,7 +3,7 @@
 if not set -qU _fish_profile_configured
     set -xU EDITOR hx
     set -xU VISUAL hx
-    set -xU BROWSER brave
+    set -xU BROWSER brave-browser
 
     set -xU XDG_CONFIG_HOME "$HOME/.config"
     set -xU XDG_DATA_HOME "$HOME/.local/share"

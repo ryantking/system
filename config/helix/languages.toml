@@ -246,7 +246,7 @@ auto-format = true
 
 [[language]]
 name = "python"
-language-servers = ["pylsp", "ruff", "basedpyright", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["pylsp", "ruff", "basedpyright", "scls", "lsp-ai"]
 formatter = { command = "bash", args = ["-c", "ruff check - --fix -n | dprint fmt --stdin py"] }
 auto-format = true
 

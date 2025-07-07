@@ -63,6 +63,7 @@ nix_default_packages:
   - nodePackages.vscode-json-languageserver
   - nushell
   - nufmt
+  - omnictl
   - ouch
   - presenterm
   - python312Packages.jedi-language-server
@@ -80,6 +81,7 @@ nix_default_packages:
   - spotify-player
   - stylua
   - systemctl-tui
+  - talosctl
   - taplo
   - tealdeer
   - television

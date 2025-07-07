@@ -25,6 +25,10 @@ if status is-interactive
     if test "$TERM_PROGRAM" = WezTerm
         wezterm shell-completion --shell fish | source
     end
+
+    if type -q omnictl
+        omnictl completion fish | source
+    end
 end
 
 # config.fish ends here

@@ -2,4 +2,4 @@ require("relative-motions"):setup({ show_numbers = "relative", show_motion = tru
 
 require("git"):setup()
 
-require("auto-layout")
+-- require("auto-layout")

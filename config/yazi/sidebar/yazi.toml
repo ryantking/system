@@ -3,9 +3,9 @@
 [manager]
 ratio = [0, 4, 0]
 
-[opener]
-edit = [
-  { run = 'nu ~/.config/yazi/open_file.nu "$1"', desc = "Open File in a new pane" },
-]
+# [opener]
+# edit = [
+#   { run = 'nu ~/.config/yazi/open_file.nu "$1"', desc = "Open File in a new pane" },
+# ]
 
 # yazi.toml ends here

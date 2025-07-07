@@ -6,7 +6,7 @@ auto-format = true
 bufferline = "multiple"
 cursorline = true
 color-modes = true
-end-of-line-diagnostics = "hint"
+end-of-line-diagnostics = "error"
 line-number = "relative"
 
 [editor.cursor-shape]

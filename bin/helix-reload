@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Convert this to a python click command
+hx_pane_id=$1
+echo -e ":reload\r" | wezterm cli send-text --pane-id $hx_pane_id --no-paste

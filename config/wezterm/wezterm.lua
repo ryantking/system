@@ -45,12 +45,7 @@ local config = {
     { name = "unix" },
   },
 
-  ssh_domains = {
-    {
-      name = "trajan",
-      remote_address = "trajan",
-    },
-  },
+  ssh_domains = {},
 }
 
 local colors = require("colors")
@@ -178,7 +173,7 @@ domains.apply_to_config(config, {
     exec_ignore = {
       ssh = true,
       docker = false,
-      kubernetes = false,
+      kubernetes = true,
     },
   },
 })
@@ -198,20 +193,6 @@ wezterm.on("format-window-title", function(tab, _, tabs, _, _)
 end)
 
 -- wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
-
--- local options = require("options")
--- local theme = require("theme")
--- local keys = require("keys")
--- local tabline = require("tabline")
--- local keytables = require("keytables")
--- local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
--- local config = wezterm.config_builder()
--- options.apply_to_config(config)
--- theme.apply_to_config(config)
--- keys.apply_to_config(config)
--- tabline.apply_to_config(config)
--- sessionizer.apply_to_config(config)
--- keytables.apply_to_config(config)
 
 -- sessionizer.config = {
 --   paths = {
