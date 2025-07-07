@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   packages = [
     pkgs.ansible-language-server
+    pkgs.git
+    pkgs.git-crypt
     pkgs.fish-lsp
     pkgs.harper
     pkgs.lsp-ai
