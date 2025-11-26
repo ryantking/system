@@ -1,0 +1,149 @@
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+on-focus-changed = ['move-mouse window-lazy-center']
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+accordion-padding = 30
+
+default-root-container-layout = 'accordion'
+
+default-root-container-orientation = 'auto'
+
+after-startup-command = [
+  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+]
+
+[key-mapping]
+preset = "qwerty"
+
+[gaps]
+inner.horizontal = 20
+inner.vertical = 20
+outer.left = 10
+outer.bottom = 10
+outer.top = 10
+outer.right = 10
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'secondary'
+8 = 'secondary'
+9 = 'secondary'
+
+# Workspace 7: Communication apps with h_accordion layout
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.tdesktop.Telegram'
+run = 'move-node-to-workspace 7'
+
+# Workspace 8: Media apps with h_accordion layout
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 8'
+
+# Workspace 9: Productivity apps with h_accordion layout
+[[on-window-detected]]
+if.app-id = 'me.proton.pass.electron'
+run = 'move-node-to-workspace 9'
+
+# Floating apps
+[[on-window-detected]]
+if.app-id = 'ai.perplexity.mac'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.electron.wispr-flow'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'move-node-to-workspace 9'
+
+[mode.main.binding]
+ctrl-alt-enter = 'exec-and-forget wezterm start --always-new-process'
+ctrl-alt-b = 'exec-and-forget open -na Comet'
+
+cmd-h = [] # Disable "hide application"
+cmd-alt-h = [] # Disable "hide others"
+
+ctrl-alt-left = 'focus --boundaries-action wrap-around-the-workspace left'
+ctrl-alt-down = 'focus --boundaries-action wrap-around-the-workspace down'
+ctrl-alt-up = 'focus --boundaries-action wrap-around-the-workspace up'
+ctrl-alt-right = 'focus --boundaries-action wrap-around-the-workspace right'
+
+ctrl-alt-shift-left = 'move left'
+ctrl-alt-shift-down = 'move down'
+ctrl-alt-shift-up = 'move up'
+ctrl-alt-shift-right = 'move right'
+
+ctrl-shift-left = 'join-with left'
+ctrl-shift-down = 'join-with down'
+ctrl-shift-up = 'join-with up'
+ctrl-shift-right = 'join-with right'
+
+ctrl-alt-shift-r = "flatten-workspace-tree"
+
+ctrl-alt-f = 'fullscreen'
+
+ctrl-alt-w = 'layout v_accordion' # 'layout stacking' in i3
+ctrl-alt-s = 'layout h_accordion' # 'layout tabbed' in i3
+ctrl-alt-t = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
+ctrl-alt-space = 'layout floating tiling' # 'floating toggle' in i3
+
+ctrl-alt-1 = 'workspace 1'
+ctrl-alt-2 = 'workspace 2'
+ctrl-alt-3 = 'workspace 3'
+ctrl-alt-4 = 'workspace 4'
+ctrl-alt-5 = 'workspace 5'
+ctrl-alt-6 = 'workspace 6'
+ctrl-alt-7 = 'workspace 7'
+ctrl-alt-8 = 'workspace 8'
+ctrl-alt-9 = 'workspace 9'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+ctrl-alt-shift-5 = 'move-node-to-workspace 5'
+ctrl-alt-shift-6 = 'move-node-to-workspace 6'
+ctrl-alt-shift-7 = 'move-node-to-workspace 7'
+ctrl-alt-shift-8 = 'move-node-to-workspace 8'
+ctrl-alt-shift-9 = 'move-node-to-workspace 9'
+
+ctrl-alt-tab = 'workspace-back-and-forth'
+ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+ctrl-alt-minus = 'resize smart -50'
+ctrl-alt-equal = 'resize smart +50'
+ctrl-alt-c = 'reload-config'
+ctrl-alt-r = 'mode resize'
+
+[mode.resize.binding]
+left = 'resize width -50'
+down = 'resize height +50'
+up = 'resize height -50'
+right = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'

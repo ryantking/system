@@ -13,6 +13,9 @@ feature_paths = true
 command = "harper-ls"
 args = ["--stdio"]
 
+[language-server.basedpyright]
+basedpyright.disableLanguageServices = true
+
 [language-server.harper-ls.config.harper-ls]
 userDictPath = "~/.config/harper-ls.spell"
 fileDictPath = ".haper-ls.spell"
@@ -25,123 +28,21 @@ ForceStable = false
 [language-server.harper-ls.config.harper-ls.markdown]
 IgnoreLinkTitle = false
 
-[language-server.lsp-ai]
-command = "lsp-ai"
-args = ["--use-seperate-log-file"]
+[language-server.kcl-lsp]
+command = "kcl-language-server"
 
-[language-server.lsp-ai.config.memory]
-file_store = {}
-
-[language-server.lsp-ai.config.models.groq-llama3-70b]
-type = "open_ai"
-chat_endpoint = "https://api.groq.com/openai/v1/chat/completions"
-model = "llama3-70b-8192"
-auth_token_env_var_name = "GROQ_API_KEY"
-
-[language-server.lsp-ai.config.models.claude-3-5-haiku]
-type = "anthropic"
-chat_endpoint = "https://api.anthropic.com/v1/messages"
-model = "claude-3-5-haiku-latest"
-auth_token_env_var_name = "ANTHROPIC_API_KEY"
-
-[language-server.lsp-ai.config.models.claude-3-7-sonnet]
-type = "anthropic"
-chat_endpoint = "https://api.anthropic.com/v1/messages"
-model = "claude-3-7-sonnet-latest"
-auth_token_env_var_name = "ANTHROPIC_API_KEY"
-
-[language-server.lsp-ai.config.models.pplx-sonar-pro]
-type = "open_ai"
-chat_endpoint = "https://api.perplexity.ai/chat/completions"
-model = "sonar-pro"
-auth_token_env_var_name = "PERPLEXITY_API_KEY"
-
-[[language-server.lsp-ai.config.chat]]
-trigger = "!C"
-action_display_name = "Chat"
-model = "claude-3-5-haiku"
-
-[language-server.lsp-ai.config.chat.parameters]
-max_context = 4096
-max_tokens = 1024
-system = "You are a code assistant chatbot. The user will ask you for assistance coding and you will do you best to answer succinctly and accurately"
-
-[[language-server.lsp-ai.config.chat]]
-trigger = "!CC"
-action_display_name = "Chat with context"
-model = "claude-3-5-haiku"
-
-[language-server.lsp-ai.config.chat.parameters]
-max_context = 4096
-max_tokens = 1024
-system = "You are a code assistant chatbot. The user will ask you for assistance coding and you will do you best to answer succinctly and accurately given the code context:\n\n{CONTEXT}"
-
-[[language-server.lsp-ai.config.chat]]
-trigger = "!R"
-action_display_name = "Research"
-model = "pplx-sonar-pro"
-
-[language-server.lsp-ai.config.chat.parameters]
-max_context = 4096
-max_tokens = 1024
-system = "You are a technical research chat bot. The user will ask you questions about programming and you will return a succint and accurate language. Take care to look at the versions of software and take the modern best practice into account when constructing an answer."
-
-[[language-server.lsp-ai.config.actions]]
-action_display_name = "Complete"
-model = "groq-llama3-70b"
-
-[language-server.lsp-ai.config.actions.parameters]
-max_context = 4096
-max_tokens = 4096
-system = "You are an AI coding assistant. Your task is to complete code snippets. The user's cursor position is marked by \"<CURSOR>\". Follow these steps:\n\n1. Analyze the code context and the cursor position.\n2. Provide your chain of thought reasoning, wrapped in <reasoning> tags. Include thoughts about the cursor position, what needs to be completed, and any necessary formatting.\n3. Determine the appropriate code to complete the current thought, including finishing partial words or lines.\n4. Replace \"<CURSOR>\" with the necessary code, ensuring proper formatting and line breaks.\n5. Wrap your code solution in <answer> tags.\n\nYour response should always include both the reasoning and the answer. Pay special attention to completing partial words or lines before adding new lines of code."
-messages = [
-  { role = "user", content = "{CODE}" },
-]
-
-[language-server.lsp-ai.config.actions.post_process]
-extractor = "(?s)<answer>(.*?)</answer>"
-
-[[language-server.lsp-ai.config.actions]]
-action_display_name = "Refactor"
-model = "claude-3-5-haiku"
-
-[language-server.lsp-ai.config.actions.parameters]
-max_context = 4096
-max_tokens = 4096
-system = "You are an AI coding assistant specializing in code refactoring. Your task is to analyze the given code snippet and provide a refactored version. Follow these steps:\n\n1. Analyze the code context and structure.\n2. Identify areas for improvement, such as code efficiency, readability, or adherence to best practices.\n3. Rewrite the entire code snippet with your refactoring applied.\n4. Wrap your refactored code solution in <answer> tags."
-messages = [
-  { role = "user", content = "{SELECTED_TEXT}" },
-]
-
-[language-server.lsp-ai.config.actions.post_process]
-extractor = "(?s)<answer>(.*?)</answer>"
-
-[[language-server.lsp-ai.config.actions]]
-action_display_name = "Advanced Refactor"
-model = "claude-3-7-sonnet"
-
-[language-server.lsp-ai.config.actions.parameters]
-max_context = 4096
-max_tokens = 4096
-system = "You are an AI coding assistant specializing in code refactoring. Your task is to analyze the given code snippet and provide a refactored version. Follow these steps:\n\n1. Analyze the code context and structure.\n2. Identify areas for improvement, such as code efficiency, readability, or adherence to best practices.\n3. Rewrite the entire code snippet with your refactoring applied.\n4. Wrap your refactored code solution in <answer> tags."
-messages = [
-  { role = "user", content = "{SELECTED_TEXT}" },
-]
-
-[language-server.lsp-ai.config.actions.post_process]
-extractor = "(?s)<answer>(.*?)</answer>"
+[language-server.tofu-ls]
+command = "tofu-ls"
+args = ["serve"]
 
 [language-server.pylsp.config.pylsp]
 plugins.black.enabled = false
 plugins.isort.enabled = false
+plugins.pycodestyle.enabled = false
 plugins.pyflakes.enabled = false
 plugins.pylint.enabled = false
 plugins.pylsp_mypy.enabled = false
-plugins.pylsp_mypy.live_mode = false
-plugins.pylsp_mypy.dmypy = false
-plugins.ruff.enabled = true
-plugins.ruff.formatEnabled = true
-plugins.ruff.preview = true
+plugins.ruff.enabled = false
 
 [language-server.rust-analyzer.config]
 checkOnSave = { command = "clippy", extraArgs = ["--", "-W", "clippy::pedantic"] }
@@ -153,6 +54,10 @@ command = "ruff"
 args = ["server", "-q", "--preview"]
 environment = { "RUFF_TRACE" = "messages" }
 
+[language-server.ty]
+command = "uvx"
+args = ["ty", "server"]
+
 [language-server.typos]
 command = "typos-lsp"
 environment = { "RUST_LOG" = "error" }
@@ -160,15 +65,15 @@ config.diagnosticSeverity = "Warning"
 
 [[language]]
 name = "bash"
-language-servers = ["bash-language-server", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["bash-language-server", "scls", "harper-ls"]
 
 [[language]]
 name = "fish"
-language-servers = ["fish-lsp", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["fish-lsp", "scls", "harper-ls"]
 
 [[language]]
 name = "dockerfile"
-language-servers = ["docker-langserver", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["docker-langserver", "scls", "harper-ls"]
 formatter = { command = "dprint", args = ["fmt", "--stdin", "dockerfile"] }
 auto-format = true
 
@@ -178,15 +83,18 @@ language-servers = ["scls", "harper-ls"]
 
 [[language]]
 name = "go"
-language-servers = ["gopls", "golangci-lint-lsp", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["gopls", "golangci-lint-lsp", "scls", "harper-ls"]
 
 [[language]]
 name = "gotmpl"
-language-servers = ["gopls", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["gopls", "scls", "harper-ls"]
 
 [[language]]
 name = "hcl"
-language-servers = ["terraform-ls", "scls", "harper-ls", "lsp-ai"]
+language-id = "opentofu"
+file-types = ["hcl", "tf", "tofu"]
+language-servers = ["tofu-ls", "scls", "harper-ls"]
+auto-format = true
 
 [[language]]
 name = "javascript"
@@ -212,11 +120,36 @@ language-servers = ["vscode-json-language-server", "scls", "harper-ls", "lsp-ai"
 formatter = { command = "dprint", args = ["fmt", "--stdin", "json5"] }
 auto-format = true
 
+[[grammar]]
+name = "just"
+source = { git = "https://github.com/poliorcetics/tree-sitter-just", rev = "8d03cfdd7ab89ff76d935827de1b93450fa0ec0a" }
+
 [[language]]
 name = "jsx"
 language-servers = ["typescript-language-server", "eslint", "scls", "harper-ls", "lsp-ai"]
 formatter = { command = "dprint", args = ["fmt", "--stdin", "javascript"] }
 auto-format = true
+
+[[language]]
+name = "just"
+scope = "source.just"
+file-types = ["just", { glob = "justfile" }, { glob = "Justfile" }, { glob = ".justfile" }, { glob = ".Justfile" }]
+injection-regex = "just"
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+
+[[grammar]]
+name = "kcl"
+source = { git = "https://github.com/kcl-lang/tree-sitter-kcl", rev = "b0b2eb38009e04035a6e266c7e11e541f3caab7c" }
+
+[[language]]
+name = "kcl"
+scope = "source.k"
+file-types = ["kcl", { glob = "*.k" }]
+roots = ["kcl.mod", "kcl.yaml"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "kcl", args = ["fmt", "-"] }
+language-servers = ["kcl-lsp"]
 
 [[language]]
 name = "kdl"
@@ -232,9 +165,8 @@ auto-format = true
 
 [[language]]
 name = "markdown"
-# language-servers = ["marksman", "markdown-oxide", "harper", "lsp-ai"]
-language-servers = ["lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "md"] }
+language-servers = ["marksman", "markdown-oxide", "harper"]
+formatter = { command = "mdformat", args = ["fmt", "--stdin", "md"] }
 auto-format = true
 rulers = [120]
 
@@ -246,13 +178,19 @@ auto-format = true
 
 [[language]]
 name = "python"
-language-servers = ["pylsp", "ruff", "basedpyright", "scls", "lsp-ai"]
-formatter = { command = "bash", args = ["-c", "ruff check - --fix -n | dprint fmt --stdin py"] }
+language-servers = ["pylsp", "ruff", "basedpyright", "scls"]
+formatter = { command = "bash", args = ["-c", "ruff check - --fix -n | ruff format -"] }
 auto-format = true
 
 [[language]]
 name = "rust"
 language-servers = ["rust-analyzer", "scls", "harper-ls", "lsp-ai"]
+auto-format = true
+
+[[language]]
+name = "tfvars"
+language-id = "opentofu-vars"
+language-servers = ["tofu-ls", "scls", "harper-ls"]
 auto-format = true
 
 [[language]]

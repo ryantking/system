@@ -35,14 +35,14 @@ enable = true
 max-indent-retain = 0
 
 [keys.normal]
-C-left = "jump_view_left"
-C-down = "jump_view_down"
-C-up = "jump_view_up"
-C-right = "jump_view_right"
-C-g = [":new", ":insert-output lazygit", ":buffer-close!", ":redraw"]
+# C-left = "jump_view_left"
+# C-down = "jump_view_down"
+# C-up = "jump_view_up"
+# C-right = "jump_view_right"
 tab = "move_parent_node_end"
 S-tab = "move_parent_node_start"
-"C-t" = ":open lsp-ai-chat.md"
+"A-pagedown" = "goto_next_buffer"
+"A-pageup" = "goto_previous_buffer"
 
 [keys.normal.space]
 ret = ":lsp-workspace-command"
@@ -60,12 +60,21 @@ k = "goto_next_buffer"
 u = "goto_implementation"
 
 [keys.normal.C-y]
-y = ":sh helix-wezterm yazi $WEZTERM_PANE > /dev/null"
-v = ":sh helix-wezterm yazi --command vsplit $WEZTERM_PANE > /dev/null"
-h = ":sh helix-wezterm yazi --command hsplit $WEZTERM_PANE > /dev/null"
-Y = ":sh helix-wezterm yazi --mode zoom $WEZTERM_PANE > /dev/null"
-V = ":sh helix-wezterm yazi --mode zoom --command vsplit $WEZTERM_PANE > /dev/null"
-H = ":sh helix-wezterm yazi --mode zoom --command hsplit $WEZTERM_PANE > /dev/null"
+y = [
+  ':sh rm -f /tmp/yazi-path',
+  ':insert-output yazi %{buffer_name} --chooser-file=/tmp/yazi-path',
+  ":open %sh{cat /tmp/yazi-path}",
+  ":redraw",
+  ":reload-all",
+  ":set mouse false",
+  ":set mouse true",
+]
+# y = ":sh helix-wezterm yazi $WEZTERM_PANE > /dev/null"
+# v = ":sh helix-wezterm yazi --command vsplit $WEZTERM_PANE > /dev/null"
+# h = ":sh helix-wezterm yazi --command hsplit $WEZTERM_PANE > /dev/null"
+# Y = ":sh helix-wezterm yazi --mode zoom $WEZTERM_PANE > /dev/null"
+# V = ":sh helix-wezterm yazi --mode zoom --command vsplit $WEZTERM_PANE > /dev/null"
+# H = ":sh helix-wezterm yazi --mode zoom --command hsplit $WEZTERM_PANE > /dev/null"
 
 [keys.select]
 l = [

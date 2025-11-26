@@ -33,13 +33,16 @@ M.icons = {
   ["go"] = wezterm.nerdfonts.seti_go,
   ["lua"] = wezterm.nerdfonts.seti_lua,
   ["make"] = wezterm.nerdfonts.seti_makefile,
-  ["just"] = wezterm.nerdfonts.seti_makefile,
-  ["node"] = wezterm.nerdfonts.mdi_hexagon,
+  ["just"] = wezterm.nerdfonts.md_lightning_bolt,
+  ["python"] = wezterm.nerdfonts.dev_python,
+  ["python3"] = wezterm.nerdfonts.dev_python,
+  ["pip"] = wezterm.nerdfonts.dev_python,
+  ["uv"] = wezterm.nerdfonts.dev_python,
+  ["node"] = wezterm.nerdfonts.md_hexagon,
   ["ruby"] = wezterm.nerdfonts.cod_ruby,
   ["docker"] = wezterm.nerdfonts.md_docker,
   ["brew"] = wezterm.nerdfonts.md_beer,
   ["kubectl"] = wezterm.nerdfonts.dev_kubernetes,
-  ["k9s"] = wezterm.nerdfonts.dev_kubernetes,
   ["curl"] = wezterm.nerdfonts.mdi_flattr,
   ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
   ["gh"] = wezterm.nerdfonts.dev_github_badge,
@@ -49,6 +52,7 @@ M.icons = {
 
 -- Full titles to replace applications
 M.titles = {
+  ["k9s"] = wezterm.nerdfonts.dev_kubernetes .. " Kubernetes",
   ["lazydocker"] = wezterm.nerdfonts.md_docker .. " Docker",
   ["spotify_player"] = wezterm.nerdfonts.md_spotify .. " Spotify",
   ["btm"] = wezterm.nerdfonts.md_chart_donut_variant .. " Bottom",
@@ -68,11 +72,23 @@ function M.title(tab, max_width)
     title = M.titles[bin]
   -- Icon prepending (icon + application's title, or working directory if no title)
   elseif M.icons[bin] then
+    local use_content = false
+
     -- If application provided context/title, prepend icon to it
     if other and other ~= "" then
-      title = M.icons[bin] .. " " .. other
-    else
-      -- No title provided by application, fallback to working directory
+      -- Strip directory path from end (shell adds this, we don't want it for commands)
+      -- Match patterns like "command args ~/path" or "command args /path" and remove the path
+      local content = other:gsub("%s+[~/][^%s]*$", ""):gsub("%s+~$", "")
+
+      -- If we still have content after stripping the path, use it
+      if content ~= "" then
+        title = M.icons[bin] .. " " .. content
+        use_content = true
+      end
+    end
+
+    -- Fallback to working directory if no content
+    if not use_content then
       local pane = tab.active_pane
       local cwd_context = "~" -- default
       if pane.current_working_dir then

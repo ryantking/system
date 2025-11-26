@@ -3,7 +3,7 @@
 if not set -qU _fish_profile_configured
     set -xU EDITOR hx
     set -xU VISUAL hx
-    set -xU BROWSER brave-browser
+    #set -xU BROWSER brave-browser
 
     set -xU XDG_CONFIG_HOME "$HOME/.config"
     set -xU XDG_DATA_HOME "$HOME/.local/share"
@@ -11,8 +11,8 @@ if not set -qU _fish_profile_configured
     set -xU XDG_STATE_HOME "$HOME/.local/state"
 
     set -xU MANROFFOPT -
-    set -xU GIT_PAGER moar
-    set -xU DELTA_PAGER moar
+    set -xU GIT_PAGER moor
+    set -xU DELTA_PAGER moor
 
     set -xU GOPATH "$XDG_DATA_HOME/go"
     set -xU RUSTUP_HOME "$XDG_DATA_HOME/rustup"
@@ -20,6 +20,11 @@ if not set -qU _fish_profile_configured
     set -xU KREW_ROOT "$XDG_DATA_HOME/krew"
     set -xU DIRENV_LOG_FORMAT ""
     set -xU DIRENV_WARN_TIMEOUT 600s
+
+    if test (uname) = Darwin
+        set -xU OBJC_DISABLE_INITIALIZE_FORK_SAFETY YES
+    end
+
     set -U _fish_profile_configured
 end
 
@@ -27,8 +32,11 @@ fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/System/bin"
 fish_add_path "$HOME/.config/emacs/bin"
 fish_add_path "$GOPATH/bin"
-fish_add_path "$CARGO_HOME/bin"
 fish_add_path "$KREW_ROOT/bin"
+
+if [ -e /opt/homebrew/bin/brew ]
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+end
 
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish' ]
     source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'

@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/linux,visualstudiocode,emacs,vim
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,visualstudiocode,emacs,vim
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,visualstudiocode,vim,emacs
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,visualstudiocode,vim,emacs
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
@@ -66,6 +66,39 @@ flycheck_*.el
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
@@ -105,7 +138,6 @@ tags
 .history
 .ionide
 
-## lsp-ai chat files
-lsp-ai-chat.md
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,visualstudiocode,vim,emacs
 
-# End of https://www.toptal.com/developers/gitignore/api/linux,visualstudiocode,emacs,vim
+**/.claude/settings.local.json

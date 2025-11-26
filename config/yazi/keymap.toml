@@ -1,73 +1,73 @@
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["c", "m"]
 run = "plugin chmod"
 desc = "Chmod on selected files"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["c", "r"]
 run = "plugin path-from-root"
 desc = "Copies path from git root"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = "<A-y>"
 run = ["plugin copy-file-contents"]
 desc = "Copy contents of file"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = "M"
 run = "plugin mount"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["C"]
 run = "plugin ouch"
 desc = "Compress with ouch"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = "f"
 run = "plugin jump-to-char"
 desc = "Jump to char"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["1"]
 run = "plugin relative-motions 1"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["2"]
 run = "plugin relative-motions 2"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["3"]
 run = "plugin relative-motions 3"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["4"]
 run = "plugin relative-motions 4"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["5"]
 run = "plugin relative-motions 5"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["6"]
 run = "plugin relative-motions 6"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["7"]
 run = "plugin relative-motions 7"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["8"]
 run = "plugin relative-motions 8"
 desc = "Move in relative steps"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = ["9"]
 run = "plugin relative-motions 9"
 desc = "Move in relative steps"

@@ -1,5 +1,6 @@
-[manager]
-ratio = [1, 1, 2]
+[mgr]
+title_format = "yazi {cwd}"
+ratio = [1, 4, 3]
 
 [opener]
 extract = [

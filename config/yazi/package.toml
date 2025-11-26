@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "b12a9ab"
-hash = "e0ada736ea676c2bbb3ec705a49526ef"
+rev = "1ab21d4"
+hash = "63b6c222bf2103b3023389dde5e2ecfe"
 
 [[plugin.deps]]
 use = "Reledia/glow"
-rev = "2da96e3"
-hash = "f9ee1436e3b853508d87f7d49dce56e6"
+rev = "bd3eaa5"
+hash = "92b5c58159a51c567f82b618cee2b78"
 
 [[plugin.deps]]
 use = "Reledia/hexyl"
@@ -15,43 +15,43 @@ hash = "50da29476e744dba37d77fb209328fd1"
 
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "436cb5f"
-hash = "144c0ac7a449fcab4e78e942eb41702c"
+rev = "f89605c"
+hash = "caab106cfebeb0ba45034bd0e22c0c83"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "2496cd9"
-hash = "5b9dea47776a30946cfbf83232d18fb1"
+rev = "0742fff"
+hash = "2bd799b42b8e42b8ef100310be71f8d1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "b12a9ab"
-hash = "a670c03eb3760812e044a24f94cedc55"
+rev = "1ab21d4"
+hash = "d2f04875bbd4ed3dd5696e8c4b094fde"
 
 [[plugin.deps]]
 use = "dedukun/relative-motions"
-rev = "ce2e890"
-hash = "23915860e59348bf4166778bb0e606f7"
+rev = "a603d9e"
+hash = "e02a788e5b8ae0fb47fd0193dda589cc"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "b12a9ab"
-hash = "2f1053f89d1a301a648ab181d0948e38"
+rev = "1ab21d4"
+hash = "1adc12c2b2b025411ab61eb8f0879574"
 
 [[plugin.deps]]
 use = "aresler/path-from-root"
-rev = "7d05b87"
-hash = "46977a29d4349d11465af1817f17d414"
+rev = "22b6fb5"
+hash = "98cdb2e889b73c4d4a8945f166486605"
 
 [[plugin.deps]]
 use = "AnirudhG07/plugins-yazi:copy-file-contents"
-rev = "524c52c"
-hash = "27c50e6bc15c09096505b805b238ade0"
+rev = "71545f4"
+hash = "f8530ee84fee95dbcc26bb1d8d8019c7"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "b12a9ab"
-hash = "dd97eede8e20e59cd2604e8006e470e2"
+rev = "1ab21d4"
+hash = "f10a14e823382d90fab5b3ee54cb38fe"
 
 [flavor]
 deps = []

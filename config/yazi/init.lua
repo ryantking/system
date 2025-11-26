@@ -2,4 +2,7 @@ require("relative-motions"):setup({ show_numbers = "relative", show_motion = tru
 
 require("git"):setup()
 
--- require("auto-layout")
+require("auto_layout").setup({
+  breakpoint_large = 120,
+  breakpoint_medium = 80,
+})

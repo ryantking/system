@@ -55,9 +55,9 @@ bind "set mark-symlinked-directories on"
 
 # System config files
 SHELL_CONFIGS="$HOME/System/config/shell"
-[ -f "$SHELL_CONFIGS/aliasrc" ] && source "$SHELL_CONFIGS/aliasrc"
-[ -f "$SHELL_CONFIGS/profile" ] && source "$SHELL_CONFIGS/profile"
-[ -f "$SHELL_CONFIGS/prompt" ] && source "$SHELL_CONFIGS/prompt"
+# [ -f "$SHELL_CONFIGS/aliasrc" ] && source "$SHELL_CONFIGS/aliasrc"
+# [ -f "$SHELL_CONFIGS/profile" ] && source "$SHELL_CONFIGS/profile"
+# [ -f "$SHELL_CONFIGS/prompt" ] && source "$SHELL_CONFIGS/prompt"
 
 # Downloaded config files
 SHELL_EXT_CONFIGS="$XDG_DATA_HOME/shell"
@@ -73,13 +73,9 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
-
-  # HACK: Ubuntu doesn't load this by default
-  source /usr/share/bash-completion/completions/pass-otp
 fi
 
 complete -o default -F __start_kubectl k
-eval "$(flux completion bash)"
 
 ## Programs
 
@@ -87,3 +83,4 @@ eval "$(direnv hook bash)"
 eval "$(zoxide init bash)"
 
 ### .bashrc ends here
+#. "/Users/ryan/.local/share/cargo/env"

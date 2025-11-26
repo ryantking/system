@@ -1,6 +1,18 @@
 # config.fish: User configuration for the fish shell
 
+function fish_title
+    if set -q argv[1]
+        echo $argv[1] (prompt_pwd)
+    else
+        echo (basename $SHELL) (prompt_pwd)
+    end
+end
+
 if status is-interactive
+    if type -q starship
+        starship init fish | source
+    end
+
     if not functions -q fisher
         curl -sL https://git.io/fisher | source
         fisher update
@@ -26,8 +38,24 @@ if status is-interactive
         wezterm shell-completion --shell fish | source
     end
 
+    if type -q gh
+        gh completion -s fish | source
+    end
+
     if type -q omnictl
         omnictl completion fish | source
+    end
+
+    if type -q velero
+        velero completion fish | source
+    end
+
+    if type -q linctl
+        linctl completion fish | source
+    end
+
+    if type -q lefthook
+        lefthook completion fish | source
     end
 end
 

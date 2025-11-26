@@ -1,6 +1,6 @@
 [user]
-  email = "ryan@carelesslisper.xyz"
-  name = "Ryan"
+  email = ryan.king@flipsidecrypto.com
+  name = Ryan King
   username = "ryantking"
   signingKey = "~/.ssh/id_ed25519"
 
@@ -59,3 +59,8 @@
   path = aliases
   path = delta
   path = workspaces
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
