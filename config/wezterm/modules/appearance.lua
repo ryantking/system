@@ -89,6 +89,40 @@ function M.apply_to_config(config)
   -- Apply color scheme
   config.colors = theme
 
+  -- Customize tab bar colors
+  config.colors.tab_bar = {
+    background = theme.background,
+    inactive_tab_edge = theme.ansi[8],
+    inactive_tab_edge_hover = theme.foreground,
+
+    active_tab = {
+      bg_color = theme.background,
+      fg_color = theme.ansi[5],
+      intensity = "Bold",
+    },
+
+    inactive_tab = {
+      bg_color = theme.background,
+      fg_color = theme.ansi[8],
+      intensity = "Half",
+    },
+
+    inactive_tab_hover = {
+      bg_color = theme.brights[1],
+      fg_color = theme.ansi[8],
+    },
+
+    new_tab = {
+      bg_color = theme.background,
+      fg_color = theme.ansi[8],
+    },
+
+    new_tab_hover = {
+      bg_color = theme.brights[1],
+      fg_color = theme.ansi[8],
+    },
+  }
+
   -- UI fonts (for UI elements)
   local ui_font = wezterm.font({ family = "Iosevka" })
   local ui_font_size = 14
@@ -99,16 +133,18 @@ function M.apply_to_config(config)
     font_size = ui_font_size,
     active_titlebar_bg = theme.background,
     inactive_titlebar_bg = theme.background,
+    active_titlebar_fg = theme.foreground,
+    inactive_titlebar_fg = theme.foreground,
   }
 
   -- Character selector appearance
-  config.char_select_bg_color = theme.background
+  config.char_select_bg_color = theme.brights[1]
   config.char_select_fg_color = theme.foreground
   config.char_select_font = ui_font
   config.char_select_font_size = ui_font_size
 
   -- Command palette appearance
-  config.command_palette_bg_color = theme.background
+  config.command_palette_bg_color = theme.brights[1]
   config.command_palette_fg_color = theme.foreground
   config.command_palette_font = ui_font
   config.command_palette_font_size = ui_font_size
