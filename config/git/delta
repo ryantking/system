@@ -1,7 +1,8 @@
 ; -*- mode: gitconfig -*-
+; Delta + Riff configuration for beautiful git diffs with line-level highlighting
 
 [core]
-  pager = delta
+  pager = riff | delta
 
 [interactive]
   diffFilter = "delta --color-only"
@@ -12,6 +13,8 @@
 [delta]
   features = line-numbers decorations
   line-numbers = true
+  navigate = true           ; Use n/N to navigate between files
+  hyperlinks = true         ; Enable hyperlinks (terminal-dependent)
 
 [delta "decorations"]
   minus-style = red bold normal

@@ -23,15 +23,30 @@ Modern, modular WezTerm configuration with plugin support and extensive keybindi
 
 ### Application Launchers
 
-- **LEADER+g** - lazygit
+#### Git Subcommands (LEADER+g submenu)
+
+- **LEADER+g g** - lazygit in smart split (horizontal/vertical based on window aspect)
+- **LEADER+g G** - lazygit in new tab
+- **LEADER+g d** - git diff against main in smart split
+- **LEADER+g D** - git diff against main in new window
+
+#### Claude Subcommands (LEADER+c submenu)
+
+- **LEADER+c c** - Open Claude CLI in new tab (current workspace)
+- **LEADER+c C** - Create new workspace (prompt for name, creates with claudectl, opens Claude)
+- **LEADER+c space** - List active claudectl sessions
+- **LEADER+c d** - Delete claudectl session (fuzzy selection)
+
+#### Other Applications
+
 - **LEADER+y** - yazi (file manager)
 - **LEADER+Y** - yazi as root
 - **LEADER+h** - btm (system monitor)
-- **LEADER+D** - lazydocker (capital D, fixed from conflict)
-- **LEADER+c** - Claude CLI
-- **LEADER+m** - spotify_player
+- **LEADER+D** - lazydocker
 - **LEADER+k** - k9s (Kubernetes)
+- **LEADER+m** - spotify_player
 - **LEADER+E** - Helix editor at current directory
+- **LEADER+C** - Cursor IDE at current directory
 
 ### Pane & Tab Management
 
@@ -130,6 +145,17 @@ Custom tab bar features:
 - ✅ Added inline module documentation
 - ✅ Documented all keybindings
 
+### Phase 6: Hierarchical Keybindings & Refactoring
+
+- ✅ Implemented nested git submenu (LEADER+g g/G/d/D)
+- ✅ Implemented nested claude submenu (LEADER+c c/C/space/d)
+- ✅ Added smart split detection (horizontal/vertical based on window aspect)
+- ✅ Added claudectl integration (create workspace, list sessions, delete sessions)
+- ✅ Organized app launchers into logical categories
+- ✅ Refactored entire keys.lua for consistency and maintainability
+- ✅ Added helper functions for complex operations (git diff, claudectl commands)
+- ✅ Improved keybinding discovery through modal/submenu patterns
+
 ## Architecture
 
 ```
@@ -137,14 +163,14 @@ wezterm.lua (44 lines)
 ├── modules/appearance.lua (103 lines)
 ├── modules/window.lua (30 lines)
 ├── modules/tabs.lua (170 lines)
-├── modules/keys.lua (413 lines)
+├── modules/keys.lua (366 lines) - Refactored with hierarchical keybindings
 ├── modules/mouse.lua (35 lines)
 └── modules/plugins.lua (67 lines)
 ```
 
-**Before**: 1,031 lines across 9 files
-**After**: ~860 lines across 7 files + orchestrator
-**Reduction**: ~17% (171 lines) - mostly dead code removed
+**Before**: 1,031 lines across 9 files (with ~80 lines Resurrect code + ~50 lines comments)
+**After**: ~815 lines across 7 files + orchestrator
+**Total Reduction**: ~21% (216 lines) - removed dead code, improved keybinding organization
 
 ## Testing
 
@@ -213,6 +239,31 @@ These features can be re-enabled by uncommenting code in respective modules.
 - Review keys.lua for disabled defaults (CTRL+Tab, etc.)
 
 ## Tips & Tricks
+
+### Smart Splits with Git Commands
+
+The git submenu uses smart splits that adapt to your window size:
+
+```
+LEADER+g g           - lazygit in smart split (auto-orients based on aspect ratio)
+LEADER+g d           - git diff --main in smart split
+```
+
+The split direction is chosen automatically:
+
+- **Wide windows** (landscape) → split vertically (panes side-by-side)
+- **Narrow/tall windows** (portrait) → split horizontally (panes stacked)
+
+### Claude Workspace Management
+
+Quickly create and manage Claude Code workspaces:
+
+```
+LEADER+c c           - Open Claude in current workspace
+LEADER+c C           - Create new workspace (prompted for name)
+LEADER+c space       - List all active sessions
+LEADER+c d           - Delete a session (interactive)
+```
 
 ### Resize Panes Efficiently
 
