@@ -104,7 +104,7 @@ function M.title(tab, max_width)
     title = "🔍 " .. title
   end
 
-  title = wezterm.truncate_right(title, max_width - 3)
+  -- Don't truncate here - tab_max_width config handles it
   return " " .. title .. " "
 end
 
