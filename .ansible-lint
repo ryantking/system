@@ -4,7 +4,6 @@ offline: true
 
 exclude_paths:
   - .direnv
-  - .devenv
   - .git
   - .github/
   - .ruff_cache

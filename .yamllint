@@ -3,7 +3,6 @@ extends: default
 
 ignore: |
   .direnv
-  .devenv
   .git
   .pre-commit-config.yaml
   .ruff_cache

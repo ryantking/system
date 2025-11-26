@@ -2,9 +2,12 @@
 **/ansible.log
 ansible/collections/ansible_collections
 
-# Devenv
-.devenv*
-devenv.local.nix
+# Python
+.venv
+__pycache__
+*.pyc
+.python-version
+uv.lock
 
 # direnv
 .direnv
@@ -24,6 +27,8 @@ config/git/*
 !config/git/aliases
 !config/git/delta
 !config/git/ignore
+config/helix/runtime
+config/television/cable
 
 # gnupg state
 config/gnupg/*
