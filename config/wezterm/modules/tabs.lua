@@ -18,8 +18,8 @@ local M = {}
 M.arrow_solid = ""
 M.arrow_thin = ""
 
--- Icons with path context (show: icon + directory/path)
-M.icons_with_path = {
+-- Icons to prepend to titles
+M.icons = {
   ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
   ["fish"] = wezterm.nerdfonts.md_fish,
   ["zsh"] = wezterm.nerdfonts.dev_terminal,
@@ -36,29 +36,24 @@ M.icons_with_path = {
   ["just"] = wezterm.nerdfonts.seti_makefile,
   ["node"] = wezterm.nerdfonts.mdi_hexagon,
   ["ruby"] = wezterm.nerdfonts.cod_ruby,
-}
-
--- Standalone icons (show: icon + program name, path not relevant)
-M.icons_standalone = {
-  ["k9s"] = wezterm.nerdfonts.dev_kubernetes,
-  ["kubectl"] = wezterm.nerdfonts.md_docker,
-  ["kuberlr"] = wezterm.nerdfonts.md_docker,
-  ["lazydocker"] = wezterm.nerdfonts.md_docker,
   ["docker"] = wezterm.nerdfonts.md_docker,
-  ["docker-compose"] = wezterm.nerdfonts.md_docker,
-  ["spotify_player"] = wezterm.nerdfonts.md_spotify,
-  ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
-  ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
-  ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
   ["brew"] = wezterm.nerdfonts.md_beer,
+  ["kubectl"] = wezterm.nerdfonts.dev_kubernetes,
+  ["k9s"] = wezterm.nerdfonts.dev_kubernetes,
   ["curl"] = wezterm.nerdfonts.mdi_flattr,
   ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
   ["gh"] = wezterm.nerdfonts.dev_github_badge,
   ["psql"] = wezterm.nerdfonts.dev_postgresql,
-  ["pwsh.exe"] = wezterm.nerdfonts.md_console,
   ["sudo"] = wezterm.nerdfonts.fa_hashtag,
-  ["pacman"] = "󰮯 ",
-  ["paru"] = "󰮯 ",
+}
+
+-- Full titles to replace applications
+M.titles = {
+  ["lazydocker"] = wezterm.nerdfonts.md_docker .. " Docker",
+  ["spotify_player"] = wezterm.nerdfonts.md_spotify .. " Spotify",
+  ["btm"] = wezterm.nerdfonts.md_chart_donut_variant .. " Bottom",
+  ["htop"] = wezterm.nerdfonts.md_chart_areaspline .. " Top",
+  ["btop"] = wezterm.nerdfonts.md_chart_areaspline .. " Btop",
 }
 
 ---Extract and format tab title with icon and context
@@ -68,11 +63,18 @@ function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
   local bin, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
-  -- Check if we have an icon for this program (with path context)
-  if M.icons_with_path[bin] then
-    -- Fallback: If no context info, try to get from pane (fixes Helix/Fish empty titles)
-    if not other or other == "" then
+  -- Full title replacement (icon + custom text, ignore application title)
+  if M.titles[bin] then
+    title = M.titles[bin]
+  -- Icon prepending (icon + application's title, or working directory if no title)
+  elseif M.icons[bin] then
+    -- If application provided context/title, prepend icon to it
+    if other and other ~= "" then
+      title = M.icons[bin] .. " " .. other
+    else
+      -- No title provided by application, fallback to working directory
       local pane = tab.active_pane
+      local cwd_context = "~" -- default
       if pane.current_working_dir then
         local cwd = pane.current_working_dir.file_path or ""
         -- Normalize path by removing trailing slash for comparison
@@ -81,25 +83,16 @@ function M.title(tab, max_width)
 
         -- Show ~ for home directory, otherwise show directory name
         if cwd_normalized == home_normalized or cwd_normalized == "" then
-          other = "~"
+          cwd_context = "~"
         else
           local dir_name = cwd_normalized:match("([^/]+)$") or ""
           if dir_name ~= "" then
-            other = dir_name
+            cwd_context = dir_name
           end
         end
       end
+      title = M.icons[bin] .. " " .. cwd_context
     end
-
-    -- Ensure we have some context - default to ~ if empty
-    if not other or other == "" then
-      other = "~"
-    end
-
-    title = M.icons_with_path[bin] .. " " .. other
-  elseif M.icons_standalone[bin] then
-    -- For standalone icons, just use icon + program name (ignore path)
-    title = M.icons_standalone[bin] .. " " .. bin
   end
   -- else: leave title as-is for programs not in either list
 
