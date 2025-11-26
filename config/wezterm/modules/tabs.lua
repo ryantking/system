@@ -17,42 +17,48 @@ local wezterm = require("wezterm")
 local M = {}
 M.arrow_solid = ""
 M.arrow_thin = ""
-M.icons = {
+
+-- Icons with path context (show: icon + directory/path)
+M.icons_with_path = {
   ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
-  ["brew"] = wezterm.nerdfonts.md_beer,
-  ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
-  ["cargo"] = wezterm.nerdfonts.dev_rust,
-  ["curl"] = wezterm.nerdfonts.mdi_flattr,
-  ["docker"] = wezterm.nerdfonts.md_docker,
-  ["docker-compose"] = wezterm.nerdfonts.md_docker,
   ["fish"] = wezterm.nerdfonts.md_fish,
-  ["gh"] = wezterm.nerdfonts.dev_github_badge,
-  ["git"] = wezterm.nerdfonts.dev_git,
-  ["go"] = wezterm.nerdfonts.seti_go,
+  ["zsh"] = wezterm.nerdfonts.dev_terminal,
   ["hx"] = wezterm.nerdfonts.md_dna,
-  ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
-  ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
-  ["kubectl"] = wezterm.nerdfonts.md_docker,
-  ["kuberlr"] = wezterm.nerdfonts.md_docker,
-  ["k9s"] = wezterm.nerdfonts.dev_kubernetes,
-  ["lazydocker"] = wezterm.nerdfonts.md_docker,
+  ["nvim"] = wezterm.nerdfonts.custom_vim,
+  ["vim"] = wezterm.nerdfonts.dev_vim,
   ["lazygit"] = wezterm.nerdfonts.md_git,
+  ["git"] = wezterm.nerdfonts.dev_git,
+  ["yazi"] = wezterm.nerdfonts.md_folder,
+  ["cargo"] = wezterm.nerdfonts.dev_rust,
+  ["go"] = wezterm.nerdfonts.seti_go,
   ["lua"] = wezterm.nerdfonts.seti_lua,
   ["make"] = wezterm.nerdfonts.seti_makefile,
   ["just"] = wezterm.nerdfonts.seti_makefile,
   ["node"] = wezterm.nerdfonts.mdi_hexagon,
-  ["nvim"] = wezterm.nerdfonts.custom_vim,
-  ["pacman"] = "󰮯 ",
-  ["paru"] = "󰮯 ",
+  ["ruby"] = wezterm.nerdfonts.cod_ruby,
+}
+
+-- Standalone icons (show: icon + program name, path not relevant)
+M.icons_standalone = {
+  ["k9s"] = wezterm.nerdfonts.dev_kubernetes,
+  ["kubectl"] = wezterm.nerdfonts.md_docker,
+  ["kuberlr"] = wezterm.nerdfonts.md_docker,
+  ["lazydocker"] = wezterm.nerdfonts.md_docker,
+  ["docker"] = wezterm.nerdfonts.md_docker,
+  ["docker-compose"] = wezterm.nerdfonts.md_docker,
+  ["spotify_player"] = wezterm.nerdfonts.md_spotify,
+  ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
+  ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
+  ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
+  ["brew"] = wezterm.nerdfonts.md_beer,
+  ["curl"] = wezterm.nerdfonts.mdi_flattr,
+  ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
+  ["gh"] = wezterm.nerdfonts.dev_github_badge,
   ["psql"] = wezterm.nerdfonts.dev_postgresql,
   ["pwsh.exe"] = wezterm.nerdfonts.md_console,
-  ["ruby"] = wezterm.nerdfonts.cod_ruby,
   ["sudo"] = wezterm.nerdfonts.fa_hashtag,
-  ["spotify_player"] = wezterm.nerdfonts.md_spotify,
-  ["vim"] = wezterm.nerdfonts.dev_vim,
-  ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
-  ["zsh"] = wezterm.nerdfonts.dev_terminal,
-  ["yazi"] = wezterm.nerdfonts.md_folder,
+  ["pacman"] = "󰮯 ",
+  ["paru"] = "󰮯 ",
 }
 
 ---Extract and format tab title with icon and context
@@ -62,8 +68,8 @@ function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
   local bin, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
-  -- Only substitute icon if we have one defined for this program
-  if M.icons[bin] then
+  -- Check if we have an icon for this program (with path context)
+  if M.icons_with_path[bin] then
     -- Fallback: If no context info, try to get from pane (fixes Helix/Fish empty titles)
     if not other or other == "" then
       local pane = tab.active_pane
@@ -90,8 +96,12 @@ function M.title(tab, max_width)
       other = "~"
     end
 
-    title = M.icons[bin] .. " " .. other
+    title = M.icons_with_path[bin] .. " " .. other
+  elseif M.icons_standalone[bin] then
+    -- For standalone icons, just use icon + program name (ignore path)
+    title = M.icons_standalone[bin] .. " " .. bin
   end
+  -- else: leave title as-is for programs not in either list
 
   local is_zoomed = false
   for _, pane in ipairs(tab.panes) do
