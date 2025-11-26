@@ -90,6 +90,8 @@ function M.title(tab, max_width)
 
   if M.icons[bin] then
     title = M.icons[bin] .. " " .. other
+  else
+    title = bin .. " " .. other
   end
 
   local is_zoomed = false
