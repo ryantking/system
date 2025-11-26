@@ -83,8 +83,13 @@ function M.title(tab, max_width)
     end
   end
 
+  -- Ensure we have some context - default to ~ if empty
+  if not other or other == "" then
+    other = "~"
+  end
+
   if M.icons[bin] then
-    title = M.icons[bin] .. " " .. (other or bin) -- Fallback to bin name
+    title = M.icons[bin] .. " " .. other
   end
 
   local is_zoomed = false
