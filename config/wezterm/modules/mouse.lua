@@ -1,10 +1,22 @@
+--[[
+  Module: mouse.lua
+  Purpose: Mouse behavior and bindings (selection, link opening)
+  Dependencies: wezterm, keys module
+
+  Features:
+  - Left-click: Copy selection to clipboard
+  - Modifier+click: Open link or extend selection
+  - Quadruple-click: Select semantic zone
+]]
+--
+
 local wezterm = require("wezterm")
-local keys = require("keys")
+local keys = require("modules.keys")
 
 local M = {}
 
---@param config Config
-function M.setup(config)
+---@param config Config
+function M.apply_to_config(config)
   config.alternate_buffer_wheel_scroll_speed = 1
   config.bypass_mouse_reporting_modifiers = keys.mod
   config.hide_mouse_cursor_when_typing = false

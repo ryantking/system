@@ -1,3 +1,20 @@
+--[[
+  Module: keys.lua
+  Purpose: Keyboard bindings with leader key pattern and custom actions
+  Dependencies: wezterm, smart_workspace_switcher plugin
+
+  Features:
+  - Leader key: CMD+Space (5-second timeout)
+  - Workspace management (switcher, jump to System)
+  - Application launchers (lazygit, yazi, k9s, etc.)
+  - Pane management (split, zoom, resize)
+  - Tab management (new, close, move)
+  - Quick Select mode (LEADER+q)
+  - Pane resizing (LEADER+SHIFT+Arrow sticky mode)
+  - Domain management (attach/detach unix domain)
+]]
+--
+
 local wezterm = require("wezterm")
 local act = wezterm.action
 -- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
@@ -20,9 +37,22 @@ wezterm.on("mux-is-process-stateful", function(_proc)
   return false
 end)
 ---@param config Config
-function M.setup(config)
+function M.apply_to_config(config)
   config.disable_default_key_bindings = false
   config.leader = { key = "Space", mods = "CMD", timeout_milliseconds = 5000 }
+
+  -- Key tables for sticky modes
+  config.key_tables = {
+    resize_pane = {
+      { key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 2 }) },
+      { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 2 }) },
+      { key = "UpArrow", action = act.AdjustPaneSize({ "Up", 2 }) },
+      { key = "DownArrow", action = act.AdjustPaneSize({ "Down", 2 }) },
+      { key = "Escape", action = "PopKeyTable" },
+      { key = "Enter", action = "PopKeyTable" },
+    },
+  }
+
   config.keys = {
     {
       key = "s",
@@ -65,7 +95,7 @@ function M.setup(config)
       action = act.SpawnCommandInNewTab({ args = { "btm" } }),
     },
     {
-      key = "d",
+      key = "D",
       mods = "LEADER",
       action = act.SpawnCommandInNewTab({ args = { "lazydocker" } }),
     },
@@ -155,6 +185,23 @@ function M.setup(config)
       action = act.SpawnCommandInNewTab({ args = { "fish", "-c", "hx ." } }),
     },
     {
+      key = "q",
+      mods = "LEADER",
+      action = act.QuickSelectArgs({
+        label = "open url/path/hash",
+        patterns = {
+          "https?://\\S+",
+          "git@[\\w.-]+:[\\w./-]+",
+          "file://\\S+",
+          "[~./]\\S+/\\S+",
+          "/[a-zA-Z0-9_/-]+",
+          "\\b[a-f0-9]{7,40}\\b",
+          "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b",
+          "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        },
+      }),
+    },
+    {
       key = "C",
       mods = "LEADER",
       action = wezterm.action_callback(function(_, pane)
@@ -176,9 +223,9 @@ function M.setup(config)
       mods = "LEADER",
       action = wezterm.action_callback(function(win, pane)
         resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, _)
-          local type = string.match(id, "^([^/]+)") -- match before '/'
-          id = string.match(id, "([^/]+)$") -- match after '/'
-          id = string.match(id, "(.+)%..+$") -- remove file extension
+          local type = string.match(id, "^([^/]+)")
+          id = string.match(id, "([^/]+)$")
+          id = string.match(id, "(.+)%..+$")
           local opts = {
             relative = true,
             restore_text = true,
@@ -202,14 +249,13 @@ function M.setup(config)
       mods = "LEADER",
       action = wezterm.action_callback(function(win, pane)
         resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, _)
-          local type = string.match(id, "^([^/]+)") -- match before '/'
-          id = string.match(id, "([^/]+)$") -- match after '/'
-          id = string.match(id, "(.+)%..+$") -- remove file extension
+          local type = string.match(id, "^([^/]+)")
+          id = string.match(id, "([^/]+)$")
+          id = string.match(id, "(.+)%..+$")
           local opts = {
             relative = true,
             restore_text = true,
             window = pane:window(),
-            -- tab = win:active_tab(),
             close_open_tabs = true,
             on_pane_restore = resurrect.tab_state.default_on_pane_restore,
           }
@@ -270,6 +316,40 @@ function M.setup(config)
     { key = "UpArrow", mods = "CTRL", action = act.ActivatePaneDirection("Up") },
     { key = "DownArrow", mods = "CTRL", action = act.ActivatePaneDirection("Down") },
 
+    -- Pane resizing with sticky mode (LEADER+SHIFT+Arrow)
+    {
+      key = "LeftArrow",
+      mods = "LEADER|SHIFT",
+      action = act.Multiple({
+        act.AdjustPaneSize({ "Left", 2 }),
+        act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+      }),
+    },
+    {
+      key = "RightArrow",
+      mods = "LEADER|SHIFT",
+      action = act.Multiple({
+        act.AdjustPaneSize({ "Right", 2 }),
+        act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+      }),
+    },
+    {
+      key = "UpArrow",
+      mods = "LEADER|SHIFT",
+      action = act.Multiple({
+        act.AdjustPaneSize({ "Up", 2 }),
+        act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+      }),
+    },
+    {
+      key = "DownArrow",
+      mods = "LEADER|SHIFT",
+      action = act.Multiple({
+        act.AdjustPaneSize({ "Down", 2 }),
+        act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+      }),
+    },
+
     -- Claude Code: Shift+Enter sends Escape+Enter for newlines without submitting
     { key = "Enter", mods = "SHIFT", action = act.SendString("\x1b\r") },
 
@@ -311,36 +391,12 @@ function M.setup(config)
     -- },
     -- { key = "n", mods = "ALT|CTRL", action = act({ PasteFrom = "PrimarySelection" }) },
 
-    -- Resizing Panes
+    -- Resizing Panes (replaced by LEADER+SHIFT+Arrow above)
     -- {
     --   key = "LeftArrow",
     --   mods = "LEADER|SHIFT",
     --   action = act.Multiple({
     --     act.AdjustPaneSize({ "Left", pane_resize }),
-    --     act.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
-    --   }),
-    -- },
-    -- {
-    --   key = "DownArrow",
-    --   mods = "LEADER|SHIFT",
-    --   action = act.Multiple({
-    --     act.AdjustPaneSize({ "Down", pane_resize }),
-    --     act.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
-    --   }),
-    -- },
-    -- {
-    --   key = "UpArrow",
-    --   mods = "LEADER|SHIFT",
-    --   action = act.Multiple({
-    --     act.AdjustPaneSize({ "Up", pane_resize }),
-    --     act.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
-    --   }),
-    -- },
-    -- {
-    --   key = "RightArrow",
-    --   mods = "LEADER|SHIFT",
-    --   action = act.Multiple({
-    --     act.AdjustPaneSize({ "Right", pane_resize }),
     --     act.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
     --   }),
     -- },

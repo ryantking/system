@@ -1,8 +1,22 @@
-local wezterm = require("wezterm") --[[@as Wezterm]]
+--[[
+  Module: tabs.lua
+  Purpose: Custom tab bar with process icons, zoom indicator, and arrow separators
+  Dependencies: wezterm
+
+  Features:
+  - Process-specific nerd font icons (25+ applications)
+  - Zoom indicator (🔍) in tab title
+  - Arrow separators between tabs (solid/thin based on state)
+  - Dynamic working directory fallback for editors like Helix
+  - Auto-hide tab bar when only one tab
+]]
+--
+
+local wezterm = require("wezterm")
 
 local M = {}
-M.arrow_solid = ""
-M.arrow_thin = ""
+M.arrow_solid = ""
+M.arrow_thin = ""
 M.icons = {
   ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
   ["brew"] = wezterm.nerdfonts.md_beer,
@@ -41,14 +55,27 @@ M.icons = {
   ["yazi"] = wezterm.nerdfonts.md_folder,
 }
 
+---Extract and format tab title with icon and context
 ---@param tab MuxTabObj
 ---@param max_width number
 function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
   local bin, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
+  -- Fallback: If no context info, try to get from pane (fixes Helix empty titles)
+  if not other or other == "" then
+    local pane = tab.active_pane
+    if pane.current_working_dir then
+      local cwd = pane.current_working_dir.file_path or ""
+      local dir_name = cwd:match("([^/]+)/?$") or ""
+      if dir_name ~= "" and dir_name ~= "~" then
+        other = dir_name
+      end
+    end
+  end
+
   if M.icons[bin] then
-    title = M.icons[bin] .. " " .. (other or "")
+    title = M.icons[bin] .. " " .. (other or bin) -- Fallback to bin name
   end
 
   local is_zoomed = false
@@ -58,8 +85,8 @@ function M.title(tab, max_width)
       break
     end
   end
-  if is_zoomed then -- or (#tab.panes > 1 and not tab.is_active) then
-    title = " " .. title
+  if is_zoomed then
+    title = "🔍 " .. title
   end
 
   title = wezterm.truncate_right(title, max_width - 3)
@@ -67,7 +94,7 @@ function M.title(tab, max_width)
 end
 
 ---@param config Config
-function M.setup(config)
+function M.apply_to_config(config)
   config.use_fancy_tab_bar = true
   config.tab_bar_at_bottom = false
   config.hide_tab_bar_if_only_one_tab = true
