@@ -3,3 +3,5 @@ os_environment:
   PATH: "/opt/homebrew/bin:/usr/sbin:{{ ansible_env.PATH }}"
 
 ssh_group: staff
+
+iosevka_dest_dir: "{{ ansible_user_dir }}/Library/fonts"

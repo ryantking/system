@@ -5,6 +5,8 @@ iosevka_repo_url: "https://github.com/be5invis/Iosevka.git"
 iosevka_version: "main"
 iosevka_src_dir: "{{ ansible_user_dir }}/.local/src/iosevka"
 
+iosevka_dest_dir: "{{ ansible_user_dir }}/.local/share/fonts"
+
 iosevka_default_variant: ss08
 iosevka_default_slope: italic
 

@@ -24,7 +24,6 @@ nix_default_packages:
   - bottom
   - carapace
   - delta
-  - devenv
   - dprint
   - eza
   - fd

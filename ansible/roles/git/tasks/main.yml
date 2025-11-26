@@ -70,6 +70,7 @@
     loop_var: workspace
     label: "{{ workspace.name }}"
   when: workspace.config | d()
+  tags: ["role::git:config"]
 
 - name: "Create git config to load workspace configs"
   ansible.builtin.template:
@@ -78,3 +79,4 @@
     lstrip_blocks: true
     trim_blocks: true
     mode: "0644"
+  tags: ["role::git:config"]

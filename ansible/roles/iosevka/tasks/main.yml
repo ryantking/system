@@ -38,7 +38,7 @@
 - name: "Install Iosevka fonts"
   ansible.builtin.copy:
     src: "{{ iosevka_src_dir }}/dist/{{ build_plan.name }}/TTF/"
-    dest: "{{ ansible_user_dir }}/.local/share/fonts/{{ build_plan.name }}"
+    dest: "{{ iosevka_dest_dir }}/{{ build_plan.name }}"
     remote_src: true
     mode: "0755"
   loop: "{{ iosevka_build_plans }}"

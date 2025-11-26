@@ -21,8 +21,8 @@ trajan
 nero
 
 [macos:vars]
-user_shell="/usr/local/bin/fish"
-ansible_python_interpreter="/usr/local/bin/python3.13"
+user_shell="/opt/homebrew/bin/fish"
+ansible_python_interpreter="/opt/homebrew/bin/python3.13"
 
 [ubuntu]
 justinian
