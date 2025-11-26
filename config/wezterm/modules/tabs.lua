@@ -62,14 +62,19 @@ function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
   local bin, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
-  -- Fallback: If no context info, try to get from pane (fixes Helix empty titles)
+  -- Fallback: If no context info, try to get from pane (fixes Helix/Fish empty titles)
   if not other or other == "" then
     local pane = tab.active_pane
     if pane.current_working_dir then
       local cwd = pane.current_working_dir.file_path or ""
-      local dir_name = cwd:match("([^/]+)/?$") or ""
-      if dir_name ~= "" and dir_name ~= "~" then
-        other = dir_name
+      -- Show ~ for home directory, otherwise show directory name
+      if cwd == wezterm.home_dir then
+        other = "~"
+      else
+        local dir_name = cwd:match("([^/]+)/?$") or ""
+        if dir_name ~= "" then
+          other = dir_name
+        end
       end
     end
   end
