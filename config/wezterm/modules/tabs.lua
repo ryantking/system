@@ -62,36 +62,35 @@ function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
   local bin, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
-  -- Fallback: If no context info, try to get from pane (fixes Helix/Fish empty titles)
-  if not other or other == "" then
-    local pane = tab.active_pane
-    if pane.current_working_dir then
-      local cwd = pane.current_working_dir.file_path or ""
-      -- Normalize path by removing trailing slash for comparison
-      local cwd_normalized = cwd:gsub("/$", "")
-      local home_normalized = wezterm.home_dir:gsub("/$", "")
+  -- Only substitute icon if we have one defined for this program
+  if M.icons[bin] then
+    -- Fallback: If no context info, try to get from pane (fixes Helix/Fish empty titles)
+    if not other or other == "" then
+      local pane = tab.active_pane
+      if pane.current_working_dir then
+        local cwd = pane.current_working_dir.file_path or ""
+        -- Normalize path by removing trailing slash for comparison
+        local cwd_normalized = cwd:gsub("/$", "")
+        local home_normalized = wezterm.home_dir:gsub("/$", "")
 
-      -- Show ~ for home directory, otherwise show directory name
-      if cwd_normalized == home_normalized or cwd_normalized == "" then
-        other = "~"
-      else
-        local dir_name = cwd_normalized:match("([^/]+)$") or ""
-        if dir_name ~= "" then
-          other = dir_name
+        -- Show ~ for home directory, otherwise show directory name
+        if cwd_normalized == home_normalized or cwd_normalized == "" then
+          other = "~"
+        else
+          local dir_name = cwd_normalized:match("([^/]+)$") or ""
+          if dir_name ~= "" then
+            other = dir_name
+          end
         end
       end
     end
-  end
 
-  -- Ensure we have some context - default to ~ if empty
-  if not other or other == "" then
-    other = "~"
-  end
+    -- Ensure we have some context - default to ~ if empty
+    if not other or other == "" then
+      other = "~"
+    end
 
-  if M.icons[bin] then
     title = M.icons[bin] .. " " .. other
-  else
-    title = bin .. " " .. other
   end
 
   local is_zoomed = false
