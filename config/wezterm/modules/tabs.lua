@@ -67,11 +67,15 @@ function M.title(tab, max_width)
     local pane = tab.active_pane
     if pane.current_working_dir then
       local cwd = pane.current_working_dir.file_path or ""
+      -- Normalize path by removing trailing slash for comparison
+      local cwd_normalized = cwd:gsub("/$", "")
+      local home_normalized = wezterm.home_dir:gsub("/$", "")
+
       -- Show ~ for home directory, otherwise show directory name
-      if cwd == wezterm.home_dir then
+      if cwd_normalized == home_normalized or cwd_normalized == "" then
         other = "~"
       else
-        local dir_name = cwd:match("([^/]+)/?$") or ""
+        local dir_name = cwd_normalized:match("([^/]+)$") or ""
         if dir_name ~= "" then
           other = dir_name
         end
