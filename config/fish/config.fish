@@ -1,5 +1,7 @@
 # config.fish: User configuration for the fish shell
 
+set -g fish_greeting
+
 function fish_title
     if set -q argv[1]
         echo $argv[1] (prompt_pwd)
@@ -11,6 +13,10 @@ end
 if status is-interactive
     if type -q starship
         starship init fish | source
+    end
+
+    if test -x /opt/homebrew/bin/brew
+        eval (/opt/homebrew/bin/brew shellenv)
     end
 
     if not functions -q fisher
@@ -29,34 +35,10 @@ if status is-interactive
     if type -q zoxide
         zoxide init fish | source
     end
-
-    if type -q tailscale
-        tailscale completion fish | source
-    end
-
-    if test "$TERM_PROGRAM" = WezTerm
-        wezterm shell-completion --shell fish | source
-    end
-
-    if type -q gh
-        gh completion -s fish | source
-    end
-
-    if type -q omnictl
-        omnictl completion fish | source
-    end
-
-    if type -q velero
-        velero completion fish | source
-    end
-
-    if type -q linctl
-        linctl completion fish | source
-    end
-
-    if type -q lefthook
-        lefthook completion fish | source
-    end
 end
 
 # config.fish ends here
+
+# omnara
+set --export OMNARA_INSTALL "$HOME/.omnara"
+set --export PATH $OMNARA_INSTALL/bin $PATH

@@ -12,8 +12,21 @@ $line_break\
 $python\
 $character"""
 
+# palette = "rose-pine"
+
+# [palettes.rose-pine]
+# overlay = '#26233a'
+# muted = '#6e6a86'
+# subtle = "#908caa"
+# love = '#eb6f92'
+# gold = '#f6c177'
+# rose = '#ebbcba'
+# pine = '#31748f'
+# foam = '#9ccfd8'
+# iris = '#c4a7e7'
+
 [directory]
-style = "blue"
+style = "blue bold"
 
 [character]
 success_symbol = "[❯](purple)"
@@ -25,7 +38,7 @@ format = "[$branch]($style)"
 style = "bright-black"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](purple) ($ahead_behind$stashed)]($style)"
 style = "cyan"
 conflicted = "​"
 untracked = "​"
@@ -40,9 +53,11 @@ format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
 [cmd_duration]
-format = "[$duration]($style) "
+format = "[ $duration]($style) "
 style = "yellow"
 
 [python]
 format = "[$virtualenv]($style) "
 style = "bright-black"
+detect_extensions = []
+detect_files = []

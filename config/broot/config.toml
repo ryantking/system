@@ -1,0 +1,8 @@
+# Enter: edit text files in terminal editor, keep broot open
+[[verbs]]
+invocation = "edit"
+key = "enter"
+shortcut = "e"
+execution = "$EDITOR +{line} {file}"
+apply_to = "text_file"
+leave_broot = true

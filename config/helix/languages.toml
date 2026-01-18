@@ -1,3 +1,52 @@
+[language-server.basedpyright]
+basedpyright.disableLanguageServices = true
+
+[language-server.gopls.config]
+gofumpt = true
+local = "goimports"
+semanticTokens = true
+staticcheck = true
+verboseOutput = true
+analyses = { "nilness" = true, unusedparams = true, unusedwrite = true, useany = true }
+usePlaceholders = true
+completeUnimported = true
+
+[language-server.gopls.config.hints]
+assignVariableType = true
+compositeLiteralFields = true
+compositeLiteralTypes = true
+constantValues = true
+functionTypeParameters = true
+parameterNames = true
+rangeVariableTypes = true
+
+[language-server.harper-ls]
+command = "harper-ls"
+args = ["--stdio"]
+
+[language-server.harper-ls.config.harper-ls]
+userDictPath = "~/.config/harper-ls.spell"
+fileDictPath = ".haper-ls.spell"
+diagnosticSeverity = "warning"
+isolateEnglish = false
+codeActions = { ForceStable = false }
+markdown = { IgnoreLinkTitle = false }
+
+[language-server.just-lsp]
+command = "just-lsp"
+
+[language-server.kcl-lsp]
+command = "kcl-language-server"
+
+[language-server.pylsp.config.pylsp]
+plugins.black.enabled = false
+plugins.isort.enabled = false
+plugins.pycodestyle.enabled = false
+plugins.pyflakes.enabled = false
+plugins.pylint.enabled = false
+plugins.pylsp_mypy.enabled = false
+plugins.ruff.enabled = false
+
 [language-server.scls]
 command = "simple-completion-language-server"
 
@@ -9,50 +58,23 @@ feature_snippets = true
 feature_unicode_input = true
 feature_paths = true
 
-[language-server.harper-ls]
-command = "harper-ls"
-args = ["--stdio"]
-
-[language-server.basedpyright]
-basedpyright.disableLanguageServices = true
-
-[language-server.harper-ls.config.harper-ls]
-userDictPath = "~/.config/harper-ls.spell"
-fileDictPath = ".haper-ls.spell"
-diagnosticSeverity = "warning"
-isolateEnglish = false
-
-[language-server.harper-ls.config.harper-ls.codeActions]
-ForceStable = false
-
-[language-server.harper-ls.config.harper-ls.markdown]
-IgnoreLinkTitle = false
-
-[language-server.kcl-lsp]
-command = "kcl-language-server"
-
 [language-server.tofu-ls]
 command = "tofu-ls"
 args = ["serve"]
-
-[language-server.pylsp.config.pylsp]
-plugins.black.enabled = false
-plugins.isort.enabled = false
-plugins.pycodestyle.enabled = false
-plugins.pyflakes.enabled = false
-plugins.pylint.enabled = false
-plugins.pylsp_mypy.enabled = false
-plugins.ruff.enabled = false
-
-[language-server.rust-analyzer.config]
-checkOnSave = { command = "clippy", extraArgs = ["--", "-W", "clippy::pedantic"] }
-cargo = { allFeatures = true }
-procMacro = { enable = true }
 
 [language-server.ruff]
 command = "ruff"
 args = ["server", "-q", "--preview"]
 environment = { "RUFF_TRACE" = "messages" }
+
+[language-server.rust-analyzer.config]
+checkOnSave = { command = "clippy", extraArgs = [
+  "--",
+  "-W",
+  "clippy::pedantic",
+] }
+cargo = { allFeatures = true }
+procMacro = { enable = true }
 
 [language-server.ty]
 command = "uvx"
@@ -60,21 +82,20 @@ args = ["ty", "server"]
 
 [language-server.typos]
 command = "typos-lsp"
-environment = { "RUST_LOG" = "error" }
-config.diagnosticSeverity = "Warning"
+# environment = { "RUST_LOG" = "error" }
+# config.diagnosticSeverity = "Warning"
 
 [[language]]
 name = "bash"
-language-servers = ["bash-language-server", "scls", "harper-ls"]
+language-servers = ["bash-language-server", "scls", "typos"]
 
 [[language]]
 name = "fish"
-language-servers = ["fish-lsp", "scls", "harper-ls"]
+language-servers = ["fish-lsp", "scls", "typos"]
 
 [[language]]
 name = "dockerfile"
-language-servers = ["docker-langserver", "scls", "harper-ls"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "dockerfile"] }
+language-servers = ["docker-langserver", "scls", "typos"]
 auto-format = true
 
 [[language]]
@@ -83,58 +104,64 @@ language-servers = ["scls", "harper-ls"]
 
 [[language]]
 name = "go"
-language-servers = ["gopls", "golangci-lint-lsp", "scls", "harper-ls"]
+auto-format = true
+text-width = 180
+formatter = { command = "goimports" }
+roots = ["go.work", "go.mod"]
+language-servers = ["gopls", "golangci-lint-lsp", "scls", "typos"]
 
 [[language]]
 name = "gotmpl"
-language-servers = ["gopls", "scls", "harper-ls"]
+language-servers = ["gopls", "scls", "typos"]
 
 [[language]]
 name = "hcl"
 language-id = "opentofu"
 file-types = ["hcl", "tf", "tofu"]
-language-servers = ["tofu-ls", "scls", "harper-ls"]
+language-servers = ["tofu-ls", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "javascript"
-language-servers = ["typescript-language-server", "eslint", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "javascript"] }
+language-servers = ["typescript-language-server", "eslint", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "json"
-language-servers = ["vscode-json-language-server", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "json"] }
+language-servers = ["vscode-json-language-server", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "jsonc"
-language-servers = ["vscode-json-language-server", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "jsonc"] }
+language-servers = ["vscode-json-language-server", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "json5"
-language-servers = ["vscode-json-language-server", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "json5"] }
+language-servers = ["vscode-json-language-server", "scls", "typos"]
 auto-format = true
 
 [[grammar]]
 name = "just"
-source = { git = "https://github.com/poliorcetics/tree-sitter-just", rev = "8d03cfdd7ab89ff76d935827de1b93450fa0ec0a" }
+source = { git = "https://github.com/poliorcetics/tree-sitter-just", rev = "f749ec853adcacc5f14e9ec375f244104e033d88" }
 
 [[language]]
 name = "jsx"
-language-servers = ["typescript-language-server", "eslint", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "javascript"] }
+language-servers = ["typescript-language-server", "eslint", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "just"
 scope = "source.just"
-file-types = ["just", { glob = "justfile" }, { glob = "Justfile" }, { glob = ".justfile" }, { glob = ".Justfile" }]
+file-types = [
+  "just",
+  { glob = "justfile" },
+  { glob = "Justfile" },
+  { glob = ".justfile" },
+  { glob = ".Justfile" },
+]
 injection-regex = "just"
+language-servers = ["just-lsp", "scls", "typos"]
 comment-token = "#"
 indent = { tab-width = 4, unit = "    " }
 
@@ -149,78 +176,85 @@ file-types = ["kcl", { glob = "*.k" }]
 roots = ["kcl.mod", "kcl.yaml"]
 indent = { tab-width = 2, unit = "  " }
 formatter = { command = "kcl", args = ["fmt", "-"] }
-language-servers = ["kcl-lsp"]
+language-servers = ["kcl-lsp", "scls", "typos"]
 
 [[language]]
 name = "kdl"
 formatter = { command = "kdlfmt", args = ["format", "-"] }
-language-servers = ["scls", "harper-ls"]
+language-servers = ["scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "lua"
-language-servers = ["lua-language-server", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "lua"] }
+language-servers = ["lua-language-server", "scls", "typos"]
 auto-format = true
+formatter = { command = "stylua", args = ["-"] }
+indent = { tab-width = 2, unit = "  " }
 
 [[language]]
 name = "markdown"
-language-servers = ["marksman", "markdown-oxide", "harper"]
+language-servers = ["marksman", "harper-ls"]
 formatter = { command = "mdformat", args = ["fmt", "--stdin", "md"] }
 auto-format = true
 rulers = [120]
 
 [[language]]
 name = "nix"
-language-servers = ["nil", "nixd", "harper", "lsp-ai"]
+language-servers = ["nil", "nixd", "typos"]
 formatter.command = "alejandra"
 auto-format = true
 
 [[language]]
 name = "python"
-language-servers = ["pylsp", "ruff", "basedpyright", "scls"]
-formatter = { command = "bash", args = ["-c", "ruff check - --fix -n | ruff format -"] }
+language-servers = ["pylsp", "ruff", "basedpyright", "scls", "typos"]
+formatter = { command = "bash", args = [
+  "-c",
+  "ruff check - --fix -n | ruff format -",
+] }
 auto-format = true
 
 [[language]]
 name = "rust"
-language-servers = ["rust-analyzer", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["rust-analyzer", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "tfvars"
 language-id = "opentofu-vars"
-language-servers = ["tofu-ls", "scls", "harper-ls"]
+language-servers = ["tofu-ls", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "templ"
-language-servers = ["templ", "scls", "harper-ls", "lsp-ai"]
+language-servers = ["templ", "scls", "typos"]
 
 [[language]]
 name = "toml"
-language-servers = ["taplo", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "toml"] }
+language-servers = ["taplo", "scls", "typos"]
+formatter = { command = "taplo", args = ["fmt", "-"] }
 auto-format = true
 
 [[language]]
 name = "typescript"
-language-servers = ["typescript-language-server", "eslint", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "typescript"] }
+language-servers = ["typescript-language-server", "eslint", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "tsx"
-language-servers = ["typescript-language-server", "eslint", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "tsx"] }
+language-servers = ["typescript-language-server", "eslint", "scls", "typos"]
 auto-format = true
 
 [[language]]
 name = "yaml"
-language-servers = ["yaml-language-server", "ansible-language-server", "scls", "harper-ls", "lsp-ai"]
-formatter = { command = "dprint", args = ["fmt", "--stdin", "yaml"] }
+language-servers = [
+  "yaml-language-server",
+  "ansible-language-server",
+  "scls",
+  "typos",
+]
+formatter = { command = "yamlfmt", args = ["-"] }
 auto-format = true
 
 [[language]]
 name = "zig"
-language-servers = ["zls", "scls", "lsp-ai"]
+language-servers = ["zls", "scls", "typos"]

@@ -2,3 +2,4 @@ kube-config.yaml filter=git-crypt diff=git-crypt
 spotifyd.conf filter=git-crypt diff=git-crypt
 git/work_config filter=git-crypt diff=git-crypt
 fish/conf.d/secrets.fish filter=git-crypt diff=git-crypt
+fish/conf.d/10-secrets.fish filter=git-crypt diff=git-crypt

@@ -18,16 +18,89 @@ after-startup-command = [
   'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
 ]
 
-[key-mapping]
-preset = "qwerty"
+key-mapping.preset = "qwerty"
 
 [gaps]
-inner.horizontal = 20
-inner.vertical = 20
-outer.left = 10
-outer.bottom = 10
-outer.top = 10
-outer.right = 10
+outer.left = 12
+outer.bottom = 12
+outer.top = 12
+outer.right = 12
+inner.horizontal = 24
+inner.vertical = 24
+
+[mode.main.binding]
+cmd-h = []     # Disable "hide application"
+cmd-alt-h = [] # Disable "hide others"
+
+ctrl-slash = 'layout tiles horizontal vertical'
+ctrl-comma = 'layout accordion horizontal vertical'
+
+ctrl-left = 'focus --boundaries-action wrap-around-the-workspace left'
+ctrl-down = 'focus --boundaries-action wrap-around-the-workspace down'
+ctrl-up = 'focus --boundaries-action wrap-around-the-workspace up'
+ctrl-right = 'focus --boundaries-action wrap-around-the-workspace right'
+
+ctrl-alt-left = 'move left'
+ctrl-alt-down = 'move down'
+ctrl-alt-up = 'move up'
+ctrl-alt-right = 'move right'
+
+ctrl-alt-p = 'focus-monitor prev'
+ctrl-alt-n = 'focus-monitor next'
+
+ctrl-alt-minus = 'resize smart -50'
+ctrl-alt-equal = 'resize smart +50'
+
+ctrl-1 = 'workspace 1'
+ctrl-2 = 'workspace 2'
+ctrl-3 = 'workspace 3'
+ctrl-4 = 'workspace 4'
+ctrl-5 = 'workspace 5'
+ctrl-6 = 'workspace 6'
+ctrl-7 = 'workspace 7'
+ctrl-8 = 'workspace 8'
+ctrl-9 = 'workspace 9'
+
+ctrl-alt-1 = 'move-node-to-workspace 1'
+ctrl-alt-2 = 'move-node-to-workspace 2'
+ctrl-alt-3 = 'move-node-to-workspace 3'
+ctrl-alt-4 = 'move-node-to-workspace 4'
+ctrl-alt-5 = 'move-node-to-workspace 5'
+ctrl-alt-6 = 'move-node-to-workspace 6'
+ctrl-alt-7 = 'move-node-to-workspace 7'
+ctrl-alt-8 = 'move-node-to-workspace 8'
+ctrl-alt-9 = 'move-node-to-workspace 9'
+
+ctrl-alt-tab = 'workspace-back-and-forth'
+ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+ctrl-alt-f = 'fullscreen'
+
+ctrl-alt-space = 'mode service'
+
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+enter = ['exec-and-forget wezterm start --always-new-process', 'mode main']
+r = ['flatten-workspace-tree', 'mode main']
+f = ['layout floating tiling', 'mode main']
+b = ['exec-and-forget open -na Comet', 'mode main']
+left = 'focus --boundaries-action wrap-around-the-workspace left'
+down = 'focus --boundaries-action wrap-around-the-workspace down'
+up = 'focus --boundaries-action wrap-around-the-workspace up'
+right = 'focus --boundaries-action wrap-around-the-workspace right'
+shift-left = 'move left'
+shift-down = 'move down'
+shift-up = 'move up'
+shift-right = 'move right'
+ctrl-left = ['join-with left', 'mode main']
+ctrl-down = ['join-with down', 'mode main']
+ctrl-up = ['join-with up', 'mode main']
+ctrl-right = ['join-with right', 'mode main']
+alt-left = 'resize width -50'
+alt-down = 'resize height +50'
+alt-up = 'resize height -50'
+alt-right = 'resize width +50'
+
 
 [workspace-to-monitor-force-assignment]
 1 = 'main'
@@ -79,71 +152,3 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.apple.iCal'
 run = 'move-node-to-workspace 9'
-
-[mode.main.binding]
-ctrl-alt-enter = 'exec-and-forget wezterm start --always-new-process'
-ctrl-alt-b = 'exec-and-forget open -na Comet'
-
-cmd-h = [] # Disable "hide application"
-cmd-alt-h = [] # Disable "hide others"
-
-ctrl-alt-left = 'focus --boundaries-action wrap-around-the-workspace left'
-ctrl-alt-down = 'focus --boundaries-action wrap-around-the-workspace down'
-ctrl-alt-up = 'focus --boundaries-action wrap-around-the-workspace up'
-ctrl-alt-right = 'focus --boundaries-action wrap-around-the-workspace right'
-
-ctrl-alt-shift-left = 'move left'
-ctrl-alt-shift-down = 'move down'
-ctrl-alt-shift-up = 'move up'
-ctrl-alt-shift-right = 'move right'
-
-ctrl-shift-left = 'join-with left'
-ctrl-shift-down = 'join-with down'
-ctrl-shift-up = 'join-with up'
-ctrl-shift-right = 'join-with right'
-
-ctrl-alt-shift-r = "flatten-workspace-tree"
-
-ctrl-alt-f = 'fullscreen'
-
-ctrl-alt-w = 'layout v_accordion' # 'layout stacking' in i3
-ctrl-alt-s = 'layout h_accordion' # 'layout tabbed' in i3
-ctrl-alt-t = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
-ctrl-alt-space = 'layout floating tiling' # 'floating toggle' in i3
-
-ctrl-alt-1 = 'workspace 1'
-ctrl-alt-2 = 'workspace 2'
-ctrl-alt-3 = 'workspace 3'
-ctrl-alt-4 = 'workspace 4'
-ctrl-alt-5 = 'workspace 5'
-ctrl-alt-6 = 'workspace 6'
-ctrl-alt-7 = 'workspace 7'
-ctrl-alt-8 = 'workspace 8'
-ctrl-alt-9 = 'workspace 9'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-ctrl-alt-shift-1 = 'move-node-to-workspace 1'
-ctrl-alt-shift-2 = 'move-node-to-workspace 2'
-ctrl-alt-shift-3 = 'move-node-to-workspace 3'
-ctrl-alt-shift-4 = 'move-node-to-workspace 4'
-ctrl-alt-shift-5 = 'move-node-to-workspace 5'
-ctrl-alt-shift-6 = 'move-node-to-workspace 6'
-ctrl-alt-shift-7 = 'move-node-to-workspace 7'
-ctrl-alt-shift-8 = 'move-node-to-workspace 8'
-ctrl-alt-shift-9 = 'move-node-to-workspace 9'
-
-ctrl-alt-tab = 'workspace-back-and-forth'
-ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
-ctrl-alt-minus = 'resize smart -50'
-ctrl-alt-equal = 'resize smart +50'
-ctrl-alt-c = 'reload-config'
-ctrl-alt-r = 'mode resize'
-
-[mode.resize.binding]
-left = 'resize width -50'
-down = 'resize height +50'
-up = 'resize height -50'
-right = 'resize width +50'
-enter = 'mode main'
-esc = 'mode main'

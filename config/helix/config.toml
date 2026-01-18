@@ -1,4 +1,4 @@
-theme = "horizon-dark"
+theme = "rose_pine"
 
 [editor]
 auto-save = true
@@ -77,7 +77,4 @@ y = [
 # H = ":sh helix-wezterm yazi --mode zoom --command hsplit $WEZTERM_PANE > /dev/null"
 
 [keys.select]
-l = [
-  "yank_to_clipboard",
-  ":sh helix-ai",
-]
+l = ["yank_to_clipboard", ":sh helix-ai"]

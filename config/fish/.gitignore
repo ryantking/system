@@ -1,10 +1,8 @@
 fish_variables
-conf.d/*
-!conf.d/profile.fish
-!conf.d/aliases.fish
-!conf.d/theme.fish
-!conf.d/hydro.fish
-!conf.d/secrets.fish
+conf.d/rustup.fish
+conf.d/autopair.fish
+conf.d/fish_frozen_key_bindings.fish
+conf.d/theme.fish
 completions/*
 functions/*
 !functions/fish_prompt.fish
