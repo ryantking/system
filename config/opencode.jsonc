@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["@zenobius/opencode-background"],
+  "provider": {
+    "openrouter": {
+      "name": "OpenRouter",
+      "npm": "@ai-sdk/openai-compatible",
+      "models": {
+        "general": {
+          "name": "General",
+          "id": "@preset/general"
+        },
+        "planner": {
+          "name": "Planner",
+          "id": "@preset/planner"
+        },
+        "coder": {
+          "name": "Coder",
+          "id": "@preset/coder"
+        },
+        "coder-pro": {
+          "name": "Coder Pro",
+          "id": "@preset/coder-pro"
+        },
+        "research": {
+          "name": "Research",
+          "id": "@preset/research"
+        }
+      }
+    }
+  }
+}

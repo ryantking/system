@@ -10,22 +10,34 @@ function fish_title
     end
 end
 
+if test -x /opt/homebrew/bin/brew
+    eval (/opt/homebrew/bin/brew shellenv)
+end
+
+if test -x /home/linuxbrew/.linuxbrew/bin/brew
+    eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv fish)
+end
+
 if status is-interactive
-    if type -q starship
-        starship init fish | source
+    if type -q brew
+        set brew_prefix (brew --prefix)
+
+        if test -d $brew_prefix/share/fish/completions
+            set -p fish_complete_path $brew_prefix/share/fish/completions
+        end
+
+        if test -d $brew_prefix/share/fish/vendor_completions.d
+            set -p fish_complete_path $brew_prefix/share/fish/vendor_completions.d
+        end
     end
 
-    if test -x /opt/homebrew/bin/brew
-        eval (/opt/homebrew/bin/brew shellenv)
+    if type -q starship
+        starship init fish | source
     end
 
     if not functions -q fisher
         curl -sL https://git.io/fisher | source
         fisher update
-    end
-
-    if type -q direnv
-        direnv hook fish | source
     end
 
     if type -q tv
@@ -38,7 +50,3 @@ if status is-interactive
 end
 
 # config.fish ends here
-
-# omnara
-set --export OMNARA_INSTALL "$HOME/.omnara"
-set --export PATH $OMNARA_INSTALL/bin $PATH

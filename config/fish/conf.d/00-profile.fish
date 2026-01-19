@@ -28,10 +28,6 @@ if status is-interactive; and type -q batman
     set -gx MANPAGER "env BATMAN_IS_BEING_MANPAGER=yes $(dirname (readlink (which batman)))/.batman-wrapped"
 end
 
-if test -x /opt/homebrew/bin/brew
-    eval (/opt/homebrew/bin/brew shellenv)
-end
-
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/System/bin"
 fish_add_path "$HOME/.config/emacs/bin"

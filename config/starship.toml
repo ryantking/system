@@ -25,13 +25,28 @@ $character"""
 # foam = '#9ccfd8'
 # iris = '#c4a7e7'
 
+[username]
+style_user = "green"
+style_root = "red"
+format = "[$user]($style)"
+show_always = false
+disabled = false
+
+[hostname]
+ssh_only = true
+format = "[@$hostname](green) "
+disabled = false
+
 [directory]
 style = "blue bold"
 
 [character]
-success_symbol = "[❯](purple)"
-error_symbol = "[❯](red)"
-vimcmd_symbol = "[❮](green)"
+# success_symbol = "[❯](green)"
+# error_symbol = "[❯](red)"
+# vimcmd_symbol = "[❮](purple)"
+success_symbol = "[\\$](green)"
+error_symbol = "[\\$](red)"
+vimcmd_symbol = "[*](purple)"
 
 [git_branch]
 format = "[$branch]($style)"
