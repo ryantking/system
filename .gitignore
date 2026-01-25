@@ -39,3 +39,4 @@ config/gnupg/*
 config/kube/*
 !config/kube/config
 .aider*
+.terraform
