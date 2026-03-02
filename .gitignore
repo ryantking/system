@@ -40,3 +40,7 @@ config/kube/*
 !config/kube/config
 .aider*
 .terraform
+
+# Dolt database files (added by bd init)
+.dolt/
+*.db
